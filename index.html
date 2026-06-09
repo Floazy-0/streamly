@@ -1,306 +1,48 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Streamly | عالمك للمشاهدة المتميزة</title>
-    <!-- Google Fonts: Tajawal for Arabic -->
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <title>Streamly | Best Movies (2000-2004)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #080808;
-            --card-bg: #141414;
-            --accent: #E50914;
-            --accent-glow: rgba(229, 9, 20, 0.5);
+            --bg-color: #050505;
+            --card-bg: #111111;
+            --accent: #ff0000;
+            --accent-glow: rgba(255, 0, 0, 0.6);
             --text-main: #ffffff;
-            --text-dim: #b3b3b3;
-            --glass: rgba(0, 0, 0, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-dim: #a0a0a0;
+            --glass: rgba(10, 10, 10, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.08);
         }
 
-        * {
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: 'Tajawal', 'Inter', sans-serif;
-            -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
-        }
-
-        body.modal-open {
-            overflow: hidden;
-        }
-
-        /* Navbar with Glassmorphism */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            height: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 4%;
-            z-index: 1000;
-            transition: background 0.4s ease, border-bottom 0.4s ease;
-            -webkit-backdrop-filter: blur(12px);
-            backdrop-filter: blur(12px);
-            background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, transparent 100%);
-            border-bottom: 1px solid transparent;
-        }
-
-        nav.scrolled {
-            background: var(--glass);
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-decoration: none;
-            text-shadow: 0 0 15px rgba(229, 9, 20, 0.5);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 20px;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        .nav-links a {
-            color: var(--text-main);
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-        }
-
-        .nav-links a:hover, .nav-links a.active {
-            color: var(--accent);
-        }
-
-        .search-bar {
-            background: rgba(0,0,0,0.4);
-            border: 1px solid var(--glass-border);
-            border-radius: 4px;
-            padding: 6px 12px;
-            display: flex;
-            align-items: center;
-            width: 250px;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-
-        .search-bar:focus-within {
-            border-color: var(--accent);
-            box-shadow: 0 0 8px var(--accent-glow);
-        }
-
-        .search-bar input {
-            background: none;
-            border: none;
-            color: white;
-            outline: none;
-            font-family: inherit;
-            width: 100%;
-            margin-right: 8px;
-        }
-
-        /* Hero Section */
-        .hero {
-            position: relative;
-            height: 85vh;
-            width: 100%;
-            background-image: linear-gradient(to right, rgba(0,0,0,0.9) 20%, transparent 70%), 
-                              linear-gradient(to top, var(--bg-color) 0%, transparent 30%),
-                              url('https://images.alphacoders.com/605/605703.jpg'); /* Gladiator backdrop */
-            background-size: cover;
-            background-position: center 20%;
-            display: flex;
-            align-items: center;
-            padding: 0 4%;
-        }
-
-        .hero-content {
-            max-width: 650px;
-            z-index: 2;
-        }
-
-        .hero-title {
-            font-size: clamp(3rem, 10vw, 5rem);
-            font-weight: 800;
-            margin: 0;
-            line-height: 1;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
-            position: relative;
-        }
-
-        .hero-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 60px;
-            height: 4px;
-            background: var(--accent);
-            box-shadow: 0 0 10px var(--accent);
-        }
-
-        .hero-metadata {
-            display: flex;
-            gap: 15px;
-            margin: 30px 0 20px;
-            font-size: 1.1rem;
-            font-weight: 700;
-        }
-
-        .hero-metadata span:first-child { color: #46d369; }
-
-        .hero-tagline {
-            font-size: 1.3rem;
-            color: #fff;
-            margin: 20px 0 30px;
-            line-height: 1.4;
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
-        }
-
-        .hero-btns {
-            display: flex;
-            gap: 15px;
-        }
-
-        .btn {
-            padding: 12px 30px;
-            border-radius: 4px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-            border: none;
-        }
-
-        .btn-play {
-            background-color: white;
-            color: black;
-        }
-
-        .btn-info {
-            background-color: rgba(109, 109, 110, 0.7);
-            color: white;
+        /* iOS Safari Glassmorphism Fix */
+        nav, .modal-container, .btn-info {
             -webkit-backdrop-filter: blur(15px);
             backdrop-filter: blur(15px);
         }
 
-        .btn:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        /* Content Sections */
-        .page-content {
-            display: none;
-        }
-        
-        .page-content.active {
-            display: block;
-        }
-
-        .section {
-            padding: 3rem 4% 0;
-        }
-
-        .section-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            position: relative;
-            display: inline-block;
-        }
-        
-        .section-title::before {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            right: 0;
-            width: 40%;
-            height: 3px;
-            background: var(--accent);
-            border-radius: 2px;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 16px;
-        }
-
+        /* Movie Card Neon Glow Upgrade */
         .movie-card {
-            position: relative;
-            border-radius: 8px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.4s cubic-bezier(0.33, 1, 0.68, 1), box-shadow 0.4s, border-color 0.4s;
-            background: var(--card-bg);
-            aspect-ratio: 2/3;
-            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border: 1px solid transparent;
         }
 
         .movie-card:hover {
-            transform: scale(1.06) translateY(-5px);
-            z-index: 10;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 20px var(--accent-glow);
+            transform: scale(1.08) translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.7), 0 0 20px var(--accent-glow), 0 0 40px rgba(255, 0, 0, 0.2);
             border-color: var(--accent);
         }
 
+        /* Poster Bug Fix & Polish */
         .movie-poster {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: filter 0.4s;
-        }
-
-        .card-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.95), transparent);
-            padding: 50px 15px 15px;
-            opacity: 0;
-            transition: opacity 0.4s;
-        }
-
-        .movie-card:hover .card-overlay {
-            opacity: 1;
-        }
-
-        .card-title {
-            font-size: 1rem;
-            font-weight: 700;
-            margin: 0;
-            text-align: center;
+            display: block;
+            border-radius: 6px;
+            background: #1a1a1a; /* Placeholder bg */
         }
 
         /* Continue Watching Styles */
@@ -373,292 +115,327 @@
             border-radius: 2px;
             box-shadow: 0 0 5px var(--accent);
         }
-
-        /* Modal Player Upgrade */
-        #player-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.95);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        #player-modal.active {
-            display: flex;
-            opacity: 1;
-        }
-
-        .modal-container {
-            width: 95%;
-            max-width: 1100px;
-            background: #181818;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 0 60px rgba(0,0,0,0.8);
-            position: relative;
-            animation: modalScale 0.5s cubic-bezier(0.33, 1, 0.68, 1);
-            border: 1px solid var(--glass-border);
-            -webkit-backdrop-filter: blur(15px);
-            backdrop-filter: blur(15px);
-        }
-
-        @keyframes modalScale {
-            from { transform: scale(0.9) translateY(20px); opacity: 0; }
-            to { transform: scale(1) translateY(0); opacity: 1; }
-        }
-
-        .modal-header {
-            width: 100%;
-            aspect-ratio: 16/9;
-            background: #000;
-            position: relative;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(0,0,0,0.6);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.2);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            font-size: 1.8rem;
-            cursor: pointer;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-        }
-        
-        .close-modal:hover {
-            background: var(--accent);
-            border-color: var(--accent);
-            transform: rotate(90deg);
-        }
-
-        .modal-body {
-            padding: 40px;
-            display: grid;
-            grid-template-columns: 2.2fr 1fr;
-            gap: 40px;
-        }
-
-        .modal-info-main h2 { margin: 0 0 20px; font-size: 2.5rem; font-weight: 800; }
-        .modal-meta { display: flex; gap: 20px; color: var(--text-dim); margin-bottom: 25px; font-weight: 700; font-size: 1.1rem; }
-        .match-score { color: #46d369; }
-        .modal-desc { line-height: 1.7; font-size: 1.15rem; color: #efefef; }
-
-        .tv-controls {
-            margin-top: 20px;
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .control-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            flex: 1;
-            min-width: 120px;
-        }
-
-        .control-label {
-            font-size: 0.85rem;
-            color: var(--text-dim);
-            font-weight: 700;
-        }
-
-        select.tv-select {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--glass-border);
-            color: white;
-            padding: 10px;
-            border-radius: 4px;
-            font-family: inherit;
-            font-size: 1rem;
-            outline: none;
-            cursor: pointer;
-            transition: border-color 0.3s;
-        }
-
-        select.tv-select:focus {
-            border-color: var(--accent);
-        }
-
-        .server-switcher {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 10px;
-        }
-        
-        .server-label {
-            font-weight: 700;
-            color: var(--text-dim);
-            margin-bottom: 5px;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-        }
-
-        .server-btn {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--glass-border);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-family: inherit;
-            font-weight: 600;
-            transition: all 0.3s;
-            text-align: right;
-        }
-
-        .server-btn:hover {
-            background: rgba(255,255,255,0.1);
-            border-color: var(--text-dim);
-        }
-
-        .server-btn.active {
-            background: var(--accent);
-            color: white;
-            border-color: var(--accent);
-            box-shadow: 0 0 15px var(--accent-glow);
-        }
-
-        iframe { width: 100%; height: 100%; border: none; }
-
-        /* Mobile Adjustments */
-        @media (max-width: 768px) {
-            .nav-links, .search-bar { display: none; }
-            .hero { height: 75vh; background-position: center; text-align: center; justify-content: center; background-image: linear-gradient(to top, var(--bg-color) 15%, rgba(0,0,0,0.4)), url('https://images.alphacoders.com/605/605703.jpg'); }
-            .hero-content { max-width: 100%; }
-            .hero-metadata { justify-content: center; flex-wrap: wrap; gap: 10px; }
-            .hero-btns { justify-content: center; }
-            .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
-            .modal-body { grid-template-columns: 1fr; padding: 25px; }
-            .modal-info-main h2 { font-size: 1.8rem; }
-            .section-title { font-size: 1.5rem; }
-        }
-    </style>
+</style>
 </head>
 <body>
-    <nav id="main-nav">
-        <div class="nav-right">
-            <a href="#" class="logo">Streamly</a>
-            <ul class="nav-links">
-                <li><a onclick="showPage('home')" id="nav-home" class="active">الرئيسية</a></li>
-                <li><a onclick="showPage('movies')" id="nav-movies">أفلام</a></li>
-                <li><a onclick="showPage('tv')" id="nav-tv">مسلسلات</a></li>
-                <li><a href="#">أضيف حديثاً</a></li>
-            </ul>
+    <nav><div class="logo">Streamly</div></nav>
+    <div class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Golden Era of Movies</h1>
+            <p class="hero-tagline">Relive the early 2000s with the funniest comedies and most moving dramas ever made. Now streaming in crystal clear 1080p with Arabic subtitles.</p>
+            <a href="#adel-imam-hits" class="btn-primary">Adel Imam Hits</a>
         </div>
-        <div class="search-bar">
-            <input type="text" placeholder="بحث عن أفلام...">
-        </div>
-    </nav>
-
-    <div id="home-page" class="page-content active">
-        
-    <div id="continue-watching" class="continue-section">
-        <h2 class="section-title">أكمل المشاهدة</h2>
-        <div class="carousel-container" id="continue-grid"></div>
     </div>
-        <div class="hero">
-            <div class="hero-content">
-                <h1 class="hero-title">Gladiator</h1>
-                <div class="hero-metadata">
-                    <span>98% مطابق لك</span>
-                    <span>2000</span>
-                    <span>18+</span>
-                    <span>ساعتان 35 دقيقة</span>
+    
+    <!-- ADEL IMAM HITS SECTION -->
+    <div class="section" id="adel-imam-hits">
+        <h2 class="section-title">أفلام الزعيم عادل إمام (Adel Imam Hits)</h2>
+        <div class="grid">
+            <!-- عريس من جهة أمنية -->
+            <div class="movie-card" onclick="openPlayer('tt0418471')">
+                <div class="poster-container">
+                    <img src="https://m.media-amazon.com/images/M/MV5BNTQxYTk3ZDItNTJhZC00ODQ0LTgyZmMtOGYwNWY1NWNlYzhmXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" alt="عريس من جهة أمنية" class="movie-poster">
+                    <div class="badges-top">
+                        <span class="badge badge-arabic">مترجم للعربية</span>
+                        <span class="badge badge-quality">1080p</span>
+                    </div>
                 </div>
-                <p class="hero-tagline">في عام 180 م، يخطط الجنرال الروماني ماكسيموس للعودة إلى منزله بعد قيادة الجيش الروماني إلى النصر ضد القبائل الجرمانية، لكن خيانة ابن الإمبراطور تقلب حياته رأساً على عقب.</p>
-                <div class="hero-btns">
-                    <button class="btn btn-play" onclick="openPlayer('tt0172495', 'movie')">► تشغيل</button>
-                    <button class="btn btn-info" onclick="openPlayer('tt0172495', 'movie')">ⓘ مزيد من المعلومات</button>
+                <div class="movie-info">
+                    <p class="movie-name">عريس من جهة أمنية</p>
+                    <div class="movie-meta"><span>2004</span><span>Comedy</span></div>
+                    <div class="quality-selector">
+                        <button class="quality-btn active">1080p</button>
+                        <button class="quality-btn">720p</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- التجربة الدنماركية -->
+            <div class="movie-card" onclick="openPlayer('tt0390531')">
+                <div class="poster-container">
+                    <img src="https://i.ebayimg.com/images/g/l~YAAOSwY8ZeEzIA/s-l400.jpg" alt="التجربة الدنماركية" class="movie-poster">
+                    <div class="badges-top">
+                        <span class="badge badge-arabic">مترجم للعربية</span>
+                        <span class="badge badge-quality">1080p</span>
+                    </div>
+                </div>
+                <div class="movie-info">
+                    <p class="movie-name">التجربة الدنماركية</p>
+                    <div class="movie-meta"><span>2003</span><span>Comedy</span></div>
+                    <div class="quality-selector">
+                        <button class="quality-btn active">1080p</button>
+                        <button class="quality-btn">720p</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- أمير الظلام -->
+            <div class="movie-card" onclick="openPlayer('tt0327419')">
+                <div class="poster-container">
+                    <img src="https://m.media-amazon.com/images/M/MV5BMGI2ZTNlZjMtNmJjNS00MDllLTk4OTEtZjRjZTZiODVkOTkyXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" alt="أمير الظلام" class="movie-poster">
+                    <div class="badges-top">
+                        <span class="badge badge-arabic">مترجم للعربية</span>
+                        <span class="badge badge-quality">1080p</span>
+                    </div>
+                </div>
+                <div class="movie-info">
+                    <p class="movie-name">أمير الظلام</p>
+                    <div class="movie-meta"><span>2002</span><span>Action/Comedy</span></div>
+                    <div class="quality-selector">
+                        <button class="quality-btn active">1080p</button>
+                        <button class="quality-btn">720p</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- هاللو أمريكا -->
+            <div class="movie-card" onclick="openPlayer('tt1527119')">
+                <div class="poster-container">
+                    <img src="https://m.media-amazon.com/images/M/MV5BYTlhZDczNGEtOTAxZi00YzY1LTgwM2EtNWNiNmVlMGE0MGNjXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" alt="هاللو أمريكا" class="movie-poster">
+                    <div class="badges-top">
+                        <span class="badge badge-arabic">مترجم للعربية</span>
+                        <span class="badge badge-quality">1080p</span>
+                    </div>
+                </div>
+                <div class="movie-info">
+                    <p class="movie-name">هاللو أمريكا</p>
+                    <div class="movie-meta"><span>2000</span><span>Comedy</span></div>
+                    <div class="quality-selector">
+                        <button class="quality-btn active">1080p</button>
+                        <button class="quality-btn">720p</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- السفارة في العمارة -->
+            <div class="movie-card" onclick="openPlayer('tt0477470')">
+                <div class="poster-container">
+                    <img src="https://m.media-amazon.com/images/M/MV5BZDFkODEyNzctYmVjMi00Y2RkLTllMzktN2Q2NDYxZmVhZjdiXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" alt="السفارة في العمارة" class="movie-poster">
+                    <div class="badges-top">
+                        <span class="badge badge-arabic">مترجم للعربية</span>
+                        <span class="badge badge-quality">1080p</span>
+                    </div>
+                </div>
+                <div class="movie-info">
+                    <p class="movie-name">السفارة في العمارة</p>
+                    <div class="movie-meta"><span>2005</span><span>Comedy/Drama</span></div>
+                    <div class="quality-selector">
+                        <button class="quality-btn active">1080p</button>
+                        <button class="quality-btn">720p</button>
+                    </div>
                 </div>
             </div>
         </div>
-        
-        <div class="section">
-            <h2 class="section-title">مسلسلات تلفزيونية مختارة</h2>
-            <div class="grid" id="home-tv-grid"></div>
-        </div><div class="section">
-            <h2 class="section-title">أفلام كوميدية (2000-2004)</h2>
-            <div class="grid" id="comedy-grid"></div>
-        </div>
+    </div>
 
-        <div class="section">
-            <h2 class="section-title">أفلام دراما (2000-2004)</h2>
-            <div class="grid" id="drama-grid"></div>
-        </div>
-        
-        <div class="section">
-            <h2 class="section-title">مختارات أخرى</h2>
-            <div class="grid" id="other-grid"></div>
+    <!-- COMEDY SECTION -->
+    <div class="section" id="comedy-grid">
+        <h2 class="section-title">Classic Comedy Hits (2000-2004)</h2>
+        <div class="grid">
+            <!-- Scary Movie -->
+            <div class="movie-card" onclick="openPlayer('tt0175142')">
+                <div class="poster-container">
+                    <img src="https://www.originalfilmart.com/cdn/shop/files/scarymovie_2000_original_film_art_5000x.webp?v=1683910671" alt="Scary Movie" class="movie-poster">
+                    <div class="badges-top">
+                        <span class="badge badge-arabic">مترجم للعربية</span>
+                        <span class="badge badge-quality">1080p</span>
+                    </div>
+                </div>
+                <div class="movie-info">
+                    <p class="movie-name">Scary Movie</p>
+                    <div class="movie-meta"><span>2000</span><span>Comedy</span></div>
+                    <div class="quality-selector">
+                        <button class="quality-btn active">1080p</button>
+                        <button class="quality-btn">720p</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shrek -->
+            <div class="movie-card" onclick="openPlayer('tt0126029')">
+                <div class="poster-container">
+                    <img src="https://image.tmdb.org/t/p/original/iB64vpL3dIObOtMZgX3RqdVdQDc.jpg" alt="Shrek" class="movie-poster">
+                    <div class="badges-top">
+                        <span class="badge badge-arabic">مترجم للعربية</span>
+                        <span class="badge badge-quality">1080p</span>
+                    </div>
+                </div>
+                <div class="movie-info">
+                    <p class="movie-name">Shrek</p>
+                    <div class="movie-meta"><span>2001</span><span>Animation</span></div>
+                    <div class="quality-selector">
+                        <button class="quality-btn active">1080p</button>
+                        <button class="quality-btn">720p</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bruce Almighty -->
+            <div class="movie-card" onclick="openPlayer('tt0315327')">
+                <div class="poster-container">
+                    <img src="https://www.originalfilmart.com/cdn/shop/files/BruceAlmighty_2003_original_film_art_5000x.webp?v=1710361452" alt="Bruce Almighty" class="movie-poster">
+                    <div class="badges-top">
+                        <span class="badge badge-arabic">مترجم للعربية</span>
+                        <span class="badge badge-quality">1080p</span>
+                    </div>
+                </div>
+                <div class="movie-info">
+                    <p class="movie-name">Bruce Almighty</p>
+                    <div class="movie-meta"><span>2003</span><span>Fantasy</span></div>
+                    <div class="quality-selector">
+                        <button class="quality-btn active">1080p</button>
+                        <button class="quality-btn">720p</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- White Chicks -->
+            <div class="movie-card" onclick="openPlayer('tt0381707')">
+                <div class="poster-container">
+                    <img src="http://www.impawards.com/2004/posters/white_chicks_xlg.jpg" alt="White Chicks" class="movie-poster">
+                    <div class="badges-top">
+                        <span class="badge badge-arabic">مترجم للعربية</span>
+                        <span class="badge badge-quality">1080p</span>
+                    </div>
+                </div>
+                <div class="movie-info">
+                    <p class="movie-name">White Chicks</p>
+                    <div class="movie-meta"><span>2004</span><span>Comedy</span></div>
+                    <div class="quality-selector">
+                        <button class="quality-btn active">1080p</button>
+                        <button class="quality-btn">720p</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mean Girls -->
+            <div class="movie-card" onclick="openPlayer('tt0377092')">
+                <div class="poster-container">
+                    <img src="https://m.media-amazon.com/images/I/51CSOTO+itL._AC_UF894,1000_QL80_.jpg" alt="Mean Girls" class="movie-poster">
+                    <div class="badges-top">
+                        <span class="badge badge-arabic">مترجم للعربية</span>
+                        <span class="badge badge-quality">1080p</span>
+                    </div>
+                </div>
+                <div class="movie-info">
+                    <p class="movie-name">Mean Girls</p>
+                    <div class="movie-meta"><span>2004</span><span>Teen Comedy</span></div>
+                    <div class="quality-selector">
+                        <button class="quality-btn active">1080p</button>
+                        <button class="quality-btn">720p</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div id="movies-page" class="page-content">
-        <div class="section" style="margin-top: 80px;">
-            <h2 class="section-title">كل الأفلام</h2>
-            <div class="grid" id="all-movies-grid"></div>
+    <!-- DRAMA SECTION -->
+    <div class="section" id="drama-grid">
+        <h2 class="section-title">Drama Hits (أفلام الدراما)</h2>
+        <div class="grid">
+            <!-- Gladiator -->
+            <div class="movie-card" onclick="openPlayer('tt0172495')">
+                <div class="poster-container">
+                    <img src="https://www.originalfilmart.com/cdn/shop/products/gladiator_2000_teaser_original_film_art_5000x.jpg?v=1610420463" alt="Gladiator" class="movie-poster">
+                    <div class="badges-top">
+                        <span class="badge badge-arabic">مترجم للعربية</span>
+                        <span class="badge badge-quality">1080p</span>
+                    </div>
+                </div>
+                <div class="movie-info">
+                    <p class="movie-name">Gladiator</p>
+                    <div class="movie-meta"><span>2000</span><span>Action/Drama</span></div>
+                    <div class="quality-selector">
+                        <button class="quality-btn active">1080p</button>
+                        <button class="quality-btn">720p</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- A Beautiful Mind -->
+            <div class="movie-card" onclick="openPlayer('tt0268978')">
+                <div class="poster-container">
+                    <img src="http://www.impawards.com/2001/posters/beautiful_mind_xlg.jpg" alt="A Beautiful Mind" class="movie-poster">
+                    <div class="badges-top">
+                        <span class="badge badge-arabic">مترجم للعربية</span>
+                        <span class="badge badge-quality">1080p</span>
+                    </div>
+                </div>
+                <div class="movie-info">
+                    <p class="movie-name">A Beautiful Mind</p>
+                    <div class="movie-meta"><span>2001</span><span>Biography/Drama</span></div>
+                    <div class="quality-selector">
+                        <button class="quality-btn active">1080p</button>
+                        <button class="quality-btn">720p</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- The Pianist -->
+            <div class="movie-card" onclick="openPlayer('tt0253474')">
+                <div class="poster-container">
+                    <img src="https://cdn.posteritati.com/posters/000/000/064/011/the-pianist-md-web.jpg" alt="The Pianist" class="movie-poster">
+                    <div class="badges-top">
+                        <span class="badge badge-arabic">مترجم للعربية</span>
+                        <span class="badge badge-quality">1080p</span>
+                    </div>
+                </div>
+                <div class="movie-info">
+                    <p class="movie-name">The Pianist</p>
+                    <div class="movie-meta"><span>2002</span><span>War/Drama</span></div>
+                    <div class="quality-selector">
+                        <button class="quality-btn active">1080p</button>
+                        <button class="quality-btn">720p</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Catch Me If You Can -->
+            <div class="movie-card" onclick="openPlayer('tt0264464')">
+                <div class="poster-container">
+                    <img src="https://m.media-amazon.com/images/M/MV5BMTY5MzYzNjc5NV5BMl5BanBnXkFtZTYwNTUyNTc2._V1_FMjpg_UX1000_.jpg" alt="Catch Me If You Can" class="movie-poster">
+                    <div class="badges-top">
+                        <span class="badge badge-arabic">مترجم للعربية</span>
+                        <span class="badge badge-quality">1080p</span>
+                    </div>
+                </div>
+                <div class="movie-info">
+                    <p class="movie-name">Catch Me If You Can</p>
+                    <div class="movie-meta"><span>2002</span><span>Crime/Drama</span></div>
+                    <div class="quality-selector">
+                        <button class="quality-btn active">1080p</button>
+                        <button class="quality-btn">720p</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Eternal Sunshine of the Spotless Mind -->
+            <div class="movie-card" onclick="openPlayer('tt0338013')">
+                <div class="poster-container">
+                    <img src="https://image.tmdb.org/t/p/original/5MwkWH9tYHv3mV9OdYTMR5qreIz.jpg" alt="Eternal Sunshine" class="movie-poster">
+                    <div class="badges-top">
+                        <span class="badge badge-arabic">مترجم للعربية</span>
+                        <span class="badge badge-quality">1080p</span>
+                    </div>
+                </div>
+                <div class="movie-info">
+                    <p class="movie-name">Eternal Sunshine</p>
+                    <div class="movie-meta"><span>2004</span><span>Romance/Drama</span></div>
+                    <div class="quality-selector">
+                        <button class="quality-btn active">1080p</button>
+                        <button class="quality-btn">720p</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div id="tv-page" class="page-content">
-        <div class="section" style="margin-top: 80px;">
-            <h2 class="section-title">مسلسلات تلفزيونية</h2>
-            <div class="grid" id="tv-grid"></div>
-        </div>
-    </div>
-
-    <!-- Modal Player -->
+    <!-- Video Player Modal -->
     <div id="player-modal" onclick="closePlayer()">
         <div class="modal-container" onclick="event.stopPropagation()">
             <button class="close-modal" onclick="closePlayer()">&times;</button>
-            <div class="modal-header">
-                <div id="video-wrapper" style="width: 100%; height: 100%;"></div>
-            </div>
-            <div class="modal-body">
-                <div class="modal-info-main">
-                    <h2 id="m-title">Movie Title</h2>
-                    <div class="modal-meta">
-                        <span class="match-score" id="m-match">95% Match</span>
-                        <span id="m-year">2024</span>
-                        <span id="m-rating">16+</span>
-                        <span id="m-duration">2h 15m</span>
-                    </div>
-                    <p class="modal-desc" id="m-desc">Description goes here...</p>
-                    
-                    <div id="tv-controls-container" class="tv-controls" style="display: none;">
-                        <div class="control-group">
-                            <span class="control-label">الموسم</span>
-                            <select id="season-select" class="tv-select" onchange="updateTvEpisode()"></select>
-                        </div>
-                        <div class="control-group">
-                            <span class="control-label">الحلقة</span>
-                            <select id="episode-select" class="tv-select" onchange="updateTvEpisode()"></select>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-info-side">
-                    <div class="server-label">اختر السيرفر</div>
-                    <div class="server-switcher" id="server-list">
-                        <!-- Servers injected -->
-                    </div>
-                </div>
+            <div id="video-wrapper" style="width: 100%; height: 100%;">
+                <!-- Iframe injected here -->
             </div>
         </div>
     </div>
@@ -680,17 +457,18 @@
             { id: 'tt0268978', title: 'A Beautiful Mind', year: '2001', genre: 'Drama', duration: '2h 15m', match: '91%', desc: 'قصة حياة عالم الرياضيات جون ناش ومعاناته مع الفصام ورحلته نحو جائزة نوبل.', poster: 'https://image.tmdb.org/t/p/original/lA6mLpzOilqARJcwhzifQ174vjI.jpg', cat: 'drama', type: 'movie' },
             { id: 'tt0253474', title: 'The Pianist', year: '2002', genre: 'War/Drama', duration: '2h 30m', match: '96%', desc: 'عازف بيانو يهودي بولندي يحاول البقاء على قيد الحياة في وارسو خلال الحرب العالمية الثانية.', poster: 'https://image.tmdb.org/t/p/original/enFfoFd3TYs6ttTxrBIfmecQPnz.jpg', cat: 'drama', type: 'movie' },
             { id: 'tt0264464', title: 'Catch Me If You Can', year: '2002', genre: 'Crime/Drama', duration: '2h 21m', match: '97%', desc: 'قصة حقيقية لفرانك أباغنيل، الذي أصبح أنجح مزور ومحتال في تاريخ الولايات المتحدة قبل سن العведений.', poster: 'https://image.tmdb.org/t/p/original/An9qRPZIes1BZ5MNrrfnnTlOlZd.jpg', cat: 'drama', type: 'movie' },
-            { id: 'tt0167260', title: 'The Lord of the Rings', year: '2003', genre: 'Drama/Fantasy', duration: '3h 21m', match: '99%', desc: 'غاندالف وأراغورن يقودان عالم الرجال ضد جيش ساورون لصرف انتباهه عن فرودو وسام.', poster: 'https://image.tmdb.org/t/p/original/6oom5QYvAess65H6Yv6vdyvFc01.jpg', cat: 'drama', type: 'movie' },
+            { id: 'tt0167260', title: 'The Lord of the Rings', year: '2003', genre: 'Drama/Fantasy', duration: '3h 21m', match: '99%', desc: 'غاندالف وأراغورن يقودان عالم الرجال ضد جيش ساورون لصرف انتباهه عن فرودو وسام.', poster: 'https://m.media-amazon.com/images/M/MV5BNzA5ZDNlZWMtM2NhNS00NDJjLTk4NDItYTRmY2EwMWZlMTY3XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_FMjpg_UX1000_.jpg', cat: 'drama', type: 'movie' },
             { id: 'tt0332452', title: 'Troy', year: '2004', genre: 'Drama/History', duration: '2h 43m', match: '92%', desc: 'اقتباس لملحمة هوميروس، يصور الغزو اليوناني لمدينة طروادة والصراعات بين الأبطال الأسطوريين.', poster: 'https://image.tmdb.org/t/p/original/51auXjXepW1zblzhaN7CAhwvf5i.jpg', cat: 'drama', type: 'movie' },
             { id: 'tt0162983', title: 'Cast Away', year: '2000', genre: 'Drama/Adventure', duration: '2h 23m', match: '97%', desc: 'موظف في شركة فيديكس يجد نفسه وحيدًا على جزيرة مهجورة بعد تحطم طائرته.', poster: 'https://image.tmdb.org/t/p/original/7lLJgKnAicAcR5UEuo8xhSMj18w.jpg', cat: 'drama', type: 'movie' },
-            { id: 'tt0332280', title: 'The Notebook', year: '2004', genre: 'Drama/Romance', duration: '2h 3m', match: '96%', desc: 'رجل مسن يقرأ لامرأة تعاني من الخرف قصة حب لشابين من طبقات اجتماعية مختلفة في الأربعينيات.', poster: 'https://image.tmdb.org/t/p/original/r070V96K6oW829CAn7S1pS96Y8f.jpg', cat: 'drama', type: 'movie' },
+            { id: 'tt0332280', title: 'The Notebook', year: '2004', genre: 'Drama/Romance', duration: '2h 3m', match: '96%', desc: 'رجل مسن يقرأ لامرأة تعاني من الخرف قصة حب لشابين من طبقات اجتماعية مختلفة في الأربعينيات.', poster: 'https://m.media-amazon.com/images/M/MV5BMTk3OTM5Njg5M15BMl5BanBnXkFtZTYwMzA0ODI3._V1_FMjpg_UX1000_.jpg', cat: 'drama', type: 'movie' },
             { id: 'tt0327056', title: 'Mystic River', year: '2003', genre: 'Drama/Mystery', duration: '2h 18m', match: '94%', desc: 'جريمة قتل مأساوية لفتاة شابة تجمع ثلاثة أصدقاء طفولة من جديد في بوسطن.', poster: 'https://image.tmdb.org/t/p/original/1tyi6RZzbJ9bE0g0GUf6Q7BWLvv.jpg', cat: 'drama', type: 'movie' },
             { id: 'tt0405159', title: 'Million Dollar Baby', year: '2004', genre: 'Drama', duration: '2h 12m', match: '98%', desc: 'مدرب ملاكمة مخضرم يساعد نادلة طموحة في تحقيق حلمها بأن تصبح ملاكمة محترفة.', poster: 'https://image.tmdb.org/t/p/original/corahhcHlrDUx6WJPLuRZvMeS0H.jpg', cat: 'drama', type: 'movie' },
             { id: 'tt0338013', title: 'Eternal Sunshine', year: '2004', genre: 'Drama/Romance', duration: '1h 48m', match: '97%', desc: 'زوجان يخضعان لعملية طبية لمسح ذكرياتهما عن بعد انفصالهما.', poster: 'https://image.tmdb.org/t/p/original/l4UwCldftGk58q5StjfM9YHoCYY.jpg', cat: 'drama', type: 'movie' }
         ];
 
         const tvShows = [
-            { id: 'tt0212671', title: 'Malcolm in the Middle', year: '2000-2006', genre: 'Comedy', duration: '7 Seasons', match: '97%', desc: 'قصة حياة مراهق عبقري يحاول النجاة في عائلته غريبة الأطوار والصاخبة، حيث يجد نفسه عالقاً في المنتصف بين إخوته المشاكسين ووالديه غير التقليديين.', poster: 'https://image.tmdb.org/t/p/original/ckLLIsNy3Z0Go1PYHA2PHzVymUA.jpg', seasons: 7, episodesPerSeason: [16, 25, 22, 22, 22, 22, 22], type: 'tv' },{ id: 'tt0460681', title: 'Supernatural', year: '2005-2020', genre: 'Fantasy/Drama', duration: '15 Seasons', match: '99%', desc: 'شقيقان يطاردان الكائنات الخارقة للطبيعة بينما يبحثان عن والدهما المفقود، ويواجهان قوى الظلام في رحلة محفوفة بالمخاطر عبر أمريكا.', poster: 'https://image.tmdb.org/t/p/w500/ko709UieYenOlv69W6X4t2697gq.jpg', backdrop: 'https://image.tmdb.org/t/p/original/nVRyd8hl6PVMpw9660GJZsJ6Osn.jpg', seasons: 15, episodesPerSeason: [22, 22, 16, 22, 22, 22, 23, 23, 23, 23, 23, 23, 23, 20, 20], type: 'tv' }
+            { id: 'tt0212671', title: 'Malcolm in the Middle', year: '2000-2006', genre: 'Comedy', duration: '7 Seasons', match: '97%', desc: 'قصة حياة مراهق عبقري يحاول النجاة في عائلته غريبة الأطوار والصاخبة، حيث يجد نفسه عالقاً في المنتصف بين إخوته المشاكسين ووالديه غير التقليديين.', poster: 'https://image.tmdb.org/t/p/original/ckLLIsNy3Z0Go1PYHA2PHzVymUA.jpg', seasons: 7, episodesPerSeason: [16, 25, 22, 22, 22, 22, 22], type: 'tv' },
+            { id: 'tt0460681', title: 'Supernatural', year: '2005-2020', genre: 'Fantasy/Drama', duration: '15 Seasons', match: '99%', desc: 'شقيقان يطاردان الكائنات الخارقة للطبيعة بينما يبحثان عن والدهما المفقود، ويواجهان قوى الظلام في رحلة محفوفة بالمخاطر عبر أمريكا.', poster: 'https://image.tmdb.org/t/p/original/ni999U7iz969D67Tf7n0Y46lP7q.jpg', backdrop: 'https://image.tmdb.org/t/p/original/nVRyd8hl6PVMpw9660GJZsJ6Osn.jpg', seasons: 15, episodesPerSeason: [22, 22, 16, 22, 22, 22, 23, 23, 23, 23, 23, 23, 23, 20, 20], type: 'tv' }
         ];
 
         let currentType = 'movie';
@@ -900,6 +678,6 @@
         renderGrids();
         renderContinueWatching();
         document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePlayer(); });
-    </script>
+</script>
 </body>
 </html>
