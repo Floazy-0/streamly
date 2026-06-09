@@ -14,6 +14,7 @@
             --text-dim: #9ca3af;
             --badge-bg: rgba(0, 0, 0, 0.7);
             --arabic-badge: #10b981;
+            --modal-bg: rgba(0, 0, 0, 0.95);
         }
         body {
             margin: 0;
@@ -22,6 +23,9 @@
             color: var(--text-main);
             font-family: 'Inter', sans-serif;
             -webkit-font-smoothing: antialiased;
+        }
+        body.modal-open {
+            overflow: hidden;
         }
         nav {
             position: fixed;
@@ -136,6 +140,53 @@
         .quality-btn:hover { border-color: var(--accent); color: var(--text-main); }
         .quality-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
 
+        /* Modal Styles */
+        #player-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--modal-bg);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        #player-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+        .modal-container {
+            position: relative;
+            width: 90%;
+            max-width: 1100px;
+            aspect-ratio: 16/9;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+        }
+        .close-modal {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 10px;
+            font-weight: 700;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
         @media (max-width: 768px) {
             nav { padding: 1rem; }
             .hero { padding: 0 1.5rem; height: 60vh; }
@@ -143,6 +194,8 @@
             .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
             .movie-info { padding: 0.75rem; }
             .movie-name { font-size: 0.95rem; }
+            .modal-container { width: 95%; }
+            .close-modal { top: -45px; right: 5px; }
         }
     </style>
 </head>
@@ -160,7 +213,7 @@
         <h2 class="section-title">Classic Comedy Hits (2000-2004)</h2>
         <div class="grid">
             <!-- Scary Movie -->
-            <div class="movie-card">
+            <div class="movie-card" onclick="openPlayer('tt0175142')">
                 <div class="poster-container">
                     <img src="https://images.unsplash.com/photo-1594909122845-11baa439b7bf?auto=format&fit=crop&w=400&q=80" alt="Scary Movie" class="movie-poster">
                     <div class="badges-top">
@@ -179,7 +232,7 @@
             </div>
 
             <!-- Shrek -->
-            <div class="movie-card">
+            <div class="movie-card" onclick="openPlayer('tt0126029')">
                 <div class="poster-container">
                     <img src="https://images.unsplash.com/photo-1533613220915-609f661a6fe1?auto=format&fit=crop&w=400&q=80" alt="Shrek" class="movie-poster">
                     <div class="badges-top">
@@ -198,7 +251,7 @@
             </div>
 
             <!-- Bruce Almighty -->
-            <div class="movie-card">
+            <div class="movie-card" onclick="openPlayer('tt0315327')">
                 <div class="poster-container">
                     <img src="https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=400&q=80" alt="Bruce Almighty" class="movie-poster">
                     <div class="badges-top">
@@ -217,7 +270,7 @@
             </div>
 
             <!-- White Chicks -->
-            <div class="movie-card">
+            <div class="movie-card" onclick="openPlayer('tt0381707')">
                 <div class="poster-container">
                     <img src="https://images.unsplash.com/photo-1509248961158-e54f6934749c?auto=format&fit=crop&w=400&q=80" alt="White Chicks" class="movie-poster">
                     <div class="badges-top">
@@ -236,7 +289,7 @@
             </div>
 
             <!-- Mean Girls -->
-            <div class="movie-card">
+            <div class="movie-card" onclick="openPlayer('tt0377092')">
                 <div class="poster-container">
                     <img src="https://images.unsplash.com/photo-1534684686641-05569203eeca?auto=format&fit=crop&w=400&q=80" alt="Mean Girls" class="movie-poster">
                     <div class="badges-top">
@@ -255,5 +308,41 @@
             </div>
         </div>
     </div>
+
+    <!-- Video Player Modal -->
+    <div id="player-modal" onclick="closePlayer()">
+        <div class="modal-container" onclick="event.stopPropagation()">
+            <button class="close-modal" onclick="closePlayer()">&times;</button>
+            <div id="video-wrapper" style="width: 100%; height: 100%;">
+                <!-- Iframe injected here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openPlayer(imdbId) {
+            const modal = document.getElementById('player-modal');
+            const wrapper = document.getElementById('video-wrapper');
+            const playerUrl = `https://vidsrc.to/embed/movie/${imdbId}`;
+            
+            wrapper.innerHTML = `<iframe src="${playerUrl}" allowfullscreen></iframe>`;
+            modal.classList.add('active');
+            document.body.classList.add('modal-open');
+        }
+
+        function closePlayer() {
+            const modal = document.getElementById('player-modal');
+            const wrapper = document.getElementById('video-wrapper');
+            
+            modal.classList.remove('active');
+            document.body.classList.remove('modal-open');
+            wrapper.innerHTML = '';
+        }
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closePlayer();
+        });
+    </script>
 </body>
 </html>
