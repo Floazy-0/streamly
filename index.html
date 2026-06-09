@@ -181,6 +181,17 @@
             padding: 10px;
             font-weight: 700;
         }
+        .server-switcher {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 10;
+            display: flex;
+            gap: 8px;
+            background: rgba(0,0,0,0.5);
+            padding: 5px;
+            border-radius: 6px;
+        }
         iframe {
             width: 100%;
             height: 100%;
@@ -214,7 +225,7 @@
         <h2 class="section-title">أفلام الزعيم عادل إمام (Adel Imam Hits)</h2>
         <div class="grid">
             <!-- عريس من جهة أمنية -->
-            <div class="movie-card" onclick="openPlayer('tt0418549')">
+            <div class="movie-card" onclick="openPlayer('tt0418471')">
                 <div class="poster-container">
                     <img src="https://m.media-amazon.com/images/M/MV5BNTQxYTk3ZDItNTJhZC00ODQ0LTgyZmMtOGYwNWY1NWNlYzhmXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" alt="عريس من جهة أمنية" class="movie-poster">
                     <div class="badges-top">
@@ -233,7 +244,7 @@
             </div>
 
             <!-- التجربة الدنماركية -->
-            <div class="movie-card" onclick="openPlayer('tt0376241')">
+            <div class="movie-card" onclick="openPlayer('tt0390531')">
                 <div class="poster-container">
                     <img src="https://i.ebayimg.com/images/g/l~YAAOSwY8ZeEzIA/s-l400.jpg" alt="التجربة الدنماركية" class="movie-poster">
                     <div class="badges-top">
@@ -252,7 +263,7 @@
             </div>
 
             <!-- أمير الظلام -->
-            <div class="movie-card" onclick="openPlayer('tt0344837')">
+            <div class="movie-card" onclick="openPlayer('tt0327419')">
                 <div class="poster-container">
                     <img src="https://m.media-amazon.com/images/M/MV5BMGI2ZTNlZjMtNmJjNS00MDllLTk4OTEtZjRjZTZiODVkOTkyXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" alt="أمير الظلام" class="movie-poster">
                     <div class="badges-top">
@@ -271,7 +282,7 @@
             </div>
 
             <!-- هاللو أمريكا -->
-            <div class="movie-card" onclick="openPlayer('tt0290130')">
+            <div class="movie-card" onclick="openPlayer('tt1527119')">
                 <div class="poster-container">
                     <img src="https://m.media-amazon.com/images/M/MV5BYTlhZDczNGEtOTAxZi00YzY1LTgwM2EtNWNiNmVlMGE0MGNjXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" alt="هاللو أمريكا" class="movie-poster">
                     <div class="badges-top">
@@ -290,7 +301,7 @@
             </div>
 
             <!-- السفارة في العمارة -->
-            <div class="movie-card" onclick="openPlayer('tt0468508')">
+            <div class="movie-card" onclick="openPlayer('tt0477470')">
                 <div class="poster-container">
                     <img src="https://m.media-amazon.com/images/M/MV5BZDFkODEyNzctYmVjMi00Y2RkLTllMzktN2Q2NDYxZmVhZjdiXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" alt="السفارة في العمارة" class="movie-poster">
                     <div class="badges-top">
@@ -523,14 +534,51 @@
     </div>
 
     <script>
+        const movieFallbacks = {
+            'tt0418471': { yt: 'Ig2zjQeLky0' }, // عريس من جهة أمنية
+            'tt0390531': { yt: 'HnQVpCLEBxU' }, // التجربة الدنماركية
+            'tt0327419': { yt: 'bHT0n-fTCkY' }, // أمير الظلام
+            'tt1527119': { yt: '0Y0TdbAmJ3E' }, // هاللو أمريكا
+            'tt0477470': { yt: 'srnMD9LDK20' }  // السفارة في العمارة
+        };
+
         function openPlayer(imdbId) {
             const modal = document.getElementById('player-modal');
             const wrapper = document.getElementById('video-wrapper');
-            const playerUrl = `https://vidsrc.to/embed/movie/${imdbId}`;
             
-            wrapper.innerHTML = `<iframe src="${playerUrl}" allowfullscreen></iframe>`;
+            // For classic Egyptian movies, prioritize YouTube if available as fallback is better for them
+            const hasYoutube = movieFallbacks[imdbId];
+            
             modal.classList.add('active');
             document.body.classList.add('modal-open');
+            
+            // Set initial state
+            changeServer(imdbId, 'vidsrc.to');
+        }
+
+        function changeServer(imdbId, server) {
+            const wrapper = document.getElementById('video-wrapper');
+            let playerUrl = '';
+            
+            if (server === 'youtube' && movieFallbacks[imdbId]) {
+                playerUrl = `https://www.youtube.com/embed/${movieFallbacks[imdbId].yt}`;
+            } else if (server === 'vidsrc.me') {
+                playerUrl = `https://vidsrc.me/embed/movie?imdb=${imdbId}`;
+            } else if (server === 'vidsrc.cc') {
+                playerUrl = `https://vidsrc.cc/v2/embed/movie/${imdbId}`;
+            } else {
+                playerUrl = `https://vidsrc.to/embed/movie/${imdbId}`;
+            }
+
+            wrapper.innerHTML = `
+                <div class="server-switcher">
+                    <button onclick="changeServer('${imdbId}', 'vidsrc.to')" class="quality-btn ${server === 'vidsrc.to' ? 'active' : ''}">Server 1</button>
+                    <button onclick="changeServer('${imdbId}', 'vidsrc.me')" class="quality-btn ${server === 'vidsrc.me' ? 'active' : ''}">Server 2</button>
+                    <button onclick="changeServer('${imdbId}', 'vidsrc.cc')" class="quality-btn ${server === 'vidsrc.cc' ? 'active' : ''}">Server 3</button>
+                    ${movieFallbacks[imdbId] ? `<button onclick="changeServer('${imdbId}', 'youtube')" class="quality-btn ${server === 'youtube' ? 'active' : ''}">YouTube</button>` : ''}
+                </div>
+                <iframe src="${playerUrl}" allowfullscreen></iframe>
+            `;
         }
 
         function closePlayer() {
