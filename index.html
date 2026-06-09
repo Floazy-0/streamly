@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Streamly | Watch Movies & TV Shows</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <title>Streamly | Best Comedies (2000-2004)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0b0b0b;
-            --card-bg: #1a1a1a;
+            --bg-color: #050505;
+            --card-bg: #121212;
             --accent: #e50914;
             --text-main: #ffffff;
-            --text-dim: #b3b3b3;
+            --text-dim: #9ca3af;
+            --badge-bg: rgba(0, 0, 0, 0.7);
+            --arabic-badge: #10b981;
         }
         body {
             margin: 0;
@@ -19,89 +21,238 @@
             background-color: var(--bg-color);
             color: var(--text-main);
             font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
         nav {
             position: fixed;
             top: 0;
             width: 100%;
-            padding: 20px 50px;
+            padding: 1.5rem 2rem;
             display: flex;
             align-items: center;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, transparent 100%);
-            z-index: 100;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, transparent 100%);
+            z-index: 1000;
+            box-sizing: border-box;
         }
         .logo {
-            font-size: 28px;
-            font-weight: 700;
+            font-size: 1.75rem;
+            font-weight: 800;
             color: var(--accent);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
         .hero {
-            height: 80vh;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(11,11,11,1)), url('https://images.unsplash.com/photo-1534447677768-be436bb09401?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+            height: 70vh;
+            min-height: 500px;
+            background: linear-gradient(rgba(0,0,0,0.3), var(--bg-color)), url('https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=1920&q=80');
             background-size: cover;
             background-position: center;
             display: flex;
             align-items: center;
-            padding: 0 50px;
+            padding: 0 2rem;
+            box-sizing: border-box;
         }
-        .hero-content { max-width: 600px; }
-        .hero-title { font-size: 64px; margin: 0; }
-        .hero-tagline { font-size: 20px; color: var(--text-dim); margin: 20px 0; }
-        .btn {
-            padding: 12px 30px;
+        .hero-content { max-width: 800px; }
+        .hero-title { font-size: clamp(2.5rem, 8vw, 4rem); font-weight: 800; margin: 0; line-height: 1.1; }
+        .hero-tagline { font-size: 1.25rem; color: var(--text-dim); margin: 1.5rem 0; line-height: 1.5; }
+        .btn-primary {
+            display: inline-block;
+            padding: 1rem 2.5rem;
             background-color: var(--accent);
             color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 18px;
+            border-radius: 6px;
+            font-size: 1.125rem;
             font-weight: 700;
-            cursor: pointer;
             text-decoration: none;
+            transition: transform 0.2s, background-color 0.2s;
         }
-        .section { padding: 40px 50px; }
-        .section-title { font-size: 24px; margin-bottom: 20px; }
+        .btn-primary:hover { transform: scale(1.05); background-color: #f40b17; }
+        
+        .section { padding: 3rem 2rem; }
+        .section-title { font-size: 1.75rem; font-weight: 700; margin-bottom: 2rem; border-left: 4px solid var(--accent); padding-left: 1rem; }
+        
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 2rem;
         }
+        
         .movie-card {
             background-color: var(--card-bg);
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
-            transition: transform 0.3s;
+            position: relative;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
-        .movie-card:hover { transform: scale(1.05); }
-        .movie-poster {
-            width: 100%;
-            aspect-ratio: 2/3;
-            background-color: #333;
-            object-fit: cover;
+        .movie-card:hover { transform: translateY(-10px); }
+        
+        .poster-container { position: relative; width: 100%; aspect-ratio: 2/3; }
+        .movie-poster { width: 100%; height: 100%; object-fit: cover; }
+        
+        .badges-top {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            align-items: flex-end;
         }
-        .movie-info { padding: 15px; }
-        .movie-name { font-weight: 700; margin: 0; }
-        .movie-meta { font-size: 14px; color: var(--text-dim); margin-top: 5px; }
+        
+        .badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            backdrop-filter: blur(4px);
+            background: var(--badge-bg);
+        }
+        
+        .badge-arabic { color: var(--arabic-badge); border: 1px solid var(--arabic-badge); }
+        .badge-quality { color: var(--text-main); border: 1px solid #ffffff40; }
+        
+        .movie-info { padding: 1.25rem; }
+        .movie-name { font-size: 1.1rem; font-weight: 700; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .movie-meta { font-size: 0.9rem; color: var(--text-dim); margin-top: 0.5rem; display: flex; justify-content: space-between; }
+        
+        .quality-selector {
+            margin-top: 1rem;
+            display: flex;
+            gap: 8px;
+        }
+        .quality-btn {
+            background: transparent;
+            border: 1px solid #333;
+            color: var(--text-dim);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .quality-btn:hover { border-color: var(--accent); color: var(--text-main); }
+        .quality-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
+
+        @media (max-width: 768px) {
+            nav { padding: 1rem; }
+            .hero { padding: 0 1.5rem; height: 60vh; }
+            .section { padding: 2rem 1.5rem; }
+            .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
+            .movie-info { padding: 0.75rem; }
+            .movie-name { font-size: 0.95rem; }
+        }
     </style>
 </head>
 <body>
     <nav><div class="logo">Streamly</div></nav>
     <div class="hero">
         <div class="hero-content">
-            <h1 class="hero-title">Interstellar</h1>
-            <p class="hero-tagline">A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.</p>
-            <a href="#" class="btn">Watch Now</a>
+            <h1 class="hero-title">Golden Era of Comedy</h1>
+            <p class="hero-tagline">Relive the early 2000s with the funniest hits ever made. Now streaming in crystal clear 1080p with Arabic subtitles.</p>
+            <a href="#comedy-grid" class="btn-primary">Browse Laughs</a>
         </div>
     </div>
-    <div class="section">
-        <h2 class="section-title">Trending Now</h2>
+    
+    <div class="section" id="comedy-grid">
+        <h2 class="section-title">Classic Comedy Hits (2000-2004)</h2>
         <div class="grid">
-            <div class="movie-card"><img src="https://images.unsplash.com/photo-1440404653325-ab127d49abc1?auto=format&fit=crop&w=400&q=80" class="movie-poster"><div class="movie-info"><p class="movie-name">The Dark Knight</p><p class="movie-meta">2008 • Action</p></div></div>
-            <div class="movie-card"><img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=400&q=80" class="movie-poster"><div class="movie-info"><p class="movie-name">Inception</p><p class="movie-meta">2010 • Sci-Fi</p></div></div>
-            <div class="movie-card"><img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=400&q=80" class="movie-poster"><div class="movie-info"><p class="movie-name">Gladiator</p><p class="movie-meta">2000 • Drama</p></div></div>
-            <div class="movie-card"><img src="https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?auto=format&fit=crop&w=400&q=80" class="movie-poster"><div class="movie-info"><p class="movie-name">Dune</p><p class="movie-meta">2021 • Sci-Fi</p></div></div>
+            <!-- Scary Movie -->
+            <div class="movie-card">
+                <div class="poster-container">
+                    <img src="https://images.unsplash.com/photo-1594909122845-11baa439b7bf?auto=format&fit=crop&w=400&q=80" alt="Scary Movie" class="movie-poster">
+                    <div class="badges-top">
+                        <span class="badge badge-arabic">مترجم للعربية</span>
+                        <span class="badge badge-quality">1080p</span>
+                    </div>
+                </div>
+                <div class="movie-info">
+                    <p class="movie-name">Scary Movie</p>
+                    <div class="movie-meta"><span>2000</span><span>Comedy</span></div>
+                    <div class="quality-selector">
+                        <button class="quality-btn active">1080p</button>
+                        <button class="quality-btn">720p</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shrek -->
+            <div class="movie-card">
+                <div class="poster-container">
+                    <img src="https://images.unsplash.com/photo-1533613220915-609f661a6fe1?auto=format&fit=crop&w=400&q=80" alt="Shrek" class="movie-poster">
+                    <div class="badges-top">
+                        <span class="badge badge-arabic">مترجم للعربية</span>
+                        <span class="badge badge-quality">1080p</span>
+                    </div>
+                </div>
+                <div class="movie-info">
+                    <p class="movie-name">Shrek</p>
+                    <div class="movie-meta"><span>2001</span><span>Animation</span></div>
+                    <div class="quality-selector">
+                        <button class="quality-btn active">1080p</button>
+                        <button class="quality-btn">720p</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bruce Almighty -->
+            <div class="movie-card">
+                <div class="poster-container">
+                    <img src="https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=400&q=80" alt="Bruce Almighty" class="movie-poster">
+                    <div class="badges-top">
+                        <span class="badge badge-arabic">مترجم للعربية</span>
+                        <span class="badge badge-quality">1080p</span>
+                    </div>
+                </div>
+                <div class="movie-info">
+                    <p class="movie-name">Bruce Almighty</p>
+                    <div class="movie-meta"><span>2003</span><span>Fantasy</span></div>
+                    <div class="quality-selector">
+                        <button class="quality-btn active">1080p</button>
+                        <button class="quality-btn">720p</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- White Chicks -->
+            <div class="movie-card">
+                <div class="poster-container">
+                    <img src="https://images.unsplash.com/photo-1509248961158-e54f6934749c?auto=format&fit=crop&w=400&q=80" alt="White Chicks" class="movie-poster">
+                    <div class="badges-top">
+                        <span class="badge badge-arabic">مترجم للعربية</span>
+                        <span class="badge badge-quality">1080p</span>
+                    </div>
+                </div>
+                <div class="movie-info">
+                    <p class="movie-name">White Chicks</p>
+                    <div class="movie-meta"><span>2004</span><span>Comedy</span></div>
+                    <div class="quality-selector">
+                        <button class="quality-btn active">1080p</button>
+                        <button class="quality-btn">720p</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mean Girls -->
+            <div class="movie-card">
+                <div class="poster-container">
+                    <img src="https://images.unsplash.com/photo-1534684686641-05569203eeca?auto=format&fit=crop&w=400&q=80" alt="Mean Girls" class="movie-poster">
+                    <div class="badges-top">
+                        <span class="badge badge-arabic">مترجم للعربية</span>
+                        <span class="badge badge-quality">1080p</span>
+                    </div>
+                </div>
+                <div class="movie-info">
+                    <p class="movie-name">Mean Girls</p>
+                    <div class="movie-meta"><span>2004</span><span>Teen Comedy</span></div>
+                    <div class="quality-selector">
+                        <button class="quality-btn active">1080p</button>
+                        <button class="quality-btn">720p</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </body>
