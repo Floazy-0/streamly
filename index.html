@@ -1,146 +1,260 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Streamly | Best Movies (2000-2004)</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Streamly | عالمك للمشاهدة المتميزة</title>
+    <!-- Google Fonts: Tajawal for Arabic -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #050505;
-            --card-bg: #121212;
-            --accent: #e50914;
+            --bg-color: #080808;
+            --card-bg: #141414;
+            --accent: #E50914;
+            --accent-glow: rgba(229, 9, 20, 0.5);
             --text-main: #ffffff;
-            --text-dim: #9ca3af;
-            --badge-bg: rgba(0, 0, 0, 0.7);
-            --arabic-badge: #10b981;
-            --modal-bg: rgba(0, 0, 0, 0.95);
+            --text-dim: #b3b3b3;
+            --glass: rgba(0, 0, 0, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
         body {
             margin: 0;
             padding: 0;
             background-color: var(--bg-color);
             color: var(--text-main);
-            font-family: 'Inter', sans-serif;
+            font-family: 'Tajawal', 'Inter', sans-serif;
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
+
         body.modal-open {
             overflow: hidden;
         }
+
+        /* Navbar with Glassmorphism */
         nav {
             position: fixed;
             top: 0;
             width: 100%;
-            padding: 1.5rem 2rem;
+            height: 70px;
             display: flex;
             align-items: center;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, transparent 100%);
+            justify-content: space-between;
+            padding: 0 4%;
             z-index: 1000;
-            box-sizing: border-box;
+            transition: background 0.3s ease;
+            backdrop-filter: blur(10px);
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, transparent 100%);
+            border-bottom: 1px solid var(--glass-border);
         }
+
+        nav.scrolled {
+            background: var(--glass);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
         .logo {
-            font-size: 1.75rem;
+            font-size: 1.8rem;
             font-weight: 800;
             color: var(--accent);
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
+            text-decoration: none;
+            text-shadow: 0 0 10px rgba(229, 9, 20, 0.3);
         }
-        .hero {
-            height: 70vh;
-            min-height: 500px;
-            background: linear-gradient(rgba(0,0,0,0.3), var(--bg-color)), url('https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=1920&q=80');
-            background-size: cover;
-            background-position: center;
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-dim);
+        }
+
+        .search-bar {
+            background: rgba(0,0,0,0.4);
+            border: 1px solid var(--glass-border);
+            border-radius: 4px;
+            padding: 6px 12px;
             display: flex;
             align-items: center;
-            padding: 0 2rem;
-            box-sizing: border-box;
+            width: 250px;
         }
-        .hero-content { max-width: 800px; }
-        .hero-title { font-size: clamp(2.5rem, 8vw, 4rem); font-weight: 800; margin: 0; line-height: 1.1; }
-        .hero-tagline { font-size: 1.25rem; color: var(--text-dim); margin: 1.5rem 0; line-height: 1.5; }
-        .btn-primary {
-            display: inline-block;
-            padding: 1rem 2.5rem;
-            background-color: var(--accent);
+
+        .search-bar input {
+            background: none;
+            border: none;
             color: white;
-            border-radius: 6px;
-            font-size: 1.125rem;
+            outline: none;
+            font-family: inherit;
+            width: 100%;
+            margin-right: 8px;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 85vh;
+            width: 100%;
+            background-image: linear-gradient(to right, rgba(0,0,0,0.9) 20%, transparent 70%), 
+                              linear-gradient(to top, var(--bg-color) 0%, transparent 30%),
+                              url('https://images.alphacoders.com/605/605703.jpg'); /* Gladiator backdrop */
+            background-size: cover;
+            background-position: center 20%;
+            display: flex;
+            align-items: center;
+            padding: 0 4%;
+        }
+
+        .hero-content {
+            max-width: 650px;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 10vw, 5rem);
+            font-weight: 800;
+            margin: 0;
+            line-height: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero-metadata {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .hero-metadata span:first-child { color: #46d369; }
+
+        .hero-tagline {
+            font-size: 1.3rem;
+            color: #fff;
+            margin: 20px 0 30px;
+            line-height: 1.4;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 4px;
+            font-size: 1.1rem;
             font-weight: 700;
             text-decoration: none;
-            transition: transform 0.2s, background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: opacity 0.2s, transform 0.2s;
+            cursor: pointer;
+            border: none;
         }
-        .btn-primary:hover { transform: scale(1.05); background-color: #f40b17; }
-        
-        .section { padding: 3rem 2rem; }
-        .section-title { font-size: 1.75rem; font-weight: 700; margin-bottom: 2rem; border-left: 4px solid var(--accent); padding-left: 1rem; }
-        
+
+        .btn-play {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-info {
+            background-color: rgba(109, 109, 110, 0.7);
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.8;
+            transform: scale(1.05);
+        }
+
+        /* Movie Grid */
+        .section {
+            padding: 2rem 4% 0;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
         }
-        
-        .movie-card {
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            overflow: hidden;
-            position: relative;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-        }
-        .movie-card:hover { transform: translateY(-10px); }
-        
-        .poster-container { position: relative; width: 100%; aspect-ratio: 2/3; }
-        .movie-poster { width: 100%; height: 100%; object-fit: cover; }
-        
-        .badges-top {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            align-items: flex-end;
-        }
-        
-        .badge {
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.7rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            backdrop-filter: blur(4px);
-            background: var(--badge-bg);
-        }
-        
-        .badge-arabic { color: var(--arabic-badge); border: 1px solid var(--arabic-badge); }
-        .badge-quality { color: var(--text-main); border: 1px solid #ffffff40; }
-        
-        .movie-info { padding: 1.25rem; }
-        .movie-name { font-size: 1.1rem; font-weight: 700; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .movie-meta { font-size: 0.9rem; color: var(--text-dim); margin-top: 0.5rem; display: flex; justify-content: space-between; }
-        
-        .quality-selector {
-            margin-top: 1rem;
-            display: flex;
-            gap: 8px;
-        }
-        .quality-btn {
-            background: transparent;
-            border: 1px solid #333;
-            color: var(--text-dim);
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .quality-btn:hover { border-color: var(--accent); color: var(--text-main); }
-        .quality-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
 
-        /* Modal Styles */
+        .movie-card {
+            position: relative;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.33, 1, 0.68, 1), box-shadow 0.3s;
+            background: var(--card-bg);
+            aspect-ratio: 2/3;
+        }
+
+        .movie-card:hover {
+            transform: scale(1.08);
+            z-index: 10;
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .movie-poster {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            padding: 40px 10px 10px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .movie-card:hover .card-overlay {
+            opacity: 1;
+        }
+
+        .card-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        /* Modal Player Upgrade */
         #player-modal {
             display: none;
             position: fixed;
@@ -148,345 +262,256 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: var(--modal-bg);
+            background-color: rgba(0,0,0,0.9);
             z-index: 2000;
             justify-content: center;
             align-items: center;
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.4s ease;
         }
+
         #player-modal.active {
             display: flex;
             opacity: 1;
         }
+
         .modal-container {
-            position: relative;
-            width: 90%;
-            max-width: 1100px;
-            aspect-ratio: 16/9;
-            background: #000;
-            border-radius: 12px;
+            width: 95%;
+            max-width: 1000px;
+            background: #181818;
+            border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 0 50px rgba(0,0,0,0.8);
-        }
-        .close-modal {
-            position: absolute;
-            top: -50px;
-            right: 0;
-            color: white;
-            font-size: 2rem;
-            cursor: pointer;
-            background: none;
-            border: none;
-            padding: 10px;
-            font-weight: 700;
-        }
-        .server-switcher {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            z-index: 10;
-            display: flex;
-            gap: 8px;
-            background: rgba(0,0,0,0.5);
-            padding: 5px;
-            border-radius: 6px;
-        }
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
+            box-shadow: 0 0 40px rgba(0,0,0,0.5);
+            position: relative;
+            animation: modalScale 0.4s cubic-bezier(0.33, 1, 0.68, 1);
         }
 
+        @keyframes modalScale {
+            from { transform: scale(0.85); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-header {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #000;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-body {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        .modal-info-main h2 { margin: 0 0 15px; font-size: 2rem; }
+        .modal-meta { display: flex; gap: 15px; color: var(--text-dim); margin-bottom: 20px; font-weight: 700; }
+        .match-score { color: #46d369; }
+        .modal-desc { line-height: 1.6; font-size: 1.1rem; color: #efefef; }
+
+        .server-switcher {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .server-btn {
+            background: #333;
+            border: 1px solid #555;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background 0.2s;
+        }
+
+        .server-btn.active {
+            background: white;
+            color: black;
+            border-color: white;
+        }
+
+        iframe { width: 100%; height: 100%; border: none; }
+
+        /* Mobile Adjustments */
         @media (max-width: 768px) {
-            nav { padding: 1rem; }
-            .hero { padding: 0 1.5rem; height: 60vh; }
-            .section { padding: 2rem 1.5rem; }
-            .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
-            .movie-info { padding: 0.75rem; }
-            .movie-name { font-size: 0.95rem; }
-            .modal-container { width: 95%; }
-            .close-modal { top: -45px; right: 5px; }
+            .nav-links, .search-bar { display: none; }
+            .hero { height: 70vh; background-position: center; text-align: center; justify-content: center; background-image: linear-gradient(to top, var(--bg-color) 10%, rgba(0,0,0,0.5)), url('https://images.alphacoders.com/605/605703.jpg'); }
+            .hero-content { max-width: 100%; }
+            .hero-metadata { justify-content: center; }
+            .hero-btns { justify-content: center; }
+            .grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
+            .modal-body { grid-template-columns: 1fr; padding: 20px; }
+            .modal-info-main h2 { font-size: 1.5rem; }
         }
     </style>
 </head>
 <body>
-    <nav><div class="logo">Streamly</div></nav>
+    <nav id="main-nav">
+        <div class="nav-right">
+            <a href="#" class="logo">Streamly</a>
+            <ul class="nav-links">
+                <li><a href="#">الرئيسية</a></li>
+                <li><a href="#">أفلام</a></li>
+                <li><a href="#">مسلسلات</a></li>
+                <li><a href="#">أضيف حديثاً</a></li>
+            </ul>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="بحث عن أفلام...">
+        </div>
+    </nav>
+
     <div class="hero">
         <div class="hero-content">
-            <h1 class="hero-title">Golden Era of Movies</h1>
-            <p class="hero-tagline">Relive the early 2000s with the funniest comedies and most moving dramas ever made. Now streaming in crystal clear 1080p with Arabic subtitles.</p>
-            
+            <h1 class="hero-title">Gladiator</h1>
+            <div class="hero-metadata">
+                <span>98% مطابق لك</span>
+                <span>2000</span>
+                <span>18+</span>
+                <span>ساعتان 35 دقيقة</span>
+            </div>
+            <p class="hero-tagline">في عام 180 م، يخطط الجنرال الروماني ماكسيموس للعودة إلى منزله بعد قيادة الجيش الروماني إلى النصر ضد القبائل الجرمانية، لكن خيانة ابن الإمبراطور تقلب حياته رأساً على عقب.</p>
+            <div class="hero-btns">
+                <button class="btn btn-play" onclick="openPlayer('tt0172495')">► تشغيل</button>
+                <button class="btn btn-info" onclick="openPlayer('tt0172495')">ⓘ مزيد من المعلومات</button>
+            </div>
         </div>
     </div>
     
-    <!-- COMEDY SECTION -->
-    <div class="section" id="comedy-grid">
-        <h2 class="section-title">Classic Comedy Hits (2000-2004)</h2>
-        <div class="grid">
-            <!-- Scary Movie -->
-            <div class="movie-card" onclick="openPlayer('tt0175142')">
-                <div class="poster-container">
-                    <img src="https://www.originalfilmart.com/cdn/shop/files/scarymovie_2000_original_film_art_5000x.webp?v=1683910671" alt="Scary Movie" class="movie-poster">
-                    <div class="badges-top">
-                        <span class="badge badge-arabic">مترجم للعربية</span>
-                        <span class="badge badge-quality">1080p</span>
-                    </div>
-                </div>
-                <div class="movie-info">
-                    <p class="movie-name">Scary Movie</p>
-                    <div class="movie-meta"><span>2000</span><span>Comedy</span></div>
-                    <div class="quality-selector">
-                        <button class="quality-btn active">1080p</button>
-                        <button class="quality-btn">720p</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Shrek -->
-            <div class="movie-card" onclick="openPlayer('tt0126029')">
-                <div class="poster-container">
-                    <img src="https://image.tmdb.org/t/p/original/iB64vpL3dIObOtMZgX3RqdVdQDc.jpg" alt="Shrek" class="movie-poster">
-                    <div class="badges-top">
-                        <span class="badge badge-arabic">مترجم للعربية</span>
-                        <span class="badge badge-quality">1080p</span>
-                    </div>
-                </div>
-                <div class="movie-info">
-                    <p class="movie-name">Shrek</p>
-                    <div class="movie-meta"><span>2001</span><span>Animation</span></div>
-                    <div class="quality-selector">
-                        <button class="quality-btn active">1080p</button>
-                        <button class="quality-btn">720p</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Bruce Almighty -->
-            <div class="movie-card" onclick="openPlayer('tt0315327')">
-                <div class="poster-container">
-                    <img src="https://www.originalfilmart.com/cdn/shop/files/BruceAlmighty_2003_original_film_art_5000x.webp?v=1710361452" alt="Bruce Almighty" class="movie-poster">
-                    <div class="badges-top">
-                        <span class="badge badge-arabic">مترجم للعربية</span>
-                        <span class="badge badge-quality">1080p</span>
-                    </div>
-                </div>
-                <div class="movie-info">
-                    <p class="movie-name">Bruce Almighty</p>
-                    <div class="movie-meta"><span>2003</span><span>Fantasy</span></div>
-                    <div class="quality-selector">
-                        <button class="quality-btn active">1080p</button>
-                        <button class="quality-btn">720p</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- White Chicks -->
-            <div class="movie-card" onclick="openPlayer('tt0381707')">
-                <div class="poster-container">
-                    <img src="http://www.impawards.com/2004/posters/white_chicks_xlg.jpg" alt="White Chicks" class="movie-poster">
-                    <div class="badges-top">
-                        <span class="badge badge-arabic">مترجم للعربية</span>
-                        <span class="badge badge-quality">1080p</span>
-                    </div>
-                </div>
-                <div class="movie-info">
-                    <p class="movie-name">White Chicks</p>
-                    <div class="movie-meta"><span>2004</span><span>Comedy</span></div>
-                    <div class="quality-selector">
-                        <button class="quality-btn active">1080p</button>
-                        <button class="quality-btn">720p</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Mean Girls -->
-            <div class="movie-card" onclick="openPlayer('tt0377092')">
-                <div class="poster-container">
-                    <img src="https://m.media-amazon.com/images/I/51CSOTO+itL._AC_UF894,1000_QL80_.jpg" alt="Mean Girls" class="movie-poster">
-                    <div class="badges-top">
-                        <span class="badge badge-arabic">مترجم للعربية</span>
-                        <span class="badge badge-quality">1080p</span>
-                    </div>
-                </div>
-                <div class="movie-info">
-                    <p class="movie-name">Mean Girls</p>
-                    <div class="movie-meta"><span>2004</span><span>Teen Comedy</span></div>
-                    <div class="quality-selector">
-                        <button class="quality-btn active">1080p</button>
-                        <button class="quality-btn">720p</button>
-                    </div>
-                </div>
-            </div>
+    <div class="section">
+        <h2 class="section-title">أفلام مختارة لك</h2>
+        <div class="grid" id="movie-grid">
+            <!-- Content dynamic or static as before but with upgraded cards -->
         </div>
     </div>
 
-    <!-- DRAMA SECTION -->
-    <div class="section" id="drama-grid">
-        <h2 class="section-title">Drama Hits (أفلام الدراما)</h2>
-        <div class="grid">
-            <!-- Gladiator -->
-            <div class="movie-card" onclick="openPlayer('tt0172495')">
-                <div class="poster-container">
-                    <img src="https://www.originalfilmart.com/cdn/shop/products/gladiator_2000_teaser_original_film_art_5000x.jpg?v=1610420463" alt="Gladiator" class="movie-poster">
-                    <div class="badges-top">
-                        <span class="badge badge-arabic">مترجم للعربية</span>
-                        <span class="badge badge-quality">1080p</span>
-                    </div>
-                </div>
-                <div class="movie-info">
-                    <p class="movie-name">Gladiator</p>
-                    <div class="movie-meta"><span>2000</span><span>Action/Drama</span></div>
-                    <div class="quality-selector">
-                        <button class="quality-btn active">1080p</button>
-                        <button class="quality-btn">720p</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- A Beautiful Mind -->
-            <div class="movie-card" onclick="openPlayer('tt0268978')">
-                <div class="poster-container">
-                    <img src="http://www.impawards.com/2001/posters/beautiful_mind_xlg.jpg" alt="A Beautiful Mind" class="movie-poster">
-                    <div class="badges-top">
-                        <span class="badge badge-arabic">مترجم للعربية</span>
-                        <span class="badge badge-quality">1080p</span>
-                    </div>
-                </div>
-                <div class="movie-info">
-                    <p class="movie-name">A Beautiful Mind</p>
-                    <div class="movie-meta"><span>2001</span><span>Biography/Drama</span></div>
-                    <div class="quality-selector">
-                        <button class="quality-btn active">1080p</button>
-                        <button class="quality-btn">720p</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- The Pianist -->
-            <div class="movie-card" onclick="openPlayer('tt0253474')">
-                <div class="poster-container">
-                    <img src="https://cdn.posteritati.com/posters/000/000/064/011/the-pianist-md-web.jpg" alt="The Pianist" class="movie-poster">
-                    <div class="badges-top">
-                        <span class="badge badge-arabic">مترجم للعربية</span>
-                        <span class="badge badge-quality">1080p</span>
-                    </div>
-                </div>
-                <div class="movie-info">
-                    <p class="movie-name">The Pianist</p>
-                    <div class="movie-meta"><span>2002</span><span>War/Drama</span></div>
-                    <div class="quality-selector">
-                        <button class="quality-btn active">1080p</button>
-                        <button class="quality-btn">720p</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Catch Me If You Can -->
-            <div class="movie-card" onclick="openPlayer('tt0264464')">
-                <div class="poster-container">
-                    <img src="https://m.media-amazon.com/images/M/MV5BMTY5MzYzNjc5NV5BMl5BanBnXkFtZTYwNTUyNTc2._V1_FMjpg_UX1000_.jpg" alt="Catch Me If You Can" class="movie-poster">
-                    <div class="badges-top">
-                        <span class="badge badge-arabic">مترجم للعربية</span>
-                        <span class="badge badge-quality">1080p</span>
-                    </div>
-                </div>
-                <div class="movie-info">
-                    <p class="movie-name">Catch Me If You Can</p>
-                    <div class="movie-meta"><span>2002</span><span>Crime/Drama</span></div>
-                    <div class="quality-selector">
-                        <button class="quality-btn active">1080p</button>
-                        <button class="quality-btn">720p</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Eternal Sunshine of the Spotless Mind -->
-            <div class="movie-card" onclick="openPlayer('tt0338013')">
-                <div class="poster-container">
-                    <img src="https://image.tmdb.org/t/p/original/5MwkWH9tYHv3mV9OdYTMR5qreIz.jpg" alt="Eternal Sunshine" class="movie-poster">
-                    <div class="badges-top">
-                        <span class="badge badge-arabic">مترجم للعربية</span>
-                        <span class="badge badge-quality">1080p</span>
-                    </div>
-                </div>
-                <div class="movie-info">
-                    <p class="movie-name">Eternal Sunshine</p>
-                    <div class="movie-meta"><span>2004</span><span>Romance/Drama</span></div>
-                    <div class="quality-selector">
-                        <button class="quality-btn active">1080p</button>
-                        <button class="quality-btn">720p</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Video Player Modal -->
+    <!-- Modal Player -->
     <div id="player-modal" onclick="closePlayer()">
         <div class="modal-container" onclick="event.stopPropagation()">
             <button class="close-modal" onclick="closePlayer()">&times;</button>
-            <div id="video-wrapper" style="width: 100%; height: 100%;">
-                <!-- Iframe injected here -->
+            <div class="modal-header">
+                <div id="video-wrapper" style="width: 100%; height: 100%;"></div>
+            </div>
+            <div class="modal-body">
+                <div class="modal-info-main">
+                    <h2 id="m-title">Movie Title</h2>
+                    <div class="modal-meta">
+                        <span class="match-score" id="m-match">95% Match</span>
+                        <span id="m-year">2024</span>
+                        <span id="m-rating">16+</span>
+                        <span id="m-duration">2h 15m</span>
+                    </div>
+                    <p class="modal-desc" id="m-desc">Description goes here...</p>
+                </div>
+                <div class="modal-info-side">
+                    <div class="server-switcher" id="server-list">
+                        <!-- Servers injected -->
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        const movieFallbacks = {};
+        const movies = [
+            { id: 'tt0172495', title: 'Gladiator', year: '2000', genre: 'Action/Drama', duration: '2h 35m', match: '98%', desc: 'جنرال روماني يسعى للانتقام من الإمبراطور الفاسد الذي قتل عائلته وأرسله إلى العبودية.', poster: 'https://www.originalfilmart.com/cdn/shop/products/gladiator_2000_teaser_original_film_art_5000x.jpg?v=1610420463' },
+            { id: 'tt0175142', title: 'Scary Movie', year: '2000', genre: 'Comedy', duration: '1h 28m', match: '92%', desc: 'مجموعة من المراهقين تطاردهم قاتل متسلسل في هذه المحاكاة الساخرة لأفلام الرعب الشهيرة.', poster: 'https://www.originalfilmart.com/cdn/shop/files/scarymovie_2000_original_film_art_5000x.webp?v=1683910671' },
+            { id: 'tt0126029', title: 'Shrek', year: '2001', genre: 'Animation', duration: '1h 30m', match: '95%', desc: 'غول أخضر يجد حياته الهادئة مهددة عندما يتم نفي جميع الشخصيات الخيالية إلى مستنقعه.', poster: 'https://image.tmdb.org/t/p/original/iB64vpL3dIObOtMZgX3RqdVdQDc.jpg' },
+            { id: 'tt0315327', title: 'Bruce Almighty', year: '2003', genre: 'Fantasy/Comedy', duration: '1h 41m', match: '89%', desc: 'مراسل تلفزيوني يشتكي من الله، فيمنحه الأخير قواه ليختبر مدى صعوبة إدارة العالم.', poster: 'https://www.originalfilmart.com/cdn/shop/files/BruceAlmighty_2003_original_film_art_5000x.webp?v=1710361452' },
+            { id: 'tt0381707', title: 'White Chicks', year: '2004', genre: 'Comedy', duration: '1h 49m', match: '94%', desc: 'عميلان من مكتب التحقيقات الفيدرالي يتنكران في زي فتاتين من المجتمع الراقي لحماية وريثتين من الاختطاف.', poster: 'http://www.impawards.com/2004/posters/white_chicks_xlg.jpg' },
+            { id: 'tt0268978', title: 'A Beautiful Mind', year: '2001', genre: 'Drama', duration: '2h 15m', match: '91%', desc: 'قصة حياة عالم الرياضيات جون ناش ومعاناته مع الفصام ورحلته نحو جائزة نوبل.', poster: 'http://www.impawards.com/2001/posters/beautiful_mind_xlg.jpg' },
+            { id: 'tt0253474', title: 'The Pianist', year: '2002', genre: 'War/Drama', duration: '2h 30m', match: '96%', desc: 'عازف بيانو يهودي بولندي يحاول البقاء على قيد الحياة في وارسو خلال الحرب العالمية الثانية.', poster: 'https://cdn.posteritati.com/posters/000/000/064/011/the-pianist-md-web.jpg' },
+            { id: 'tt0264464', title: 'Catch Me If You Can', year: '2002', genre: 'Crime/Drama', duration: '2h 21m', match: '97%', desc: 'قصة حقيقية لفرانك أباغنيل، الذي أصبح أنجح مزور ومحتال في تاريخ الولايات المتحدة قبل سن العشرين.', poster: 'https://m.media-amazon.com/images/M/MV5BMTY5MzYzNjc5NV5BMl5BanBnXkFtZTYwNTUyNTc2._V1_FMjpg_UX1000_.jpg' }
+        ];
+
+        function renderMovies() {
+            const grid = document.getElementById('movie-grid');
+            grid.innerHTML = movies.map(m => `
+                <div class="movie-card" onclick="openPlayer('${m.id}')">
+                    <img src="${m.poster}" alt="${m.title}" class="movie-poster">
+                    <div class="card-overlay">
+                        <p class="card-title">${m.title}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
 
         function openPlayer(imdbId) {
+            const movie = movies.find(m => m.id === imdbId);
+            if (!movie) return;
+
+            document.getElementById('m-title').innerText = movie.title;
+            document.getElementById('m-year').innerText = movie.year;
+            document.getElementById('m-match').innerText = movie.match + ' Match';
+            document.getElementById('m-duration').innerText = movie.duration;
+            document.getElementById('m-desc').innerText = movie.desc;
+
             const modal = document.getElementById('player-modal');
-            const wrapper = document.getElementById('video-wrapper');
-            
-            // For classic Egyptian movies, prioritize YouTube if available as fallback is better for them
-            const hasYoutube = movieFallbacks[imdbId];
-            
             modal.classList.add('active');
             document.body.classList.add('modal-open');
             
-            // Set initial state
             changeServer(imdbId, 'vidsrc.to');
         }
 
         function changeServer(imdbId, server) {
             const wrapper = document.getElementById('video-wrapper');
-            let playerUrl = '';
+            const serverList = document.getElementById('server-list');
             
-            if (server === 'youtube' && movieFallbacks[imdbId]) {
-                playerUrl = `https://www.youtube.com/embed/${movieFallbacks[imdbId].yt}`;
-            } else if (server === 'vidsrc.me') {
-                playerUrl = `https://vidsrc.me/embed/movie?imdb=${imdbId}`;
-            } else if (server === 'vidsrc.cc') {
-                playerUrl = `https://vidsrc.cc/v2/embed/movie/${imdbId}`;
-            } else {
-                playerUrl = `https://vidsrc.to/embed/movie/${imdbId}`;
-            }
+            let playerUrl = '';
+            if (server === 'vidsrc.me') playerUrl = `https://vidsrc.me/embed/movie?imdb=${imdbId}`;
+            else if (server === 'vidsrc.cc') playerUrl = `https://vidsrc.cc/v2/embed/movie/${imdbId}`;
+            else playerUrl = `https://vidsrc.to/embed/movie/${imdbId}`;
 
-            wrapper.innerHTML = `
-                <div class="server-switcher">
-                    <button onclick="changeServer('${imdbId}', 'vidsrc.to')" class="quality-btn ${server === 'vidsrc.to' ? 'active' : ''}">Server 1</button>
-                    <button onclick="changeServer('${imdbId}', 'vidsrc.me')" class="quality-btn ${server === 'vidsrc.me' ? 'active' : ''}">Server 2</button>
-                    <button onclick="changeServer('${imdbId}', 'vidsrc.cc')" class="quality-btn ${server === 'vidsrc.cc' ? 'active' : ''}">Server 3</button>
-                    ${movieFallbacks[imdbId] ? `<button onclick="changeServer('${imdbId}', 'youtube')" class="quality-btn ${server === 'youtube' ? 'active' : ''}">YouTube</button>` : ''}
-                </div>
-                <iframe src="${playerUrl}" allowfullscreen></iframe>
-            `;
+            wrapper.innerHTML = `<iframe src="${playerUrl}" allowfullscreen></iframe>`;
+
+            const servers = [
+                { id: 'vidsrc.to', label: 'سيرفر 1' },
+                { id: 'vidsrc.me', label: 'سيرفر 2' },
+                { id: 'vidsrc.cc', label: 'سيرفر 3' }
+            ];
+
+            serverList.innerHTML = servers.map(s => `
+                <button onclick="changeServer('${imdbId}', '${s.id}')" class="server-btn ${server === s.id ? 'active' : ''}">${s.label}</button>
+            `).join('');
         }
 
         function closePlayer() {
             const modal = document.getElementById('player-modal');
-            const wrapper = document.getElementById('video-wrapper');
-            
             modal.classList.remove('active');
             document.body.classList.remove('modal-open');
-            wrapper.innerHTML = '';
+            document.getElementById('video-wrapper').innerHTML = '';
         }
 
-        // Close on Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closePlayer();
-        });
+        window.onscroll = function() {
+            const nav = document.getElementById('main-nav');
+            if (window.pageYOffset > 50) nav.classList.add('scrolled');
+            else nav.classList.remove('scrolled');
+        };
+
+        renderMovies();
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePlayer(); });
     </script>
 </body>
 </html>
