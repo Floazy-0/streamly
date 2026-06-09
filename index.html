@@ -89,9 +89,10 @@
             font-size: 0.95rem;
             font-weight: 500;
             transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
         }
 
-        .nav-links a:hover {
+        .nav-links a:hover, .nav-links a.active {
             color: var(--accent);
         }
 
@@ -214,7 +215,15 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
-        /* Movie Grid */
+        /* Content Sections */
+        .page-content {
+            display: none;
+        }
+        
+        .page-content.active {
+            display: block;
+        }
+
         .section {
             padding: 3rem 4% 0;
         }
@@ -373,6 +382,44 @@
         .match-score { color: #46d369; }
         .modal-desc { line-height: 1.7; font-size: 1.15rem; color: #efefef; }
 
+        .tv-controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .control-label {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            font-weight: 700;
+        }
+
+        select.tv-select {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--glass-border);
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 1rem;
+            outline: none;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        select.tv-select:focus {
+            border-color: var(--accent);
+        }
+
         .server-switcher {
             display: flex;
             flex-direction: column;
@@ -434,9 +481,9 @@
         <div class="nav-right">
             <a href="#" class="logo">Streamly</a>
             <ul class="nav-links">
-                <li><a href="#">الرئيسية</a></li>
-                <li><a href="#">أفلام</a></li>
-                <li><a href="#">مسلسلات</a></li>
+                <li><a onclick="showPage('home')" id="nav-home" class="active">الرئيسية</a></li>
+                <li><a onclick="showPage('movies')" id="nav-movies">أفلام</a></li>
+                <li><a onclick="showPage('tv')" id="nav-tv">مسلسلات</a></li>
                 <li><a href="#">أضيف حديثاً</a></li>
             </ul>
         </div>
@@ -445,36 +492,52 @@
         </div>
     </nav>
 
-    <div class="hero">
-        <div class="hero-content">
-            <h1 class="hero-title">Gladiator</h1>
-            <div class="hero-metadata">
-                <span>98% مطابق لك</span>
-                <span>2000</span>
-                <span>18+</span>
-                <span>ساعتان 35 دقيقة</span>
-            </div>
-            <p class="hero-tagline">في عام 180 م، يخطط الجنرال الروماني ماكسيموس للعودة إلى منزله بعد قيادة الجيش الروماني إلى النصر ضد القبائل الجرمانية، لكن خيانة ابن الإمبراطور تقلب حياته رأساً على عقب.</p>
-            <div class="hero-btns">
-                <button class="btn btn-play" onclick="openPlayer('tt0172495')">► تشغيل</button>
-                <button class="btn btn-info" onclick="openPlayer('tt0172495')">ⓘ مزيد من المعلومات</button>
+    <div id="home-page" class="page-content active">
+        <div class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">Gladiator</h1>
+                <div class="hero-metadata">
+                    <span>98% مطابق لك</span>
+                    <span>2000</span>
+                    <span>18+</span>
+                    <span>ساعتان 35 دقيقة</span>
+                </div>
+                <p class="hero-tagline">في عام 180 م، يخطط الجنرال الروماني ماكسيموس للعودة إلى منزله بعد قيادة الجيش الروماني إلى النصر ضد القبائل الجرمانية، لكن خيانة ابن الإمبراطور تقلب حياته رأساً على عقب.</p>
+                <div class="hero-btns">
+                    <button class="btn btn-play" onclick="openPlayer('tt0172495', 'movie')">► تشغيل</button>
+                    <button class="btn btn-info" onclick="openPlayer('tt0172495', 'movie')">ⓘ مزيد من المعلومات</button>
+                </div>
             </div>
         </div>
-    </div>
-    
-    <div class="section">
-        <h2 class="section-title">أفلام كوميدية (2000-2004)</h2>
-        <div class="grid" id="comedy-grid"></div>
+        
+        <div class="section">
+            <h2 class="section-title">أفلام كوميدية (2000-2004)</h2>
+            <div class="grid" id="comedy-grid"></div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">أفلام دراما (2000-2004)</h2>
+            <div class="grid" id="drama-grid"></div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">مختارات أخرى</h2>
+            <div class="grid" id="other-grid"></div>
+        </div>
     </div>
 
-    <div class="section">
-        <h2 class="section-title">أفلام دراما (2000-2004)</h2>
-        <div class="grid" id="drama-grid"></div>
+    <div id="movies-page" class="page-content">
+        <div class="section" style="margin-top: 80px;">
+            <h2 class="section-title">كل الأفلام</h2>
+            <div class="grid" id="all-movies-grid"></div>
+        </div>
     </div>
-    
-    <div class="section">
-        <h2 class="section-title">مختارات أخرى</h2>
-        <div class="grid" id="other-grid"></div>
+
+    <div id="tv-page" class="page-content">
+        <div class="section" style="margin-top: 80px;">
+            <h2 class="section-title">مسلسلات تلفزيونية</h2>
+            <div class="grid" id="tv-grid"></div>
+        </div>
     </div>
 
     <!-- Modal Player -->
@@ -494,6 +557,17 @@
                         <span id="m-duration">2h 15m</span>
                     </div>
                     <p class="modal-desc" id="m-desc">Description goes here...</p>
+                    
+                    <div id="tv-controls-container" class="tv-controls" style="display: none;">
+                        <div class="control-group">
+                            <span class="control-label">الموسم</span>
+                            <select id="season-select" class="tv-select" onchange="updateTvEpisode()"></select>
+                        </div>
+                        <div class="control-group">
+                            <span class="control-label">الحلقة</span>
+                            <select id="episode-select" class="tv-select" onchange="updateTvEpisode()"></select>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-info-side">
                     <div class="server-label">اختر السيرفر</div>
@@ -507,42 +581,47 @@
 
     <script>
         const movies = [
-            // Original & High Quality Poster Replacements
-            { id: 'tt0172495', title: 'Gladiator', year: '2000', genre: 'Action/Drama', duration: '2h 35m', match: '98%', desc: 'جنرال روماني يسعى للانتقام من الإمبراطور الفاسد الذي قتل عائلته وأرسله إلى العبودية.', poster: 'https://image.tmdb.org/t/p/original/p08mUnCktZ2opGihZTAn7OqzOoi.jpg', cat: 'other' },
-            { id: 'tt0126029', title: 'Shrek', year: '2001', genre: 'Animation', duration: '1h 30m', match: '95%', desc: 'غول أخضر يجد حياته الهادئة مهددة عندما يتم نفي جميع الشخصيات الخيالية إلى مستنقعه.', poster: 'https://image.tmdb.org/t/p/original/iB64vpL3dIObOtMZgX3RqdVdQDc.jpg', cat: 'other' },
-            
-            // Comedy Movies (10 Movies)
-            { id: 'tt0175142', title: 'Scary Movie', year: '2000', genre: 'Comedy', duration: '1h 28m', match: '92%', desc: 'مجموعة من المراهقين تطاردهم قاتل متسلسل في هذه المحاكاة الساخرة لأفلام الرعب الشهيرة.', poster: 'https://image.tmdb.org/t/p/original/uApRAE1qFYLdaSeGbrCjJa2aDlx.jpg', cat: 'comedy' },
-            { id: 'tt0315327', title: 'Bruce Almighty', year: '2003', genre: 'Fantasy/Comedy', duration: '1h 41m', match: '89%', desc: 'مراسل تلفزيوني يشتكي من الله، فيمنحه الأخير قواه ليختبر مدى صعوبة إدارة العالم.', poster: 'https://image.tmdb.org/t/p/original/fzAiotoo4KTtPYE3pZ68CUEHSse.jpg', cat: 'comedy' },
-            { id: 'tt0381707', title: 'White Chicks', year: '2004', genre: 'Comedy', duration: '1h 49m', match: '94%', desc: 'عميلان من مكتب التحقيقات الفيدرالي يتنكران في زي فتاتين من المجتمع الراقي لحماية وريثتين من الاختطاف.', poster: 'https://image.tmdb.org/t/p/original/vZoe1YoM8QDn1OwB7OrKHqrz3NT.jpg', cat: 'comedy' },
-            { id: 'tt0357413', title: 'Anchorman: The Legend of Ron Burgundy', year: '2004', genre: 'Comedy', duration: '1h 34m', match: '95%', desc: 'رون بورغوندي هو المذيع الأعلى تقييمًا في سان دييغو في السبعينيات، لكن عالم العمل الخاص به يتغير عندما يتم تعيين امرأة طموحة كمذيعة مشاركة.', poster: 'https://image.tmdb.org/t/p/original/Rdzsh3s6waplhSD7PUaBJovB7v.jpg', cat: 'comedy' },
-            { id: 'tt0322330', title: 'Freaky Friday', year: '2003', genre: 'Comedy/Family', duration: '1h 37m', match: '93%', desc: 'أم وابنتها المراهقة لا تتفقان أبدًا، وفجأة يجدان نفسيهما قد تبادلا أجسادهما ويضطران للعيش حياة بعضهما البعض.', poster: 'https://image.tmdb.org/t/p/original/nMMXl9sdyjPmBLMJlm7Bwp0o3AS.jpg', cat: 'comedy' },
-            { id: 'tt0319343', title: 'Elf', year: '2003', genre: 'Comedy/Family', duration: '1h 37m', match: '96%', desc: 'بعد تسببه في حدوث فوضى في مجتمع الأقزام بسبب حجمه الضخم، يتم إرسال "بادي" إلى نيويورك للبحث عن والده الحقيقي.', poster: 'https://image.tmdb.org/t/p/original/njVUoovS9LC7ND4sdp4780cExso.jpg', cat: 'comedy' },
-            { id: 'tt0196221', title: 'Zoolander', year: '2001', genre: 'Comedy', duration: '1h 29m', match: '90%', desc: 'عارض أزياء غبي يتم غسل دماغه لاغتيال رئيس وزراء ماليزيا.', poster: 'https://image.tmdb.org/t/p/original/mYz0dRlrPgSzIo9K70dPGRXA6fP.jpg', cat: 'comedy' },
-            { id: 'tt0212338', title: 'Meet the Parents', year: '2000', genre: 'Comedy/Romance', duration: '1h 48m', match: '94%', desc: 'ممرض شاب يذهب لزيارة والدي حبيبته قبل عرض الزواج عليها، لكنه يكتشف أن والدها عميل سابق في وكالة المخابرات المركزية.', poster: 'https://image.tmdb.org/t/p/original/cl6XJMEgcvneEJVO6V3tcCFS1xY.jpg', cat: 'comedy' },
-            { id: 'tt0377092', title: 'Mean Girls', year: '2004', genre: 'Comedy', duration: '1h 37m', match: '97%', desc: 'كادي هيرون، فتاة مراهقة اعتادت العيش في أفريقيا مع والديها، تكتشف عالم المدرسة الثانوية الأمريكي المعقد وقوانين "البلاستيكيات" القاسية.', poster: 'https://image.tmdb.org/t/p/original/qWQrMAVtWEOVkZk8iLFgI5qzqlA.jpg', cat: 'comedy' },
-            { id: 'tt0332379', title: 'School of Rock', year: '2003', genre: 'Comedy', duration: '1h 49m', match: '95%', desc: 'بعد طرده من فرقته الموسيقية، يتنكر عازف غيتار كمعلم بديل في مدرسة ابتدائية خاصة ويحول فصله إلى فرقة روك.', poster: 'https://image.tmdb.org/t/p/original/zXLXaepIBvFVLU25DH3wv4IPSbe.jpg', cat: 'comedy' },
-            
-            // Drama Movies (10 Movies)
-            { id: 'tt0268978', title: 'A Beautiful Mind', year: '2001', genre: 'Drama', duration: '2h 15m', match: '91%', desc: 'قصة حياة عالم الرياضيات جون ناش ومعاناته مع الفصام ورحلته نحو جائزة نوبل.', poster: 'https://image.tmdb.org/t/p/original/lA6mLpzOilqARJcwhzifQ174vjI.jpg', cat: 'drama' },
-            { id: 'tt0253474', title: 'The Pianist', year: '2002', genre: 'War/Drama', duration: '2h 30m', match: '96%', desc: 'عازف بيانو يهودي بولندي يحاول البقاء على قيد الحياة في وارسو خلال الحرب العالمية الثانية.', poster: 'https://image.tmdb.org/t/p/original/enFfoFd3TYs6ttTxrBIfmecQPnz.jpg', cat: 'drama' },
-            { id: 'tt0264464', title: 'Catch Me If You Can', year: '2002', genre: 'Crime/Drama', duration: '2h 21m', match: '97%', desc: 'قصة حقيقية لفرانك أباغنيل، الذي أصبح أنجح مزور ومحتال في تاريخ الولايات المتحدة قبل سن العشرين.', poster: 'https://image.tmdb.org/t/p/original/An9qRPZIes1BZ5MNrrfnnTlOlZd.jpg', cat: 'drama' },
-            { id: 'tt0167260', title: 'The Lord of the Rings: The Return of the King', year: '2003', genre: 'Drama/Fantasy', duration: '3h 21m', match: '99%', desc: 'غاندالف وأراغورن يقودان عالم الرجال ضد جيش ساورون لصرف انتباهه عن فرودو وسام بينما يقتربان من جبل الهلاك مع الخاتم الواحد.', poster: 'https://m.media-amazon.com/images/M/MV5BNzA5ZDNlZWMtM2NhNS00NDJjLTk4NDItYTRmY2EwMWZlMTY3XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_FMjpg_UX1000_.jpg', cat: 'drama' },
-            { id: 'tt0332452', title: 'Troy', year: '2004', genre: 'Drama/History', duration: '2h 43m', match: '92%', desc: 'اقتباس لملحمة هوميروس، يصور الغزو اليوناني لمدينة طروادة والصراعات بين الأبطال الأسطوريين.', poster: 'https://image.tmdb.org/t/p/original/51auXjXepW1zblzhaN7CAhwvf5i.jpg', cat: 'drama' },
-            { id: 'tt0162983', title: 'Cast Away', year: '2000', genre: 'Drama/Adventure', duration: '2h 23m', match: '97%', desc: 'موظف في شركة فيديكس يجد نفسه وحيدًا على جزيرة مهجورة بعد تحطم طائرته، ويجب عليه التحول جسديًا وعاطفيًا للبقاء على قيد الحياة.', poster: 'https://image.tmdb.org/t/p/original/7lLJgKnAicAcR5UEuo8xhSMj18w.jpg', cat: 'drama' },
-            { id: 'tt0332280', title: 'The Notebook', year: '2004', genre: 'Drama/Romance', duration: '2h 3m', match: '96%', desc: 'رجل مسن يقرأ لامرأة تعاني من الخرف قصة حب لشابين من طبقات اجتماعية مختلفة في الأربعينيات.', poster: 'https://m.media-amazon.com/images/M/MV5BMTk3OTM5Njg5M15BMl5BanBnXkFtZTYwMzA0ODI3._V1_FMjpg_UX1000_.jpg', cat: 'drama' },
-            { id: 'tt0327056', title: 'Mystic River', year: '2003', genre: 'Drama/Mystery', duration: '2h 18m', match: '94%', desc: 'جريمة قتل مأساوية لفتاة شابة تجمع ثلاثة أصدقاء طفولة من جديد في بوسطن، حيث تتشابك حياتهم في تحقيق مؤلم.', poster: 'https://image.tmdb.org/t/p/original/1tyi6RZzbJ9bE0g0GUf6Q7BWLvv.jpg', cat: 'drama' },
-            { id: 'tt0405159', title: 'Million Dollar Baby', year: '2004', genre: 'Drama', duration: '2h 12m', match: '98%', desc: 'مدرب ملاكمة مخضرم يساعد نادلة طموحة في تحقيق حلمها بأن تصبح ملاكمة محترفة، مما يؤدي إلى رحلة عاطفية عميقة.', poster: 'https://image.tmdb.org/t/p/original/corahhcHlrDUx6WJPLuRZvMeS0H.jpg', cat: 'drama' },
-            { id: 'tt0338013', title: 'Eternal Sunshine of the Spotless Mind', year: '2004', genre: 'Drama/Romance', duration: '1h 48m', match: '97%', desc: 'زوجان يخضعان لعملية طبية لمسح ذكرياتهما عن بعد انفصالهما، ليكتشفا خلال العملية قيمة ما فقداه.', poster: 'https://image.tmdb.org/t/p/original/l4UwCldftGk58q5StjfM9YHoCYY.jpg', cat: 'drama' }
+            { id: 'tt0172495', title: 'Gladiator', year: '2000', genre: 'Action/Drama', duration: '2h 35m', match: '98%', desc: 'جنرال روماني يسعى للانتقام من الإمبراطور الفاسد الذي قتل عائلته وأرسله إلى العبودية.', poster: 'https://image.tmdb.org/t/p/original/p08mUnCktZ2opGihZTAn7OqzOoi.jpg', cat: 'other', type: 'movie' },
+            { id: 'tt0126029', title: 'Shrek', year: '2001', genre: 'Animation', duration: '1h 30m', match: '95%', desc: 'غول أخضر يجد حياته الهادئة مهددة عندما يتم نفي جميع الشخصيات الخيالية إلى مستنقعه.', poster: 'https://image.tmdb.org/t/p/original/iB64vpL3dIObOtMZgX3RqdVdQDc.jpg', cat: 'other', type: 'movie' },
+            { id: 'tt0175142', title: 'Scary Movie', year: '2000', genre: 'Comedy', duration: '1h 28m', match: '92%', desc: 'مجموعة من المراهقين تطاردهم قاتل متسلسل في هذه المحاكاة الساخرة لأفلام الرعب الشهيرة.', poster: 'https://image.tmdb.org/t/p/original/uApRAE1qFYLdaSeGbrCjJa2aDlx.jpg', cat: 'comedy', type: 'movie' },
+            { id: 'tt0315327', title: 'Bruce Almighty', year: '2003', genre: 'Fantasy/Comedy', duration: '1h 41m', match: '89%', desc: 'مراسل تلفزيوني يشتكي من الله، فيمنحه الأخير قواه ليختبر مدى صعوبة إدارة العالم.', poster: 'https://image.tmdb.org/t/p/original/fzAiotoo4KTtPYE3pZ68CUEHSse.jpg', cat: 'comedy', type: 'movie' },
+            { id: 'tt0381707', title: 'White Chicks', year: '2004', genre: 'Comedy', duration: '1h 49m', match: '94%', desc: 'عميلان من مكتب التحقيقات الفيدرالي يتنكران في زي فتاتين من المجتمع الراقي لحماية وريثتين من الاختطاف.', poster: 'https://image.tmdb.org/t/p/original/vZoe1YoM8QDn1OwB7OrKHqrz3NT.jpg', cat: 'comedy', type: 'movie' },
+            { id: 'tt0357413', title: 'Anchorman: The Legend of Ron Burgundy', year: '2004', genre: 'Comedy', duration: '1h 34m', match: '95%', desc: 'رون بورغوندي هو المذيع الأعلى تقييمًا في سان دييغو في السبعينيات، لكن عالم العمل الخاص به يتغير عندما يتم تعيين امرأة طموحة كمذيعة مشاركة.', poster: 'https://image.tmdb.org/t/p/original/Rdzsh3s6waplhSD7PUaBJovB7v.jpg', cat: 'comedy', type: 'movie' },
+            { id: 'tt0322330', title: 'Freaky Friday', year: '2003', genre: 'Comedy/Family', duration: '1h 37m', match: '93%', desc: 'أم وابنتها المراهقة لا تتفقان أبدًا، وفجأة يجدان نفسيهما قد تبادلا أجسادهما ويضطران للعيش حياة بعضهما البعض.', poster: 'https://image.tmdb.org/t/p/original/nMMXl9sdyjPmBLMJlm7Bwp0o3AS.jpg', cat: 'comedy', type: 'movie' },
+            { id: 'tt0319343', title: 'Elf', year: '2003', genre: 'Comedy/Family', duration: '1h 37m', match: '96%', desc: 'بعد تسببه في حدوث فوضى في مجتمع الأقزام بسبب حجمه الضخم، يتم إرسال "بادي" إلى نيويورك للبحث عن والده الحقيقي.', poster: 'https://image.tmdb.org/t/p/original/njVUoovS9LC7ND4sdp4780cExso.jpg', cat: 'comedy', type: 'movie' },
+            { id: 'tt0196221', title: 'Zoolander', year: '2001', genre: 'Comedy', duration: '1h 29m', match: '90%', desc: 'عارض أزياء غبي يتم غسل دماغه لاغتيال رئيس وزراء ماليزيا.', poster: 'https://image.tmdb.org/t/p/original/mYz0dRlrPgSzIo9K70dPGRXA6fP.jpg', cat: 'comedy', type: 'movie' },
+            { id: 'tt0212338', title: 'Meet the Parents', year: '2000', genre: 'Comedy/Romance', duration: '1h 48m', match: '94%', desc: 'ممرض شاب يذهب لزيارة والدي حبيبته قبل عرض الزواج عليها، لكنه يكتشف أن والدها عميل سابق في وكالة المخابرات المركزية.', poster: 'https://image.tmdb.org/t/p/original/cl6XJMEgcvneEJVO6V3tcCFS1xY.jpg', cat: 'comedy', type: 'movie' },
+            { id: 'tt0377092', title: 'Mean Girls', year: '2004', genre: 'Comedy', duration: '1h 37m', match: '97%', desc: 'كادي هيرون، فتاة مراهقة اعتادت العيش في أفريقيا مع والديها، تكتشف عالم المدرسة الثانوية الأمريكي المعقد وقوانين "البلاستيكيات" القاسية.', poster: 'https://image.tmdb.org/t/p/original/qWQrMAVtWEOVkZk8iLFgI5qzqlA.jpg', cat: 'comedy', type: 'movie' },
+            { id: 'tt0332379', title: 'School of Rock', year: '2003', genre: 'Comedy', duration: '1h 49m', match: '95%', desc: 'بعد طرده من فرقته الموسيقية، يتنكر عازف غيتار كمعلم بديل في مدرسة ابتدائية خاصة ويحول فصله إلى فرقة روك.', poster: 'https://image.tmdb.org/t/p/original/zXLXaepIBvFVLU25DH3wv4IPSbe.jpg', cat: 'comedy', type: 'movie' },
+            { id: 'tt0268978', title: 'A Beautiful Mind', year: '2001', genre: 'Drama', duration: '2h 15m', match: '91%', desc: 'قصة حياة عالم الرياضيات جون ناش ومعاناته مع الفصام ورحلته نحو جائزة نوبل.', poster: 'https://image.tmdb.org/t/p/original/lA6mLpzOilqARJcwhzifQ174vjI.jpg', cat: 'drama', type: 'movie' },
+            { id: 'tt0253474', title: 'The Pianist', year: '2002', genre: 'War/Drama', duration: '2h 30m', match: '96%', desc: 'عازف بيانو يهودي بولندي يحاول البقاء على قيد الحياة في وارسو خلال الحرب العالمية الثانية.', poster: 'https://image.tmdb.org/t/p/original/enFfoFd3TYs6ttTxrBIfmecQPnz.jpg', cat: 'drama', type: 'movie' },
+            { id: 'tt0264464', title: 'Catch Me If You Can', year: '2002', genre: 'Crime/Drama', duration: '2h 21m', match: '97%', desc: 'قصة حقيقية لفرانك أباغنيل، الذي أصبح أنجح مزور ومحتال في تاريخ الولايات المتحدة قبل سن العشرين.', poster: 'https://image.tmdb.org/t/p/original/An9qRPZIes1BZ5MNrrfnnTlOlZd.jpg', cat: 'drama', type: 'movie' },
+            { id: 'tt0167260', title: 'The Lord of the Rings', year: '2003', genre: 'Drama/Fantasy', duration: '3h 21m', match: '99%', desc: 'غاندالف وأراغورن يقودان عالم الرجال ضد جيش ساورون لصرف انتباهه عن فرودو وسام.', poster: 'https://m.media-amazon.com/images/M/MV5BNzA5ZDNlZWMtM2NhNS00NDJjLTk4NDItYTRmY2EwMWZlMTY3XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_FMjpg_UX1000_.jpg', cat: 'drama', type: 'movie' },
+            { id: 'tt0332452', title: 'Troy', year: '2004', genre: 'Drama/History', duration: '2h 43m', match: '92%', desc: 'اقتباس لملحمة هوميروس، يصور الغزو اليوناني لمدينة طروادة والصراعات بين الأبطال الأسطوريين.', poster: 'https://image.tmdb.org/t/p/original/51auXjXepW1zblzhaN7CAhwvf5i.jpg', cat: 'drama', type: 'movie' },
+            { id: 'tt0162983', title: 'Cast Away', year: '2000', genre: 'Drama/Adventure', duration: '2h 23m', match: '97%', desc: 'موظف في شركة فيديكس يجد نفسه وحيدًا على جزيرة مهجورة بعد تحطم طائرته.', poster: 'https://image.tmdb.org/t/p/original/7lLJgKnAicAcR5UEuo8xhSMj18w.jpg', cat: 'drama', type: 'movie' },
+            { id: 'tt0332280', title: 'The Notebook', year: '2004', genre: 'Drama/Romance', duration: '2h 3m', match: '96%', desc: 'رجل مسن يقرأ لامرأة تعاني من الخرف قصة حب لشابين من طبقات اجتماعية مختلفة في الأربعينيات.', poster: 'https://m.media-amazon.com/images/M/MV5BMTk3OTM5Njg5M15BMl5BanBnXkFtZTYwMzA0ODI3._V1_FMjpg_UX1000_.jpg', cat: 'drama', type: 'movie' },
+            { id: 'tt0327056', title: 'Mystic River', year: '2003', genre: 'Drama/Mystery', duration: '2h 18m', match: '94%', desc: 'جريمة قتل مأساوية لفتاة شابة تجمع ثلاثة أصدقاء طفولة من جديد في بوسطن.', poster: 'https://image.tmdb.org/t/p/original/1tyi6RZzbJ9bE0g0GUf6Q7BWLvv.jpg', cat: 'drama', type: 'movie' },
+            { id: 'tt0405159', title: 'Million Dollar Baby', year: '2004', genre: 'Drama', duration: '2h 12m', match: '98%', desc: 'مدرب ملاكمة مخضرم يساعد نادلة طموحة في تحقيق حلمها بأن تصبح ملاكمة محترفة.', poster: 'https://image.tmdb.org/t/p/original/corahhcHlrDUx6WJPLuRZvMeS0H.jpg', cat: 'drama', type: 'movie' },
+            { id: 'tt0338013', title: 'Eternal Sunshine', year: '2004', genre: 'Drama/Romance', duration: '1h 48m', match: '97%', desc: 'زوجان يخضعان لعملية طبية لمسح ذكرياتهما عن بعد انفصالهما.', poster: 'https://image.tmdb.org/t/p/original/l4UwCldftGk58q5StjfM9YHoCYY.jpg', cat: 'drama', type: 'movie' }
         ];
 
-        function renderMovies() {
+        const tvShows = [
+            { id: 'tt0460681', title: 'Supernatural', year: '2005-2020', genre: 'Fantasy/Drama', duration: '15 Seasons', match: '99%', desc: 'شقيقان يطاردان الكائنات الخارقة للطبيعة بينما يبحثان عن والدهما المفقود، ويواجهان قوى الظلام في رحلة محفوفة بالمخاطر عبر أمريكا.', poster: 'https://image.tmdb.org/t/p/original/o9S7r0m48qH6YAgH6vNvK6mN9Uf.jpg', seasons: 15, episodesPerSeason: [22, 22, 16, 22, 22, 22, 23, 23, 23, 23, 23, 23, 23, 20, 20], type: 'tv' }
+        ];
+
+        let currentType = 'movie';
+        let currentImdbId = '';
+        let currentServer = 'vidsrc.to';
+
+        function renderGrids() {
             const comedyGrid = document.getElementById('comedy-grid');
             const dramaGrid = document.getElementById('drama-grid');
             const otherGrid = document.getElementById('other-grid');
+            const allMoviesGrid = document.getElementById('all-movies-grid');
+            const tvGrid = document.getElementById('tv-grid');
             
-            const movieTemplate = (m) => `
-                <div class="movie-card" onclick="openPlayer('${m.id}')">
+            const template = (m) => `
+                <div class="movie-card" onclick="openPlayer('${m.id}', '${m.type}')">
                     <img src="${m.poster}" alt="${m.title}" class="movie-poster" loading="lazy">
                     <div class="card-overlay">
                         <p class="card-title">${m.title}</p>
@@ -550,20 +629,43 @@
                 </div>
             `;
 
-            comedyGrid.innerHTML = movies.filter(m => m.cat === 'comedy').map(movieTemplate).join('');
-            dramaGrid.innerHTML = movies.filter(m => m.cat === 'drama').map(movieTemplate).join('');
-            otherGrid.innerHTML = movies.filter(m => m.cat === 'other').map(movieTemplate).join('');
+            if(comedyGrid) comedyGrid.innerHTML = movies.filter(m => m.cat === 'comedy').map(template).join('');
+            if(dramaGrid) dramaGrid.innerHTML = movies.filter(m => m.cat === 'drama').map(template).join('');
+            if(otherGrid) otherGrid.innerHTML = movies.filter(m => m.cat === 'other').map(template).join('');
+            if(allMoviesGrid) allMoviesGrid.innerHTML = movies.map(template).join('');
+            if(tvGrid) tvGrid.innerHTML = tvShows.map(template).join('');
         }
 
-        function openPlayer(imdbId) {
-            const movie = movies.find(m => m.id === imdbId);
-            if (!movie) return;
+        function showPage(page) {
+            document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+            
+            document.getElementById(`${page}-page`).classList.add('active');
+            document.getElementById(`nav-${page}`).classList.add('active');
+            
+            window.scrollTo(0, 0);
+        }
 
-            document.getElementById('m-title').innerText = movie.title;
-            document.getElementById('m-year').innerText = movie.year;
-            document.getElementById('m-match').innerText = movie.match + ' Match';
-            document.getElementById('m-duration').innerText = movie.duration;
-            document.getElementById('m-desc').innerText = movie.desc;
+        function openPlayer(imdbId, type) {
+            const item = type === 'movie' ? movies.find(m => m.id === imdbId) : tvShows.find(s => s.id === imdbId);
+            if (!item) return;
+
+            currentType = type;
+            currentImdbId = imdbId;
+
+            document.getElementById('m-title').innerText = item.title;
+            document.getElementById('m-year').innerText = item.year;
+            document.getElementById('m-match').innerText = item.match + ' Match';
+            document.getElementById('m-duration').innerText = item.duration;
+            document.getElementById('m-desc').innerText = item.desc;
+
+            const tvControls = document.getElementById('tv-controls-container');
+            if (type === 'tv') {
+                tvControls.style.display = 'flex';
+                setupTvControls(item);
+            } else {
+                tvControls.style.display = 'none';
+            }
 
             const modal = document.getElementById('player-modal');
             modal.classList.add('active');
@@ -572,14 +674,59 @@
             changeServer(imdbId, 'vidsrc.to');
         }
 
+        function setupTvControls(show) {
+            const seasonSelect = document.getElementById('season-select');
+            seasonSelect.innerHTML = '';
+            for (let i = 1; i <= show.seasons; i++) {
+                const opt = document.createElement('option');
+                opt.value = i;
+                opt.innerText = `الموسم ${i}`;
+                seasonSelect.appendChild(opt);
+            }
+            updateEpisodeList(show, 1);
+        }
+
+        function updateTvEpisode() {
+            const show = tvShows.find(s => s.id === currentImdbId);
+            const season = document.getElementById('season-select').value;
+            
+            // If season changed, update episode list
+            if (this.event && this.event.target.id === 'season-select') {
+                updateEpisodeList(show, season);
+            }
+            
+            changeServer(currentImdbId, currentServer);
+        }
+
+        function updateEpisodeList(show, season) {
+            const episodeSelect = document.getElementById('episode-select');
+            episodeSelect.innerHTML = '';
+            const epCount = show.episodesPerSeason[season - 1];
+            for (let i = 1; i <= epCount; i++) {
+                const opt = document.createElement('option');
+                opt.value = i;
+                opt.innerText = `الحلقة ${i}`;
+                episodeSelect.appendChild(opt);
+            }
+        }
+
         function changeServer(imdbId, server) {
+            currentServer = server;
             const wrapper = document.getElementById('video-wrapper');
             const serverList = document.getElementById('server-list');
             
             let playerUrl = '';
-            if (server === 'vidsrc.me') playerUrl = `https://vidsrc.me/embed/movie?imdb=${imdbId}`;
-            else if (server === 'vidsrc.cc') playerUrl = `https://vidsrc.cc/v2/embed/movie/${imdbId}`;
-            else playerUrl = `https://vidsrc.to/embed/movie/${imdbId}`;
+            if (currentType === 'movie') {
+                if (server === 'vidsrc.me') playerUrl = `https://vidsrc.me/embed/movie?imdb=${imdbId}`;
+                else if (server === 'vidsrc.cc') playerUrl = `https://vidsrc.cc/v2/embed/movie/${imdbId}`;
+                else playerUrl = `https://vidsrc.to/embed/movie/${imdbId}`;
+            } else {
+                const season = document.getElementById('season-select').value || 1;
+                const episode = document.getElementById('episode-select').value || 1;
+                if (server === 'vidsrc.me') playerUrl = `https://vidsrc.me/embed/tv?imdb=${imdbId}&sea=${season}&epi=${episode}`;
+                else if (server === 'vidsrc.cc') playerUrl = `https://vidsrc.cc/v2/embed/tv/${imdbId}/${season}/${episode}`;
+                else playerUrl = `https://vidsrc.to/embed/tv/${imdbId}/${season}/${episode}`;
+            }
 
             wrapper.innerHTML = `<iframe src="${playerUrl}" allowfullscreen></iframe>`;
 
@@ -607,7 +754,7 @@
             else nav.classList.remove('scrolled');
         };
 
-        renderMovies();
+        renderGrids();
         document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePlayer(); });
     </script>
 </body>
