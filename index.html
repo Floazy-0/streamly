@@ -592,6 +592,9 @@
         </div>
         
         <div class="section">
+            <h2 class="section-title">مسلسلات تلفزيونية مختارة</h2>
+            <div class="grid" id="home-tv-grid"></div>
+        </div><div class="section">
             <h2 class="section-title">أفلام كوميدية (2000-2004)</h2>
             <div class="grid" id="comedy-grid"></div>
         </div>
@@ -687,7 +690,7 @@
         ];
 
         const tvShows = [
-            { id: 'tt0460681', title: 'Supernatural', year: '2005-2020', genre: 'Fantasy/Drama', duration: '15 Seasons', match: '99%', desc: 'شقيقان يطاردان الكائنات الخارقة للطبيعة بينما يبحثان عن والدهما المفقود، ويواجهان قوى الظلام في رحلة محفوفة بالمخاطر عبر أمريكا.', poster: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/u7S9Xm979idA09968Y9E18yvGvW.jpg', backdrop: 'https://image.tmdb.org/t/p/original/nVRyd8hl6PVMpw9660GJZsJ6Osn.jpg', seasons: 15, episodesPerSeason: [22, 22, 16, 22, 22, 22, 23, 23, 23, 23, 23, 23, 23, 20, 20], type: 'tv' }
+            { id: 'tt0212671', title: 'Malcolm in the Middle', year: '2000-2006', genre: 'Comedy', duration: '7 Seasons', match: '97%', desc: 'قصة حياة مراهق عبقري يحاول النجاة في عائلته غريبة الأطوار والصاخبة، حيث يجد نفسه عالقاً في المنتصف بين إخوته المشاكسين ووالديه غير التقليديين.', poster: 'https://image.tmdb.org/t/p/original/ckLLIsNy3Z0Go1PYHA2PHzVymUA.jpg', seasons: 7, episodesPerSeason: [16, 25, 22, 22, 22, 22, 22], type: 'tv' },{ id: 'tt0460681', title: 'Supernatural', year: '2005-2020', genre: 'Fantasy/Drama', duration: '15 Seasons', match: '99%', desc: 'شقيقان يطاردان الكائنات الخارقة للطبيعة بينما يبحثان عن والدهما المفقود، ويواجهان قوى الظلام في رحلة محفوفة بالمخاطر عبر أمريكا.', poster: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/u7S9Xm979idA09968Y9E18yvGvW.jpg', backdrop: 'https://image.tmdb.org/t/p/original/nVRyd8hl6PVMpw9660GJZsJ6Osn.jpg', seasons: 15, episodesPerSeason: [22, 22, 16, 22, 22, 22, 23, 23, 23, 23, 23, 23, 23, 20, 20], type: 'tv' }
         ];
 
         let currentType = 'movie';
@@ -751,6 +754,7 @@
             const otherGrid = document.getElementById('other-grid');
             const allMoviesGrid = document.getElementById('all-movies-grid');
             const tvGrid = document.getElementById('tv-grid');
+            const homeTvGrid = document.getElementById('home-tv-grid');
             
             const template = (m) => `
                 <div class="movie-card" onclick="openPlayer('${m.id}', '${m.type}')">
@@ -766,6 +770,7 @@
             if(otherGrid) otherGrid.innerHTML = movies.filter(m => m.cat === 'other').map(template).join('');
             if(allMoviesGrid) allMoviesGrid.innerHTML = movies.map(template).join('');
             if(tvGrid) tvGrid.innerHTML = tvShows.map(template).join('');
+            if(homeTvGrid) homeTvGrid.innerHTML = tvShows.map(template).join('');
         }
 
         function showPage(page) {
