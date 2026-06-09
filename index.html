@@ -692,7 +692,7 @@
             { id: 'tt0212238', title: 'Legally Blonde', year: '2001', genre: 'Comedy', duration: '1h 36m', match: '92%', desc: 'فتاة شقراء عصرية تدخل كلية الحقوق بجامعة هارفارد لاستعادة حبيبها السابق، وتكتشف أنها تمتلك قدرات أكثر بكثير مما يعتقده الآخرون.', poster: 'https://image.tmdb.org/t/p/original/7o3m7SiztM4vF0f8M1z2A87W54m.jpg', cat: 'comedy', type: 'movie' },
             { id: 'tt0313542', title: 'Old School', year: '2003', genre: 'Comedy', duration: '1h 31m', match: '90%', desc: 'ثلاثة رجال في الثلاثينيات من عمرهم يحاولون استعادة أيام شبابهم من خلال إنشاء نادٍ للأخوية بجوار جامعتهم السابقة.', poster: 'https://image.tmdb.org/t/p/original/3O6WlUoK7Uu1XJ8Yyv0u8H6tX5O.jpg', cat: 'comedy', type: 'movie' },
             { id: 'tt0243493', title: 'The Princess Diaries', year: '2001', genre: 'Comedy/Family', duration: '1h 55m', match: '94%', desc: 'مراهقة خجولة تكتشف أنها وريثة لعرش مملكة أوروبية صغيرة، وعليها أن تتعلم كيف تكون أميرة.', poster: 'https://image.tmdb.org/t/p/original/A5Y2R64oHq77C1Lshh5vB8C2S8Y.jpg', cat: 'comedy', type: 'movie' },
-            { id: 'tt0218132', title: 'Miss Congeniality', year: '2000', genre: 'Comedy/Action', duration: '1h 49m', match: '91%', desc: 'عميلة في مكتب التحقيقات الفيدرالي تضطر للتنكر كمتسابقة في ملكة جمال الولايات المتحدة لمنع وقوع هجوم إرهابي.', poster: 'https://image.tmdb.org/t/p/original/vKIdq70V66T5uJk7K8YpE4u5p7O.jpg', cat: 'comedy', type: 'movie' },
+            { id: 'tt0218132', title: 'Miss Congeniality', year: '2000', genre: 'Comedy/Action', duration: '1h 49m', match: '91%', desc: 'عميلة في مكتب التحريات الفيدرالي تضطر للتنكر كمتسابقة في ملكة جمال الولايات المتحدة لمنع وقوع هجوم إرهابي.', poster: 'https://image.tmdb.org/t/p/original/vKIdq70V66T5uJk7K8YpE4u5p7O.jpg', cat: 'comedy', type: 'movie' },
             { id: 'tt0318355', title: 'Bad Santa', year: '2003', genre: 'Comedy/Crime', duration: '1h 31m', match: '89%', desc: 'لص بائس يتنكر في زي بابا نويل لسرقة مراكز التسوق في ليلة عيد الميلاد، لكنه يواجه طفلًا يغير نظرته للحياة.', poster: 'https://image.tmdb.org/t/p/original/5mYvT6pC6v8Xp7JqH6v8LwM7u.jpg', cat: 'comedy', type: 'movie' },
             { id: 'tt0361596', title: 'Fifty First Dates', year: '2004', genre: 'Comedy/Romance', duration: '1h 39m', match: '93%', desc: 'رجل يقع في حب امرأة تعاني من فقدان الذاكرة قصيرة المدى، وعليه أن يجعلها تقع في حبه كل يوم من جديد.', poster: 'https://image.tmdb.org/t/p/original/vKIdq70V66T5uJk7K8YpE4u5p7O.jpg', cat: 'comedy', type: 'movie' },
             { id: 'tt0366551', title: 'White Chicks 2', year: '2004', genre: 'Comedy', duration: '1h 49m', match: '94%', desc: 'عميلان يتنكران في زي فتاتين من المجتمع الراقي.', poster: 'https://image.tmdb.org/t/p/original/vZoe1YoM8QDn1OwB7OrKHqrz3NT.jpg', cat: 'comedy', type: 'movie' },
@@ -838,7 +838,7 @@
             for (let i = 1; i <= show.seasons; i++) {
                 const opt = document.createElement('option');
                 opt.value = i;
-                opt.innerText = \"الموسم \" + i;
+                opt.innerText = 'الموسم ' + i;
                 if (savedSeason && i == savedSeason) opt.selected = true;
                 seasonSelect.appendChild(opt);
             }
@@ -865,7 +865,7 @@
             for (let i = 1; i <= epCount; i++) {
                 const opt = document.createElement('option');
                 opt.value = i;
-                opt.innerText = \"الحلقة \" + i;
+                opt.innerText = 'الحلقة ' + i;
                 if (savedEpisode && i == savedEpisode) opt.selected = true;
                 episodeSelect.appendChild(opt);
             }
