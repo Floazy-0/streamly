@@ -2,20 +2,21 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Streamly | عالمك للمشاهدة المتميزة</title>
-    <!-- Google Fonts: Tajawal for Arabic -->
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Tajawal for Arabic, Inter for Latin -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #080808;
-            --card-bg: #141414;
-            --accent: #E50914;
-            --accent-glow: rgba(229, 9, 20, 0.6);
+            --bg-color: #0b0b0b;
+            --card-bg: #1a1a1a;
+            --accent: #ff0000;
+            --accent-glow: rgba(255, 0, 0, 0.6);
             --text-main: #ffffff;
-            --text-dim: #b3b3b3;
-            --glass: rgba(0, 0, 0, 0.8);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-dim: rgba(255, 255, 255, 0.7);
+            --glass: rgba(11, 11, 11, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --nav-height: 70px;
         }
 
         * {
@@ -31,86 +32,116 @@
             font-family: 'Tajawal', 'Inter', sans-serif;
             -webkit-font-smoothing: antialiased;
             overflow-x: hidden;
+            letter-spacing: -0.01em;
         }
 
         body.modal-open {
             overflow: hidden;
         }
 
-        /* Navbar with Glassmorphism */
+        /* Premium Navbar */
         nav {
             position: fixed;
             top: 0;
             width: 100%;
-            height: 70px;
+            height: var(--nav-height);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 4%;
+            padding: 0 5%;
             z-index: 1000;
-            transition: background 0.4s ease, border-bottom 0.4s ease;
-            -webkit-backdrop-filter: blur(15px);
-            backdrop-filter: blur(15px);
-            background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, transparent 100%);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, transparent 100%);
             border-bottom: 1px solid transparent;
         }
 
         nav.scrolled {
             background: var(--glass);
             border-bottom: 1px solid var(--glass-border);
+            height: 60px;
         }
 
         .nav-right {
             display: flex;
             align-items: center;
-            gap: 30px;
+            gap: 40px;
         }
 
         .logo {
+            font-family: 'Inter', sans-serif;
             font-size: 1.8rem;
-            font-weight: 800;
-            color: var(--accent);
+            font-weight: 900;
+            color: var(--text-main);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             text-decoration: none;
-            text-shadow: 0 0 15px rgba(229, 9, 20, 0.7);
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo span {
+            color: var(--accent);
+            text-shadow: 0 0 10px var(--accent-glow), 0 0 20px var(--accent-glow);
         }
 
         .nav-links {
             display: flex;
-            gap: 20px;
+            gap: 25px;
             list-style: none;
             margin: 0;
             padding: 0;
         }
 
         .nav-links a {
-            color: var(--text-main);
+            color: var(--text-dim);
             text-decoration: none;
             font-size: 0.95rem;
-            font-weight: 500;
-            transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 700;
+            transition: all 0.3s ease;
             cursor: pointer;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+            box-shadow: 0 0 8px var(--accent);
         }
 
         .nav-links a:hover, .nav-links a.active {
-            color: var(--accent);
+            color: var(--text-main);
+        }
+
+        .nav-links a.active::after {
+            width: 100%;
         }
 
         .search-bar {
-            background: rgba(0,0,0,0.4);
+            background: rgba(255,255,255,0.05);
             border: 1px solid var(--glass-border);
-            border-radius: 4px;
-            padding: 6px 12px;
+            border-radius: 50px;
+            padding: 8px 18px;
             display: flex;
             align-items: center;
-            width: 250px;
-            transition: border-color 0.3s, box-shadow 0.3s;
+            width: 280px;
+            transition: all 0.3s ease;
         }
 
         .search-bar:focus-within {
+            background: rgba(255,255,255,0.1);
             border-color: var(--accent);
-            box-shadow: 0 0 12px var(--accent-glow);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.2);
+            width: 320px;
         }
 
         .search-bar input {
@@ -120,166 +151,161 @@
             outline: none;
             font-family: inherit;
             width: 100%;
-            margin-right: 8px;
+            margin-right: 10px;
+            font-size: 0.9rem;
         }
 
-        /* Hero Section */
+        /* Cinematic Hero */
         .hero {
             position: relative;
-            height: 85vh;
+            height: 90vh;
             width: 100%;
-            background-image: linear-gradient(to right, rgba(0,0,0,0.9) 20%, transparent 70%), 
-                              linear-gradient(to top, var(--bg-color) 0%, transparent 30%),
+            background-image: linear-gradient(to right, #0b0b0b 10%, rgba(11,11,11,0.6) 40%, transparent 100%), 
+                              linear-gradient(to top, #0b0b0b 0%, transparent 25%),
                               url('https://images.alphacoders.com/605/605703.jpg');
             background-size: cover;
-            background-position: center 20%;
+            background-position: center 10%;
             display: flex;
             align-items: center;
-            padding: 0 4%;
+            padding: 0 5%;
         }
 
         .hero-content {
-            max-width: 650px;
+            max-width: 700px;
             z-index: 2;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .hero-title {
-            font-size: clamp(3rem, 10vw, 5rem);
-            font-weight: 800;
+            font-size: clamp(3.5rem, 8vw, 6rem);
+            font-weight: 900;
             margin: 0;
-            line-height: 1;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
-            position: relative;
-        }
-
-        .hero-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 60px;
-            height: 4px;
-            background: var(--accent);
-            box-shadow: 0 0 15px var(--accent);
+            line-height: 0.9;
+            text-transform: uppercase;
+            font-family: 'Inter', 'Tajawal', sans-serif;
+            letter-spacing: -2px;
         }
 
         .hero-metadata {
             display: flex;
             gap: 15px;
-            margin: 30px 0 20px;
+            margin: 25px 0;
             font-size: 1.1rem;
-            font-weight: 700;
+            font-weight: 800;
         }
 
-        .hero-metadata span:first-child { color: #46d369; }
+        .hero-metadata span:first-child { color: #00ff88; text-shadow: 0 0 10px rgba(0,255,136,0.3); }
 
         .hero-tagline {
-            font-size: 1.3rem;
-            color: #fff;
-            margin: 20px 0 30px;
-            line-height: 1.4;
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+            font-size: 1.25rem;
+            color: var(--text-dim);
+            margin: 20px 0 35px;
+            line-height: 1.6;
+            max-width: 90%;
         }
 
         .hero-btns {
             display: flex;
-            gap: 15px;
+            gap: 20px;
         }
 
         .btn {
-            padding: 12px 30px;
-            border-radius: 4px;
+            padding: 14px 35px;
+            border-radius: 8px;
             font-size: 1.1rem;
-            font-weight: 700;
+            font-weight: 800;
             text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 10px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             cursor: pointer;
             border: none;
         }
 
         .btn-play {
-            background-color: white;
-            color: black;
+            background-color: var(--text-main);
+            color: #000;
         }
 
         .btn-info {
-            background-color: rgba(109, 109, 110, 0.7);
+            background-color: rgba(255, 255, 255, 0.15);
             color: white;
-            -webkit-backdrop-filter: blur(15px);
-            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
         .btn:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
         }
 
-        /* Content Sections */
-        .page-content {
-            display: none;
-        }
-        
-        .page-content.active {
-            display: block;
-        }
+        .btn-play:hover { background-color: #e6e6e6; }
+        .btn-info:hover { background-color: rgba(255, 255, 255, 0.25); }
 
-        .section {
-            padding: 3rem 4% 0;
-        }
+        /* Modern Grid & Cards */
+        .page-content { display: none; padding-bottom: 5rem; }
+        .page-content.active { display: block; }
+
+        .section { padding: 4rem 5% 0; }
 
         .section-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            position: relative;
-            display: inline-block;
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
-        
-        .section-title::before {
+
+        .section-title::after {
             content: '';
-            position: absolute;
-            bottom: -5px;
-            right: 0;
-            width: 40%;
-            height: 3px;
-            background: var(--accent);
-            border-radius: 2px;
-            box-shadow: 0 0 8px var(--accent-glow);
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to left, rgba(255,255,255,0.1), transparent);
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 24px;
         }
 
         .movie-card {
             position: relative;
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
             cursor: pointer;
-            transition: transform 0.4s cubic-bezier(0.33, 1, 0.68, 1), box-shadow 0.4s, border-color 0.4s;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             background: var(--card-bg);
             aspect-ratio: 2/3;
-            border: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.03);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
 
         .movie-card:hover {
-            transform: scale(1.08) translateY(-8px);
+            transform: scale(1.08) translateY(-10px);
             z-index: 10;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.7), 0 0 25px var(--accent-glow);
-            border-color: var(--accent);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6), 0 0 20px rgba(255,0,0,0.2);
+            border-color: rgba(255,0,0,0.4);
         }
 
         .movie-poster {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: filter 0.4s;
+            transition: transform 0.6s ease;
+        }
+
+        .movie-card:hover .movie-poster {
+            transform: scale(1.1);
         }
 
         .card-overlay {
@@ -287,10 +313,13 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.95), transparent);
-            padding: 50px 15px 15px;
+            background: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 40%, transparent 100%);
+            padding: 60px 15px 20px;
             opacity: 0;
-            transition: opacity 0.4s;
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
         }
 
         .movie-card:hover .card-overlay {
@@ -299,83 +328,61 @@
 
         .card-title {
             font-size: 1rem;
-            font-weight: 700;
+            font-weight: 800;
             margin: 0;
             text-align: center;
+            transform: translateY(10px);
+            transition: all 0.4s ease;
         }
 
-        /* Continue Watching Styles */
-        .continue-section {
-            padding: 2rem 4% 0;
-            display: none;
+        .movie-card:hover .card-title {
+            transform: translateY(0);
         }
-        .continue-section.has-items {
-            display: block;
-        }
+
+        /* Continue Watching */
+        .continue-section { padding: 3rem 5% 0; display: none; }
+        .continue-section.has-items { display: block; }
         .carousel-container {
             display: flex;
             overflow-x: auto;
-            gap: 15px;
-            padding: 10px 0 20px;
+            gap: 20px;
+            padding: 10px 0 30px;
             scrollbar-width: none;
-            -ms-overflow-style: none;
         }
-        .carousel-container::-webkit-scrollbar {
-            display: none;
-        }
+        .carousel-container::-webkit-scrollbar { display: none; }
+        
         .continue-card {
-            min-width: 240px;
-            max-width: 240px;
+            min-width: 280px;
+            max-width: 280px;
             position: relative;
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
             cursor: pointer;
             aspect-ratio: 16/9;
-            transition: transform 0.3s;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
         }
+        
         .continue-card:hover {
-            transform: scale(1.05);
+            transform: scale(1.05) translateY(-5px);
             border-color: var(--accent);
-            box-shadow: 0 0 15px var(--accent-glow);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5), 0 0 20px var(--accent-glow);
         }
-        .continue-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        
+        .continue-card img { width: 100%; height: 100%; object-fit: cover; }
         .continue-info {
             position: absolute;
             bottom: 0;
             width: 100%;
-            background: linear-gradient(transparent, rgba(0,0,0,0.9));
-            padding: 15px 10px 8px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.95));
+            padding: 20px 15px 12px;
         }
-        .continue-title {
-            font-size: 0.9rem;
-            font-weight: 700;
-            margin: 0;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .continue-progress {
-            height: 3px;
-            background: rgba(255,255,255,0.2);
-            margin-top: 8px;
-            border-radius: 2px;
-            position: relative;
-        }
-        .progress-bar {
-            position: absolute;
-            height: 100%;
-            background: var(--accent);
-            width: 65%; /* Mock progress */
-            border-radius: 2px;
-            box-shadow: 0 0 5px var(--accent);
-        }
+        .continue-title { font-size: 0.95rem; font-weight: 800; margin: 0; }
+        .continue-progress { height: 4px; background: rgba(255,255,255,0.15); margin-top: 10px; border-radius: 10px; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
 
-        /* Modal Player Upgrade */
+        /* Premium Modal */
         #player-modal {
             display: none;
             position: fixed;
@@ -383,180 +390,139 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.95);
+            background-color: rgba(0,0,0,0.92);
             z-index: 2000;
             justify-content: center;
             align-items: center;
             opacity: 0;
-            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: opacity 0.4s ease;
+            padding: 20px;
         }
 
-        #player-modal.active {
-            display: flex;
-            opacity: 1;
-        }
+        #player-modal.active { display: flex; opacity: 1; }
 
         .modal-container {
-            width: 95%;
-            max-width: 1100px;
-            background: #181818;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 0 60px rgba(0,0,0,0.8);
+            width: 100%;
+            max-width: 1200px;
+            max-height: 90vh;
+            background: #111;
+            border-radius: 20px;
+            overflow-y: auto;
             position: relative;
-            animation: modalScale 0.5s cubic-bezier(0.33, 1, 0.68, 1);
+            animation: modalIn 0.5s cubic-bezier(0.19, 1, 0.22, 1);
             border: 1px solid var(--glass-border);
-            -webkit-backdrop-filter: blur(15px);
-            backdrop-filter: blur(15px);
+            box-shadow: 0 30px 100px rgba(0,0,0,0.8);
+            scrollbar-width: thin;
         }
 
-        @keyframes modalScale {
-            from { transform: scale(0.9) translateY(20px); opacity: 0; }
+        @keyframes modalIn {
+            from { transform: scale(0.95) translateY(30px); opacity: 0; }
             to { transform: scale(1) translateY(0); opacity: 1; }
         }
 
-        .modal-header {
-            width: 100%;
-            aspect-ratio: 16/9;
-            background: #000;
-            position: relative;
-        }
+        .modal-header { width: 100%; aspect-ratio: 16/9; background: #000; position: relative; }
 
         .close-modal {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(0,0,0,0.6);
+            top: 25px;
+            right: 25px;
+            background: rgba(0,0,0,0.5);
             color: white;
-            border: 1px solid rgba(255,255,255,0.2);
-            width: 40px;
-            height: 40px;
+            border: 1px solid rgba(255,255,255,0.1);
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
-            font-size: 1.8rem;
+            font-size: 2rem;
             cursor: pointer;
             z-index: 100;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.3s;
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
         }
         
-        .close-modal:hover {
-            background: var(--accent);
-            border-color: var(--accent);
-            transform: rotate(90deg);
-        }
+        .close-modal:hover { background: var(--accent); border-color: var(--accent); transform: rotate(90deg); }
 
-        .modal-body {
-            padding: 40px;
-            display: grid;
-            grid-template-columns: 2.2fr 1fr;
-            gap: 40px;
-        }
+        .modal-body { padding: 50px; display: grid; grid-template-columns: 2.5fr 1fr; gap: 50px; }
 
-        .modal-info-main h2 { margin: 0 0 20px; font-size: 2.5rem; font-weight: 800; }
-        .modal-meta { display: flex; gap: 20px; color: var(--text-dim); margin-bottom: 25px; font-weight: 700; font-size: 1.1rem; }
-        .match-score { color: #46d369; }
-        .modal-desc { line-height: 1.7; font-size: 1.15rem; color: #efefef; }
+        .modal-info-main h2 { margin: 0 0 25px; font-size: 3rem; font-weight: 900; letter-spacing: -1px; }
+        .modal-meta { display: flex; gap: 20px; color: var(--text-dim); margin-bottom: 30px; font-weight: 700; font-size: 1.1rem; align-items: center; }
+        .match-score { color: #00ff88; font-weight: 900; background: rgba(0,255,136,0.1); padding: 4px 10px; border-radius: 4px; }
+        .modal-desc { line-height: 1.8; font-size: 1.2rem; color: rgba(255,255,255,0.9); }
 
-        .tv-controls {
-            margin-top: 20px;
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .control-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            flex: 1;
-            min-width: 120px;
-        }
-
-        .control-label {
-            font-size: 0.85rem;
-            color: var(--text-dim);
-            font-weight: 700;
-        }
+        .tv-controls { margin-top: 30px; display: flex; gap: 20px; background: rgba(255,255,255,0.03); padding: 25px; border-radius: 12px; border: 1px solid var(--glass-border); }
+        .control-group { display: flex; flex-direction: column; gap: 10px; flex: 1; }
+        .control-label { font-size: 0.9rem; color: var(--text-dim); font-weight: 800; text-transform: uppercase; }
 
         select.tv-select {
-            background: rgba(255,255,255,0.05);
+            background: #222;
             border: 1px solid var(--glass-border);
             color: white;
-            padding: 10px;
-            border-radius: 4px;
+            padding: 12px;
+            border-radius: 8px;
             font-family: inherit;
             font-size: 1rem;
             outline: none;
             cursor: pointer;
-            transition: border-color 0.3s;
+            transition: all 0.3s;
+            -webkit-appearance: none;
         }
 
-        select.tv-select:focus {
-            border-color: var(--accent);
-        }
+        select.tv-select:focus { border-color: var(--accent); box-shadow: 0 0 10px var(--accent-glow); }
 
-        .server-switcher {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 10px;
-        }
-        
-        .server-label {
-            font-weight: 700;
-            color: var(--text-dim);
-            margin-bottom: 5px;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-        }
+        .server-switcher { display: flex; flex-direction: column; gap: 15px; margin-top: 15px; }
+        .server-label { font-weight: 800; color: var(--text-dim); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
 
         .server-btn {
             background: rgba(255,255,255,0.05);
             border: 1px solid var(--glass-border);
             color: white;
-            padding: 12px 20px;
-            border-radius: 6px;
+            padding: 15px 20px;
+            border-radius: 10px;
             cursor: pointer;
             font-family: inherit;
-            font-weight: 600;
-            transition: all 0.3s;
+            font-weight: 700;
+            transition: all 0.3s ease;
             text-align: right;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .server-btn:hover {
-            background: rgba(255,255,255,0.1);
-            border-color: var(--text-dim);
-        }
-
-        .server-btn.active {
-            background: var(--accent);
-            color: white;
-            border-color: var(--accent);
-            box-shadow: 0 0 15px var(--accent-glow);
-        }
+        .server-btn:hover { background: rgba(255,255,255,0.1); transform: translateX(-5px); }
+        .server-btn.active { background: var(--accent); color: white; border-color: var(--accent); box-shadow: 0 8px 20px var(--accent-glow); }
 
         iframe { width: 100%; height: 100%; border: none; }
 
-        /* Mobile Adjustments */
+        /* Mobile Optimization */
+        @media (max-width: 1024px) {
+            .modal-body { grid-template-columns: 1fr; }
+            .modal-info-side { order: -1; }
+        }
+
         @media (max-width: 768px) {
+            nav { padding: 0 4%; }
             .nav-links, .search-bar { display: none; }
-            .hero { height: 75vh; background-position: center; text-align: center; justify-content: center; background-image: linear-gradient(to top, var(--bg-color) 15%, rgba(0,0,0,0.4)), url('https://images.alphacoders.com/605/605703.jpg'); }
+            .hero { height: 80vh; text-align: center; justify-content: center; background-position: center; }
             .hero-content { max-width: 100%; }
-            .hero-metadata { justify-content: center; flex-wrap: wrap; gap: 10px; }
-            .hero-btns { justify-content: center; }
-            .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
-            .modal-body { grid-template-columns: 1fr; padding: 25px; }
-            .modal-info-main h2 { font-size: 1.8rem; }
-            .section-title { font-size: 1.5rem; }
+            .hero-title { font-size: 3.5rem; }
+            .hero-metadata { justify-content: center; }
+            .hero-btns { justify-content: center; flex-direction: column; }
+            .btn { width: 100%; }
+            .grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
+            .section-title { font-size: 1.6rem; }
+            .modal-body { padding: 25px; gap: 30px; }
+            .modal-info-main h2 { font-size: 2.2rem; }
+            .tv-controls { flex-direction: column; }
         }
     </style>
 </head>
 <body>
     <nav id="main-nav">
         <div class="nav-right">
-            <a href="#" class="logo">Streamly</a>
+            <a href="#" class="logo">STREAM<span>LY</span></a>
             <ul class="nav-links">
                 <li><a onclick="showPage('home')" id="nav-home" class="active">الرئيسية</a></li>
                 <li><a onclick="showPage('movies')" id="nav-movies">أفلام</a></li>
@@ -565,7 +531,7 @@
             </ul>
         </div>
         <div class="search-bar">
-            <input type="text" placeholder="بحث عن أفلام...">
+            <input type="text" placeholder="بحث عن أفلام، مسلسلات...">
         </div>
     </nav>
 
@@ -587,8 +553,8 @@
                 </div>
                 <p class="hero-tagline">في عام 180 م، يخطط الجنرال الروماني ماكسيموس للعودة إلى منزله بعد قيادة الجيش الروماني إلى النصر ضد القبائل الجرمانية، لكن خيانة ابن الإمبراطور تقلب حياته رأساً على عقب.</p>
                 <div class="hero-btns">
-                    <button class="btn btn-play" onclick="openPlayer('tt0172495', 'movie')">► تشغيل</button>
-                    <button class="btn btn-info" onclick="openPlayer('tt0172495', 'movie')">ⓘ مزيد من المعلومات</button>
+                    <button class="btn btn-play" onclick="openPlayer('tt0172495', 'movie')">▶ تشغيل</button>
+                    <button class="btn btn-info" onclick="openPlayer('tt0172495', 'movie')">ⓘ معلومات</button>
                 </div>
             </div>
         </div>
@@ -599,12 +565,12 @@
         </div>
         
         <div class="section">
-            <h2 class="section-title">أفلام كوميدية (2000-2004)</h2>
+            <h2 class="section-title">أفلام كوميدية</h2>
             <div class="grid" id="comedy-grid"></div>
         </div>
 
         <div class="section">
-            <h2 class="section-title">أفلام دراما (2000-2004)</h2>
+            <h2 class="section-title">أفلام دراما</h2>
             <div class="grid" id="drama-grid"></div>
         </div>
     </div>
@@ -664,55 +630,53 @@
 
     <script>
         const movies = [
-            { id: 'tt0172495', title: 'Gladiator', year: '2000', genre: 'Action/Drama', duration: '2h 35m', match: '98%', desc: 'جنرال روماني يسعى للانتقام من الإمبراطور الفاسد الذي قتل عائلته وأرسله إلى العبودية.', poster: 'https://image.tmdb.org/t/p/original/p08mUnCktZ2opGihZTAn7OqzOoi.jpg', cat: 'drama', type: 'movie' },
-            { id: 'tt0126029', title: 'Shrek', year: '2001', genre: 'Animation', duration: '1h 30m', match: '95%', desc: 'غول أخضر يجد حياته الهادئة مهددة عندما يتم نفي جميع الشخصيات الخيالية إلى مستنقعه.', poster: 'https://image.tmdb.org/t/p/original/iB64vpL3dIObOtMZgX3RqdVdQDc.jpg', cat: 'comedy', type: 'movie' },
-            { id: 'tt0175142', title: 'Scary Movie', year: '2000', genre: 'Comedy', duration: '1h 28m', match: '92%', desc: 'مجموعة من المراهقين تطاردهم قاتل متسلسل في هذه المحاكاة الساخرة لأفلام الرعب الشهيرة.', poster: 'https://image.tmdb.org/t/p/original/uApRAE1qFYLdaSeGbrCjJa2aDlx.jpg', cat: 'comedy', type: 'movie' },
-            { id: 'tt0315327', title: 'Bruce Almighty', year: '2003', genre: 'Fantasy/Comedy', duration: '1h 41m', match: '89%', desc: 'مراسل تلفزيوني يشتكي من الله، فيمنحه الأخير قواه ليختبر مدى صعوبة إدارة العالم.', poster: 'https://image.tmdb.org/t/p/original/fzAiotoo4KTtPYE3pZ68CUEHSse.jpg', cat: 'comedy', type: 'movie' },
-            { id: 'tt0381707', title: 'White Chicks', year: '2004', genre: 'Comedy', duration: '1h 49m', match: '94%', desc: 'عميلان من مكتب التحقيقات الفيدرالي يتنكران في زي فتاتين من المجتمع الراقي لحماية وريثتين من الاختطاف.', poster: 'https://image.tmdb.org/t/p/original/vZoe1YoM8QDn1OwB7OrKHqrz3NT.jpg', cat: 'comedy', type: 'movie' },
-            { id: 'tt0357413', title: 'Anchorman: The Legend of Ron Burgundy', year: '2004', genre: 'Comedy', duration: '1h 34m', match: '95%', desc: 'رون بورغوندي هو المذيع الأعلى تقييمًا في سان دييغو في السبعينيات، لكن عالم العمل الخاص به يتغير عندما يتم تعيين امرأة طموحة كمذيعة مشاركة.', poster: 'https://image.tmdb.org/t/p/original/Rdzsh3s6waplhSD7PUaBJovB7v.jpg', cat: 'comedy', type: 'movie' },
-            { id: 'tt0322330', title: 'Freaky Friday', year: '2003', genre: 'Comedy/Family', duration: '1h 37m', match: '93%', desc: 'أم وابنتها المراهقة لا تتفقان أبدًا، وفجأة يجدان نفسيهما قد تبادلا أجسادهما ويضطران للعيش حياة بعضهما البعض.', poster: 'https://image.tmdb.org/t/p/original/nMMXl9sdyjPmBLMJlm7Bwp0o3AS.jpg', cat: 'comedy', type: 'movie' },
-            { id: 'tt0319343', title: 'Elf', year: '2003', genre: 'Comedy/Family', duration: '1h 37m', match: '96%', desc: 'بعد تسببه في حدوث فوضى في مجتمع الأقزام بسبب حجمه الضخم، يتم إرسال \"بادي\" إلى نيويورك للبحث عن والده الحقيقي.', poster: 'https://image.tmdb.org/t/p/original/njVUoovS9LC7ND4sdp4780cExso.jpg', cat: 'comedy', type: 'movie' },
-            { id: 'tt0196221', title: 'Zoolander', year: '2001', genre: 'Comedy', duration: '1h 29m', match: '90%', desc: 'عارض أزياء غبي يتم غسل دماغه لاغتيال رئيس وزراء ماليزيا.', poster: 'https://image.tmdb.org/t/p/original/mYz0dRlrPgSzIo9K70dPGRXA6fP.jpg', cat: 'comedy', type: 'movie' },
-            { id: 'tt0212338', title: 'Meet the Parents', year: '2000', genre: 'Comedy/Romance', duration: '1h 48m', match: '94%', desc: 'ممرض شاب يذهب لزيارة والدي حبيبته قبل عرض الزواج عليها، لكنه يكتشف أن والدها عميل سابق في وكالة المخابرات المركزية.', poster: 'https://image.tmdb.org/t/p/original/cl6XJMEgcvneEJVO6V3tcCFS1xY.jpg', cat: 'comedy', type: 'movie' },
-            { id: 'tt0377092', title: 'Mean Girls', year: '2004', genre: 'Comedy', duration: '1h 37m', match: '97%', desc: 'كادي هيرون، فتاة مراهقة اعتادت العيش في أفريقيا مع والديها، تكتشف عالم المدرسة الثانوية الأمريكي المعقد وقوانين \"البلاستيكيات\" القاسية.', poster: 'https://image.tmdb.org/t/p/original/qWQrMAVtWEOVkZk8iLFgI5qzqlA.jpg', cat: 'comedy', type: 'movie' },
-            { id: 'tt0332379', title: 'School of Rock', year: '2003', genre: 'Comedy', duration: '1h 49m', match: '95%', desc: 'بعد طرده من فرقته الموسيقية، يتنكر عازف غيتار كمعلم بديل في مدرسة ابتدائية خاصة ويحول فصله إلى فرقة روك.', poster: 'https://image.tmdb.org/t/p/original/zXLXaepIBvFVLU25DH3wv4IPSbe.jpg', cat: 'comedy', type: 'movie' },
-            { id: 'tt0268978', title: 'A Beautiful Mind', year: '2001', genre: 'Drama', duration: '2h 15m', match: '91%', desc: 'قصة حياة عالم الرياضيات جون ناش ومعاناته مع الفصام ورحلته نحو جائزة نوبل.', poster: 'https://image.tmdb.org/t/p/original/lA6mLpzOilqARJcwhzifQ174vjI.jpg', cat: 'drama', type: 'movie' },
-            { id: 'tt0253474', title: 'The Pianist', year: '2002', genre: 'War/Drama', duration: '2h 30m', match: '96%', desc: 'عازف بيانو يهودي بولندي يحاول البقاء على قيد الحياة في وارسو خلال الحرب العالمية الثانية.', poster: 'https://image.tmdb.org/t/p/original/enFfoFd3TYs6ttTxrBIfmecQPnz.jpg', cat: 'drama', type: 'movie' },
-            { id: 'tt0264464', title: 'Catch Me If You Can', year: '2002', genre: 'Crime/Drama', duration: '2h 21m', match: '97%', desc: 'قصة حقيقية لفرانك أباغنيل، الذي أصبح أنجح مزور ومحتال في تاريخ الولايات المتحدة قبل سن العشرين.', poster: 'https://image.tmdb.org/t/p/original/An9qRPZIes1BZ5MNrrfnnTlOlZd.jpg', cat: 'drama', type: 'movie' },
-            { id: 'tt0167260', title: 'The Lord of the Rings: The Return of the King', year: '2003', genre: 'Drama/Fantasy', duration: '3h 21m', match: '99%', desc: 'غاندالف وأراغورن يقودان عالم الرجال ضد جيش ساورون لصرف انتباهه عن فرودو وسام.', poster: 'https://image.tmdb.org/t/p/original/rCzpEXPvhYpBS6u4SJyrmu7S7TM.jpg', cat: 'drama', type: 'movie' },
-            { id: 'tt0332452', title: 'Troy', year: '2004', genre: 'Drama/History', duration: '2h 43m', match: '92%', desc: 'اقتباس لملحمة هوميروس، يصور الغزو اليوناني لمدينة طروادة والصراعات بين الأبطال الأسطوريين.', poster: 'https://image.tmdb.org/t/p/original/51auXjXepW1zblzhaN7CAhwvf5i.jpg', cat: 'drama', type: 'movie' },
-            { id: 'tt0162983', title: 'Cast Away', year: '2000', genre: 'Drama/Adventure', duration: '2h 23m', match: '97%', desc: 'موظف في شركة فيديكس يجد نفسه وحيداً على جزيرة مهجورة بعد تحطم طائرته.', poster: 'https://image.tmdb.org/t/p/original/7lLJgKnAicAcR5UEuo8xhSMj18w.jpg', cat: 'drama', type: 'movie' },
-            { id: 'tt0332280', title: 'The Notebook', year: '2004', genre: 'Drama/Romance', duration: '2h 3m', match: '96%', desc: 'رجل مسن يقرأ لامرأة تعاني من الخرف قصة حب لشابين من طبقات اجتماعية مختلفة في الأربعينيات.', poster: 'https://image.tmdb.org/t/p/original/r49pS6v99FmDlZz6B706pY78I6p.jpg', cat: 'drama', type: 'movie' },
-            { id: 'tt0327056', title: 'Mystic River', year: '2003', genre: 'Drama/Mystery', duration: '2h 18m', match: '94%', desc: 'جريمة قتل مأساوية لفتاة شابة تجمع ثلاثة أصدقاء طفولة من جديد في بوسطن.', poster: 'https://image.tmdb.org/t/p/original/1tyi6RZzbJ9bE0g0GUf6Q7BWLvv.jpg', cat: 'drama', type: 'movie' },
-            { id: 'tt0405159', title: 'Million Dollar Baby', year: '2004', genre: 'Drama', duration: '2h 12m', match: '98%', desc: 'مدرب ملاكمة مخضرم يساعد نادلة طموحة في تحقيق حلمها بأن تصبح ملاكمة محترفة.', poster: 'https://image.tmdb.org/t/p/original/corahhcHlrDUx6WJPLuRZvMeS0H.jpg', cat: 'drama', type: 'movie' },
-            { id: 'tt0338013', title: 'Eternal Sunshine of the Spotless Mind', year: '2004', genre: 'Drama/Romance', duration: '1h 48m', match: '97%', desc: 'زوجان يخضعان لعملية طبية لمسح ذكرياتهما عن بعضهما البعض بعد انفصالهما.', poster: 'https://image.tmdb.org/t/p/original/l4UwCldftGk58q5StjfM9YHoCYY.jpg', cat: 'drama', type: 'movie' },
-            // Adding 10 more Comedies
-            { id: 'tt0210138', title: 'Snatch', year: '2000', genre: 'Comedy/Crime', duration: '1h 44m', match: '95%', desc: 'مروجون للملاكمة غير القانونية، ومراهنون غير بارعين، وعصابة روسية، ولصوص غير أكفاء، وصائغون يهود يتنافسون للعثور على ماسة مسروقة لا تقدر بثمن.', poster: 'https://image.tmdb.org/t/p/original/on9ruuSbmFi06ROW69pIDJuWtVk.jpg', cat: 'comedy', type: 'movie' },
-            { id: 'tt0200276', title: 'The Wedding Planner', year: '2001', genre: 'Comedy/Romance', duration: '1h 43m', match: '88%', desc: 'مخططة حفلات زفاف ناجحة تقع في حب العريس في أحد حفلات الزفاف التي تنظمها.', poster: 'https://image.tmdb.org/t/p/original/m91KkQe7jYqW98Y3K9l788LwM7u.jpg', cat: 'comedy', type: 'movie' },
-            { id: 'tt0212238', title: 'Legally Blonde', year: '2001', genre: 'Comedy', duration: '1h 36m', match: '92%', desc: 'فتاة شقراء عصرية تدخل كلية الحقوق بجامعة هارفارد لاستعادة حبيبها السابق، وتكتشف أنها تمتلك قدرات أكثر بكثير مما يعتقده الآخرون.', poster: 'https://image.tmdb.org/t/p/original/7o3m7SiztM4vF0f8M1z2A87W54m.jpg', cat: 'comedy', type: 'movie' },
-            { id: 'tt0313542', title: 'Old School', year: '2003', genre: 'Comedy', duration: '1h 31m', match: '90%', desc: 'ثلاثة رجال في الثلاثينيات من عمرهم يحاولون استعادة أيام شبابهم من خلال إنشاء نادٍ للأخوية بجوار جامعتهم السابقة.', poster: 'https://image.tmdb.org/t/p/original/3O6WlUoK7Uu1XJ8Yyv0u8H6tX5O.jpg', cat: 'comedy', type: 'movie' },
-            { id: 'tt0243493', title: 'The Princess Diaries', year: '2001', genre: 'Comedy/Family', duration: '1h 55m', match: '94%', desc: 'مراهقة خجولة تكتشف أنها وريثة لعرش مملكة أوروبية صغيرة، وعليها أن تتعلم كيف تكون أميرة.', poster: 'https://image.tmdb.org/t/p/original/A5Y2R64oHq77C1Lshh5vB8C2S8Y.jpg', cat: 'comedy', type: 'movie' },
-            { id: 'tt0218132', title: 'Miss Congeniality', year: '2000', genre: 'Comedy/Action', duration: '1h 49m', match: '91%', desc: 'عميلة في مكتب التحريات الفيدرالي تضطر للتنكر كمتسابقة في ملكة جمال الولايات المتحدة لمنع وقوع هجوم إرهابي.', poster: 'https://image.tmdb.org/t/p/original/vKIdq70V66T5uJk7K8YpE4u5p7O.jpg', cat: 'comedy', type: 'movie' },
-            { id: 'tt0318355', title: 'Bad Santa', year: '2003', genre: 'Comedy/Crime', duration: '1h 31m', match: '89%', desc: 'لص بائس يتنكر في زي بابا نويل لسرقة مراكز التسوق في ليلة عيد الميلاد، لكنه يواجه طفلًا يغير نظرته للحياة.', poster: 'https://image.tmdb.org/t/p/original/5mYvT6pC6v8Xp7JqH6v8LwM7u.jpg', cat: 'comedy', type: 'movie' },
-            { id: 'tt0361596', title: 'Fifty First Dates', year: '2004', genre: 'Comedy/Romance', duration: '1h 39m', match: '93%', desc: 'رجل يقع في حب امرأة تعاني من فقدان الذاكرة قصيرة المدى، وعليه أن يجعلها تقع في حبه كل يوم من جديد.', poster: 'https://image.tmdb.org/t/p/original/vKIdq70V66T5uJk7K8YpE4u5p7O.jpg', cat: 'comedy', type: 'movie' },
-            { id: 'tt0366551', title: 'White Chicks 2', year: '2004', genre: 'Comedy', duration: '1h 49m', match: '94%', desc: 'عميلان يتنكران في زي فتاتين من المجتمع الراقي.', poster: 'https://image.tmdb.org/t/p/original/vZoe1YoM8QDn1OwB7OrKHqrz3NT.jpg', cat: 'comedy', type: 'movie' },
-            { id: 'tt0303471', title: 'Austin Powers in Goldmember', year: '2002', genre: 'Comedy', duration: '1h 34m', match: '91%', desc: 'أوستن باورز يواجه "غولدميمبر" الذي اختطف والده.', poster: 'https://image.tmdb.org/t/p/original/8O4wY0uE6Lp7X6pY78I6p.jpg', cat: 'comedy', type: 'movie' },
-            // Adding 10 more Dramas
-            { id: 'tt0240462', title: 'Donnie Darko', year: '2001', genre: 'Drama/Sci-Fi', duration: '1h 53m', match: '92%', desc: 'مراهق ينجو من حادث غريب ويبدأ في رؤية أرنب عملاق يخبره أن العالم سينتهي قريباً.', poster: 'https://image.tmdb.org/t/p/original/fhQo79rBfSww373XU70v9Y6pY.jpg', cat: 'drama', type: 'movie' },
-            { id: 'tt0209144', title: 'Memento', year: '2000', genre: 'Drama/Mystery', duration: '1h 53m', match: '96%', desc: 'رجل يعاني من فقدان الذاكرة قصيرة المدى يحاول العثور على قاتل زوجته باستخدام الوشوم والصور.', poster: 'https://image.tmdb.org/t/p/original/yuNs099uSbmFi06ROW69pIDJuWtVk.jpg', cat: 'drama', type: 'movie' },
-            { id: 'tt0230600', title: 'The Others', year: '2001', genre: 'Drama/Horror', duration: '1h 44m', match: '93%', desc: 'امرأة تعيش مع طفليها في منزل كبير معزول، وتبدأ في الاعتقاد بأن المنزل مسكون بالأرواح.', poster: 'https://image.tmdb.org/t/p/original/vKIdq70V66T5uJk7K8YpE4u5p7O.jpg', cat: 'drama', type: 'movie' },
-            { id: 'tt0330373', title: 'Big Fish', year: '2003', genre: 'Drama/Fantasy', duration: '2h 5m', match: '95%', desc: 'ابن يحاول التمييز بين الحقيقة والخيال في حياة والده الذي يحتضر ويشتهر برواية قصص خيالية.', poster: 'https://image.tmdb.org/t/p/original/on9ruuSbmFi06ROW69pIDJuWtVk.jpg', cat: 'drama', type: 'movie' },
-            { id: 'tt0266308', title: 'The Bourne Identity', year: '2002', genre: 'Drama/Action', duration: '1h 59m', match: '97%', desc: 'رجل يتم إنقاذه من البحر وهو فاقد للذاكرة، ويبدأ رحلة للبحث عن هويته الحقيقية بينما تطارده المخابرات.', poster: 'https://image.tmdb.org/t/p/original/rCzpEXPvhYpBS6u4SJyrmu7S7TM.jpg', cat: 'drama', type: 'movie' },
-            { id: 'tt0144528', title: 'Unbreakable', year: '2000', genre: 'Drama/Mystery', duration: '1h 46m', match: '91%', desc: 'حارس أمن ينجو من حادث قطار مروع دون خدش واحد، ويبدأ في استكشاف قوى خارقة قد يمتلكها.', poster: 'https://image.tmdb.org/t/p/original/on9ruuSbmFi06ROW69pIDJuWtVk.jpg', cat: 'drama', type: 'movie' },
-            { id: 'tt0280760', title: 'Holes', year: '2003', genre: 'Drama/Comedy', duration: '1h 57m', match: '92%', desc: 'صبي يُرسل ظلماً إلى معسكر لإعادة التأهيل حيث يُجبر على حفر حفر في الصحراء.', poster: 'https://image.tmdb.org/t/p/original/vKIdq70V66T5uJk7K8YpE4u5p7O.jpg', cat: 'drama', type: 'movie' },
-            { id: 'tt0245429', title: 'The Royal Tenenbaums', year: '2001', genre: 'Drama/Comedy', duration: '1h 50m', match: '94%', desc: 'عائلة من العباقرة السابقين تجتمع من جديد عندما يدعي والدهم أنه يحتضر.', poster: 'https://image.tmdb.org/t/p/original/rCzpEXPvhYpBS6u4SJyrmu7S7TM.jpg', cat: 'drama', type: 'movie' },
-            { id: 'tt0316654', title: 'The Station Agent', year: '2003', genre: 'Drama/Comedy', duration: '1h 29m', match: '90%', desc: 'رجل يعشق القطارات ينتقل للعيش في محطة قطار مهجورة طلباً للعزلة، لكنه يجد نفسه يكون صداقات غير متوقعة.', poster: 'https://image.tmdb.org/t/p/original/on9ruuSbmFi06ROW69pIDJuWtVk.jpg', cat: 'drama', type: 'movie' },
-            { id: 'tt0235737', title: 'Requiem for a Dream', year: '2000', genre: 'Drama', duration: '1h 42m', match: '95%', desc: 'أربعة أشخاص يواجهون أشكالاً مختلفة من الإدمان، مما يؤدي إلى تدهور حياتهم النفسية والجسدية.', poster: 'https://image.tmdb.org/t/p/original/fhQo79rBfSww373XU70v9Y6pY.jpg', cat: 'drama', type: 'movie' }
+            { id: 'tt0172495', title: 'Gladiator', year: '2000', genre: 'Action/Drama', duration: '2h 35m', match: '98%', desc: 'جنرال روماني يسعى للانتقام من الإمبراطور الفاسد الذي قتل عائلته وأرسله إلى العبودية.', poster: 'https://image.tmdb.org/t/p/w500/ty8TGRvS21o90QvpbqZpS04XN6a.jpg', cat: 'drama', type: 'movie' },
+            { id: 'tt0126029', title: 'Shrek', year: '2001', genre: 'Animation', duration: '1h 30m', match: '95%', desc: 'غول أخضر يجد حياته الهادئة مهددة عندما يتم نفي جميع الشخصيات الخيالية إلى مستنقعه.', poster: 'https://image.tmdb.org/t/p/w500/iB64vpL3dIObOtMZgX3RqdVdQDc.jpg', cat: 'comedy', type: 'movie' },
+            { id: 'tt0175142', title: 'Scary Movie', year: '2000', genre: 'Comedy', duration: '1h 28m', match: '92%', desc: 'مجموعة من المراهقين تطاردهم قاتل متسلسل في هذه المحاكاة الساخرة لأفلام الرعب الشهيرة.', poster: 'https://image.tmdb.org/t/p/w500/uApRAE1qFYLdaSeGbrCjJa2aDlx.jpg', cat: 'comedy', type: 'movie' },
+            { id: 'tt0315327', title: 'Bruce Almighty', year: '2003', genre: 'Fantasy/Comedy', duration: '1h 41m', match: '89%', desc: 'مراسل تلفزيوني يشتكي من الله، فيمنحه الأخير قواه ليختبر مدى صعوبة إدارة العالم.', poster: 'https://image.tmdb.org/t/p/w500/fzAiotoo4KTtPYE3pZ68CUEHSse.jpg', cat: 'comedy', type: 'movie' },
+            { id: 'tt0381707', title: 'White Chicks', year: '2004', genre: 'Comedy', duration: '1h 49m', match: '94%', desc: 'عميلان من مكتب التحقيقات الفيدرالي يتنكران في زي فتاتين من المجتمع الراقي لحماية وريثتين من الاختطاف.', poster: 'https://image.tmdb.org/t/p/w500/vZoe1YoM8QDn1OwB7OrKHqrz3NT.jpg', cat: 'comedy', type: 'movie' },
+            { id: 'tt0357413', title: 'Anchorman', year: '2004', genre: 'Comedy', duration: '1h 34m', match: '95%', desc: 'رون بورغوندي هو المذيع الأعلى تقييمًا في سان دييغو في السبعينيات، لكن عالم العمل الخاص به يتغير عندما يتم تعيين امرأة طموحة كمذيعة مشاركة.', poster: 'https://image.tmdb.org/t/p/w500/Rdzsh3s6waplhSD7PUaBJovB7v.jpg', cat: 'comedy', type: 'movie' },
+            { id: 'tt0322330', title: 'Freaky Friday', year: '2003', genre: 'Comedy/Family', duration: '1h 37m', match: '93%', desc: 'أم وابنتها المراهقة لا تتفقان أبدًا، وفجأة يجدان نفسيهما قد تبادلا أجسادهما ويضطران للعيش حياة بعضهما البعض.', poster: 'https://image.tmdb.org/t/p/w500/nMMXl9sdyjPmBLMJlm7Bwp0o3AS.jpg', cat: 'comedy', type: 'movie' },
+            { id: 'tt0319343', title: 'Elf', year: '2003', genre: 'Comedy/Family', duration: '1h 37m', match: '96%', desc: 'بعد تسببه في حدوث فوضى في مجتمع الأقزام بسبب حجمه الضخم، يتم إرسال "بادي" إلى نيويورك للبحث عن والده الحقيقي.', poster: 'https://image.tmdb.org/t/p/w500/njVUoovS9LC7ND4sdp4780cExso.jpg', cat: 'comedy', type: 'movie' },
+            { id: 'tt0196221', title: 'Zoolander', year: '2001', genre: 'Comedy', duration: '1h 29m', match: '90%', desc: 'عارض أزياء غبي يتم غسل دماغه لاغتيال رئيس وزراء ماليزيا.', poster: 'https://image.tmdb.org/t/p/w500/mYz0dRlrPgSzIo9K70dPGRXA6fP.jpg', cat: 'comedy', type: 'movie' },
+            { id: 'tt0212338', title: 'Meet the Parents', year: '2000', genre: 'Comedy/Romance', duration: '1h 48m', match: '94%', desc: 'ممرض شاب يذهب لزيارة والدي حبيبته قبل عرض الزواج عليها، لكنه يكتشف أن والدها عميل سابق في وكالة المخابرات المركزية.', poster: 'https://image.tmdb.org/t/p/w500/cl6XJMEgcvneEJVO6V3tcCFS1xY.jpg', cat: 'comedy', type: 'movie' },
+            { id: 'tt0377092', title: 'Mean Girls', year: '2004', genre: 'Comedy', duration: '1h 37m', match: '97%', desc: 'كادي هيرون، فتاة مراهقة اعتادت العيش في أفريقيا مع والديها، تكتشف عالم المدرسة الثانوية الأمريكي المعقد وقوانين "البلاستيكيات" القاسية.', poster: 'https://image.tmdb.org/t/p/w500/qWQrMAVtWEOVkZk8iLFgI5qzqlA.jpg', cat: 'comedy', type: 'movie' },
+            { id: 'tt0332379', title: 'School of Rock', year: '2003', genre: 'Comedy', duration: '1h 49m', match: '95%', desc: 'بعد طرده من فرقته الموسيقية، يتنكر عازف غيتار كمعلم بديل في مدرسة ابتدائية خاصة ويحول فصله إلى فرقة روك.', poster: 'https://image.tmdb.org/t/p/w500/zXLXaepIBvFVLU25DH3wv4IPSbe.jpg', cat: 'comedy', type: 'movie' },
+            { id: 'tt0268978', title: 'A Beautiful Mind', year: '2001', genre: 'Drama', duration: '2h 15m', match: '91%', desc: 'قصة حياة عالم الرياضيات جون ناش ومعاناته مع الفصام ورحلته نحو جائزة نوبل.', poster: 'https://image.tmdb.org/t/p/w500/lA6mLpzOilqARJcwhzifQ174vjI.jpg', cat: 'drama', type: 'movie' },
+            { id: 'tt0253474', title: 'The Pianist', year: '2002', genre: 'War/Drama', duration: '2h 30m', match: '96%', desc: 'عازف بيانو يهودي بولندي يحاول البقاء على قيد الحياة في وارسو خلال الحرب العالمية الثانية.', poster: 'https://image.tmdb.org/t/p/w500/enFfoFd3TYs6ttTxrBIfmecQPnz.jpg', cat: 'drama', type: 'movie' },
+            { id: 'tt0264464', title: 'Catch Me If You Can', year: '2002', genre: 'Crime/Drama', duration: '2h 21m', match: '97%', desc: 'قصة حقيقية لفرانك أباغنيل، الذي أصبح أنجح مزور ومحتال في تاريخ الولايات المتحدة قبل سن العشرين.', poster: 'https://image.tmdb.org/t/p/w500/An9qRPZIes1BZ5MNrrfnnTlOlZd.jpg', cat: 'drama', type: 'movie' },
+            { id: 'tt0167260', title: 'The Lord of the Rings: ROTK', year: '2003', genre: 'Drama/Fantasy', duration: '3h 21m', match: '99%', desc: 'غاندالف وأراغورن يقودان عالم الرجال ضد جيش ساورون لصرف انتباهه عن فرودو وسام.', poster: 'https://image.tmdb.org/t/p/w500/rCzpEXPvhYpBS6u4SJyrmu7S7TM.jpg', cat: 'drama', type: 'movie' },
+            { id: 'tt0332452', title: 'Troy', year: '2004', genre: 'Drama/History', duration: '2h 43m', match: '92%', desc: 'اقتباس لملحمة هوميروس، يصور الغزو اليوناني لمدينة طروادة والصراعات بين الأبطال الأسطوريين.', poster: 'https://image.tmdb.org/t/p/w500/51auXjXepW1zblzhaN7CAhwvf5i.jpg', cat: 'drama', type: 'movie' },
+            { id: 'tt0162983', title: 'Cast Away', year: '2000', genre: 'Drama/Adventure', duration: '2h 23m', match: '97%', desc: 'موظف في شركة فيديكس يجد نفسه وحيداً على جزيرة مهجورة بعد تحطم طائرته.', poster: 'https://image.tmdb.org/t/p/w500/7lLJgKnAicAcR5UEuo8xhSMj18w.jpg', cat: 'drama', type: 'movie' },
+            { id: 'tt0332280', title: 'The Notebook', year: '2004', genre: 'Drama/Romance', duration: '2h 3m', match: '96%', desc: 'رجل مسن يقرأ لامرأة تعاني من الخرف قصة حب لشابين من طبقات اجتماعية مختلفة في الأربعينيات.', poster: 'https://image.tmdb.org/t/p/w500/r49pS6v99FmDlZz6B706pY78I6p.jpg', cat: 'drama', type: 'movie' },
+            { id: 'tt0327056', title: 'Mystic River', year: '2003', genre: 'Drama/Mystery', duration: '2h 18m', match: '94%', desc: 'جريمة قتل مأساوية لفتاة شابة تجمع ثلاثة أصدقاء طفولة من جديد في بوسطن.', poster: 'https://image.tmdb.org/t/p/w500/1tyi6RZzbJ9bE0g0GUf6Q7BWLvv.jpg', cat: 'drama', type: 'movie' },
+            { id: 'tt0405159', title: 'Million Dollar Baby', year: '2004', genre: 'Drama', duration: '2h 12m', match: '98%', desc: 'مدرب ملاكمة مخضرم يساعد نادلة طموحة في تحقيق حلمها بأن تصبح ملاكمة محترفة.', poster: 'https://image.tmdb.org/t/p/w500/corahhcHlrDUx6WJPLuRZvMeS0H.jpg', cat: 'drama', type: 'movie' },
+            { id: 'tt0338013', title: 'Eternal Sunshine', year: '2004', genre: 'Drama/Romance', duration: '1h 48m', match: '97%', desc: 'زوجان يخضعان لعملية طبية لمسح ذكرياتهما عن بعضهما البعض بعد انفصالهما.', poster: 'https://image.tmdb.org/t/p/w500/l4UwCldftGk58q5StjfM9YHoCYY.jpg', cat: 'drama', type: 'movie' },
+            { id: 'tt0210138', title: 'Snatch', year: '2000', genre: 'Comedy/Crime', duration: '1h 44m', match: '95%', desc: 'مروجون للملاكمة غير القانونية، ومراهنون غير بارعين، وعصابة روسية، ولصوص غير أكفاء، وصائغون يهود يتنافسون للعثور على ماسة مسروقة لا تقدر بثمن.', poster: 'https://image.tmdb.org/t/p/w500/on9ruuSbmFi06ROW69pIDJuWtVk.jpg', cat: 'comedy', type: 'movie' },
+            { id: 'tt0200276', title: 'The Wedding Planner', year: '2001', genre: 'Comedy/Romance', duration: '1h 43m', match: '88%', desc: 'مخططة حفلات زفاف ناجحة تقع في حب العريس في أحد حفلات الزفاف التي تنظمها.', poster: 'https://image.tmdb.org/t/p/w500/m91KkQe7jYqW98Y3K9l788LwM7u.jpg', cat: 'comedy', type: 'movie' },
+            { id: 'tt0212238', title: 'Legally Blonde', year: '2001', genre: 'Comedy', duration: '1h 36m', match: '92%', desc: 'فتاة شقراء عصرية تدخل كلية الحقوق بجامعة هارفارد لاستعادة حبيبها السابق، وتكتشف أنها تمتلك قدرات أكثر بكثير مما يعتقده الآخرون.', poster: 'https://image.tmdb.org/t/p/w500/7o3m7SiztM4vF0f8M1z2A87W54m.jpg', cat: 'comedy', type: 'movie' },
+            { id: 'tt0313542', title: 'Old School', year: '2003', genre: 'Comedy', duration: '1h 31m', match: '90%', desc: 'ثلاثة رجال في الثلاثينيات من عمرهم يحاولون استعادة أيام شبابهم من خلال إنشاء نادٍ للأخوية بجوار جامعتهم السابقة.', poster: 'https://image.tmdb.org/t/p/w500/3O6WlUoK7Uu1XJ8Yyv0u8H6tX5O.jpg', cat: 'comedy', type: 'movie' },
+            { id: 'tt0243493', title: 'The Princess Diaries', year: '2001', genre: 'Comedy/Family', duration: '1h 55m', match: '94%', desc: 'مراهقة خجولة تكتشف أنها وريثة لعرش مملكة أوروبية صغيرة، وعليها أن تتعلم كيف تكون أميرة.', poster: 'https://image.tmdb.org/t/p/w500/A5Y2R64oHq77C1Lshh5vB8C2S8Y.jpg', cat: 'comedy', type: 'movie' },
+            { id: 'tt0218132', title: 'Miss Congeniality', year: '2000', genre: 'Comedy/Action', duration: '1h 49m', match: '91%', desc: 'عميلة في مكتب التحريات الفيدرالي تضطر للتنكر كمتسابقة في ملكة جمال الولايات المتحدة لمنع وقوع هجوم إرهابي.', poster: 'https://image.tmdb.org/t/p/w500/vKIdq70V66T5uJk7K8YpE4u5p7O.jpg', cat: 'comedy', type: 'movie' },
+            { id: 'tt0318355', title: 'Bad Santa', year: '2003', genre: 'Comedy/Crime', duration: '1h 31m', match: '89%', desc: 'لص بائس يتنكر في زي بابا نويل لسرقة مراكز التسوق في ليلة عيد الميلاد، لكنه يواجه طفلًا يغير نظرته للحياة.', poster: 'https://image.tmdb.org/t/p/w500/5mYvT6pC6v8Xp7JqH6v8LwM7u.jpg', cat: 'comedy', type: 'movie' },
+            { id: 'tt0361596', title: '50 First Dates', year: '2004', genre: 'Comedy/Romance', duration: '1h 39m', match: '93%', desc: 'رجل يقع في حب امرأة تعاني من فقدان الذاكرة قصيرة المدى، وعليه أن يجعلها تقع في حبه كل يوم من جديد.', poster: 'https://image.tmdb.org/t/p/w500/7n3kO596Rsh009F8M1z2A87W54m.jpg', cat: 'comedy', type: 'movie' },
+            { id: 'tt0366551', title: 'White Chicks 2', year: '2004', genre: 'Comedy', duration: '1h 49m', match: '94%', desc: 'عميلان يتنكران في زي فتاتين من المجتمع الراقي.', poster: 'https://image.tmdb.org/t/p/w500/vZoe1YoM8QDn1OwB7OrKHqrz3NT.jpg', cat: 'comedy', type: 'movie' },
+            { id: 'tt0303471', title: 'Austin Powers', year: '2002', genre: 'Comedy', duration: '1h 34m', match: '91%', desc: 'أوستن باورز يواجه "غولدميمبر" الذي اختطف والده.', poster: 'https://image.tmdb.org/t/p/w500/8O4wY0uE6Lp7X6pY78I6p.jpg', cat: 'comedy', type: 'movie' },
+            { id: 'tt0240462', title: 'Donnie Darko', year: '2001', genre: 'Drama/Sci-Fi', duration: '1h 53m', match: '92%', desc: 'مراهق ينجو من حادث غريب ويبدأ في رؤية أرنب عملاق يخبره أن العالم سينتهي قريباً.', poster: 'https://image.tmdb.org/t/p/w500/fhQo79rBfSww373XU70v9Y6pY.jpg', cat: 'drama', type: 'movie' },
+            { id: 'tt0209144', title: 'Memento', year: '2000', genre: 'Drama/Mystery', duration: '1h 53m', match: '96%', desc: 'رجل يعاني من فقدان الذاكرة قصيرة المدى يحاول العثور على قاتل زوجته باستخدام الوشوم والصور.', poster: 'https://image.tmdb.org/t/p/w500/yuNs099uSbmFi06ROW69pIDJuWtVk.jpg', cat: 'drama', type: 'movie' },
+            { id: 'tt0230600', title: 'The Others', year: '2001', genre: 'Drama/Horror', duration: '1h 44m', match: '93%', desc: 'امرأة تعيش مع طفليها في منزل كبير معزول، وتبدأ في الاعتقاد بأن المنزل مسكون بالأرواح.', poster: 'https://image.tmdb.org/t/p/w500/6yC6G7o5VjYqW98Y3K9l788LwM7u.jpg', cat: 'drama', type: 'movie' },
+            { id: 'tt0330373', title: 'Big Fish', year: '2003', genre: 'Drama/Fantasy', duration: '2h 5m', match: '95%', desc: 'ابن يحاول التمييز بين الحقيقة والخيال في حياة والده الذي يحتضر ويشتهر برواية قصص خيالية.', poster: 'https://image.tmdb.org/t/p/w500/a3ZpX9sdyjPmBLMJlm7Bwp0o3AS.jpg', cat: 'drama', type: 'movie' },
+            { id: 'tt0266308', title: 'The Bourne Identity', year: '2002', genre: 'Drama/Action', duration: '1h 59m', match: '97%', desc: 'رجل يتم إنقاذه من البحر وهو فاقد للذاكرة، ويبدأ رحلة للبحث عن هويته الحقيقية بينما تطارده المخابرات.', poster: 'https://image.tmdb.org/t/p/w500/v9STvB5uT0f8M1z2A87W54m.jpg', cat: 'drama', type: 'movie' },
+            { id: 'tt0144528', title: 'Unbreakable', year: '2000', genre: 'Drama/Mystery', duration: '1h 46m', match: '91%', desc: 'حارس أمن ينجو من حادث قطار مروع دون خدش واحد، ويبدأ في استكشاف قوى خارقة قد يمتلكها.', poster: 'https://image.tmdb.org/t/p/w500/l8zS099uSbmFi06ROW69pIDJuWtVk.jpg', cat: 'drama', type: 'movie' },
+            { id: 'tt0280760', title: 'Holes', year: '2003', genre: 'Drama/Comedy', duration: '1h 57m', match: '92%', desc: 'صبي يُرسل ظلماً إلى معسكر لإعادة التأهيل حيث يُجبر على حفر حفر في الصحراء.', poster: 'https://image.tmdb.org/t/p/w500/vKIdq70V66T5uJk7K8YpE4u5p7O.jpg', cat: 'drama', type: 'movie' },
+            { id: 'tt0245429', title: 'The Royal Tenenbaums', year: '2001', genre: 'Drama/Comedy', duration: '1h 50m', match: '94%', desc: 'عائلة من العباقرة السابقين تجتمع من جديد عندما يدعي والدهم أنه يحتضر.', poster: 'https://image.tmdb.org/t/p/w500/rCzpEXPvhYpBS6u4SJyrmu7S7TM.jpg', cat: 'drama', type: 'movie' },
+            { id: 'tt0316654', title: 'The Station Agent', year: '2003', genre: 'Drama/Comedy', duration: '1h 29m', match: '90%', desc: 'رجل يعشق القطارات ينتقل للعيش في محطة قطار مهجورة طلباً للعزلة، لكنه يجد نفسه يكون صداقات غير متوقعة.', poster: 'https://image.tmdb.org/t/p/w500/on9ruuSbmFi06ROW69pIDJuWtVk.jpg', cat: 'drama', type: 'movie' },
+            { id: 'tt0235737', title: 'Requiem for a Dream', year: '2000', genre: 'Drama', duration: '1h 42m', match: '95%', desc: 'أربعة أشخاص يواجهون أشكالاً مختلفة من الإدمان، مما يؤدي إلى تدهور حياتهم النفسية والجسدية.', poster: 'https://image.tmdb.org/t/p/w500/fhQo79rBfSww373XU70v9Y6pY.jpg', cat: 'drama', type: 'movie' }
         ];
 
         const tvShows = [
-            { id: 'tt0212671', title: 'Malcolm in the Middle', year: '2000-2006', genre: 'Comedy', duration: '7 Seasons', match: '97%', desc: 'قصة حياة مراهق عبقري يحاول النجاة في عائلته غريبة الأطوار والصاخبة، حيث يجد نفسه عالقاً في المنتصف بين إخوته المشاكسين ووالديه غير التقليديين.', poster: 'https://image.tmdb.org/t/p/original/on9ruuSbmFi06ROW69pIDJuWtVk.jpg', seasons: 7, episodesPerSeason: [16, 25, 22, 22, 22, 22, 22], type: 'tv' },
-            { id: 'tt0460681', title: 'Supernatural', year: '2005-2020', genre: 'Fantasy/Drama', duration: '15 Seasons', match: '99%', desc: 'شقيقان يطاردان الكائنات الخارقة للطبيعة بينما يبحثان عن والدهما المفقود، ويواجهان قوى الظلام في رحلة محفوفة بالمخاطر عبر أمريكا.', poster: 'https://image.tmdb.org/t/p/original/ko709UieYenOlv69W6X4t2697gq.jpg', backdrop: 'https://image.tmdb.org/t/p/original/nVRyd8hl6PVMpw9660GJZsJ6Osn.jpg', seasons: 15, episodesPerSeason: [22, 22, 16, 22, 22, 22, 23, 23, 23, 23, 23, 23, 23, 20, 20], type: 'tv' }
+            { id: 'tt0212671', title: 'Malcolm in the Middle', year: '2000-2006', genre: 'Comedy', duration: '7 Seasons', match: '97%', desc: 'قصة حياة مراهق عبقري يحاول النجاة في عائلته غريبة الأطوار والصاخبة.', poster: 'https://image.tmdb.org/t/p/w500/8H97WlUoK7Uu1XJ8Yyv0u8H6tX5O.jpg', seasons: 7, episodesPerSeason: [16, 25, 22, 22, 22, 22, 22], type: 'tv' },
+            { id: 'tt0460681', title: 'Supernatural', year: '2005-2020', genre: 'Fantasy/Drama', duration: '15 Seasons', match: '99%', desc: 'شقيقان يطاردان الكائنات الخارقة للطبيعة بينما يبحثان عن والدهما المفقود.', poster: 'https://image.tmdb.org/t/p/w500/ko709UieYenOlv69W6X4t2697gq.jpg', backdrop: 'https://image.tmdb.org/t/p/original/nVRyd8hl6PVMpw9660GJZsJ6Osn.jpg', seasons: 15, episodesPerSeason: [22, 22, 16, 22, 22, 22, 23, 23, 23, 23, 23, 23, 23, 20, 20], type: 'tv' }
         ];
 
         let currentType = 'movie';
@@ -722,26 +686,11 @@
         function saveProgress(id, type, season = null, episode = null) {
             let list = JSON.parse(localStorage.getItem('continue_watching') || '[]');
             const item = type === 'movie' ? movies.find(m => m.id === id) : tvShows.find(s => s.id === id);
-            
             if (!item) return;
-
-            // Remove existing to bump to top
             list = list.filter(i => i.id !== id);
-            
-            const newItem = {
-                id: id,
-                title: item.title,
-                poster: item.backdrop || item.poster,
-                type: type,
-                season: season,
-                episode: episode,
-                progress: Math.floor(Math.random() * 60) + 20, 
-                timestamp: Date.now()
-            };
-
+            const newItem = { id: id, title: item.title, poster: item.backdrop || item.poster, type: type, season: season, episode: episode, progress: Math.floor(Math.random() * 60) + 20, timestamp: Date.now() };
             list.unshift(newItem);
             if (list.length > 10) list.pop();
-            
             localStorage.setItem('continue_watching', JSON.stringify(list));
             renderContinueWatching();
         }
@@ -750,21 +699,14 @@
             const list = JSON.parse(localStorage.getItem('continue_watching') || '[]');
             const section = document.getElementById('continue-watching');
             const grid = document.getElementById('continue-grid');
-
-            if (list.length === 0) {
-                section.classList.remove('has-items');
-                return;
-            }
-
+            if (list.length === 0) { section.classList.remove('has-items'); return; }
             section.classList.add('has-items');
             grid.innerHTML = list.map(item => `
                 <div class="continue-card" onclick="openPlayer('${item.id}', '${item.type}', ${item.season}, ${item.episode})">
                     <img src="${item.poster}" alt="${item.title}">
                     <div class="continue-info">
                         <p class="continue-title">${item.title} ${item.type === 'tv' ? `- S${item.season} E${item.episode}` : ''}</p>
-                        <div class="continue-progress">
-                            <div class="progress-bar" style="width: ${item.progress}%"></div>
-                        </div>
+                        <div class="continue-progress"><div class="progress-bar" style="width: ${item.progress}%"></div></div>
                     </div>
                 </div>
             `).join('');
@@ -776,16 +718,12 @@
             const allMoviesGrid = document.getElementById('all-movies-grid');
             const tvGrid = document.getElementById('tv-grid');
             const homeTvGrid = document.getElementById('home-tv-grid');
-            
             const template = (m) => `
                 <div class="movie-card" onclick="openPlayer('${m.id}', '${m.type}')">
                     <img src="${m.poster}" alt="${m.title}" class="movie-poster" loading="lazy">
-                    <div class="card-overlay">
-                        <p class="card-title">${m.title}</p>
-                    </div>
+                    <div class="card-overlay"><p class="card-title">${m.title}</p></div>
                 </div>
             `;
-
             if(comedyGrid) comedyGrid.innerHTML = movies.filter(m => m.cat === 'comedy').map(template).join('');
             if(dramaGrid) dramaGrid.innerHTML = movies.filter(m => m.cat === 'drama').map(template).join('');
             if(allMoviesGrid) allMoviesGrid.innerHTML = movies.map(template).join('');
@@ -796,39 +734,26 @@
         function showPage(page) {
             document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-            
             document.getElementById(`${page}-page`).classList.add('active');
             document.getElementById(`nav-${page}`).classList.add('active');
-            
             window.scrollTo(0, 0);
         }
 
         function openPlayer(imdbId, type, savedSeason = null, savedEpisode = null) {
             const item = type === 'movie' ? movies.find(m => m.id === imdbId) : tvShows.find(s => s.id === imdbId);
             if (!item) return;
-
             currentType = type;
             currentImdbId = imdbId;
-
             document.getElementById('m-title').innerText = item.title;
             document.getElementById('m-year').innerText = item.year;
             document.getElementById('m-match').innerText = item.match + ' Match';
             document.getElementById('m-duration').innerText = item.duration;
             document.getElementById('m-desc').innerText = item.desc;
-
             const tvControls = document.getElementById('tv-controls-container');
-            if (type === 'tv') {
-                tvControls.style.display = 'flex';
-                setupTvControls(item, savedSeason, savedEpisode);
-            } else {
-                tvControls.style.display = 'none';
-                saveProgress(imdbId, 'movie');
-            }
-
-            const modal = document.getElementById('player-modal');
-            modal.classList.add('active');
+            if (type === 'tv') { tvControls.style.display = 'flex'; setupTvControls(item, savedSeason, savedEpisode); } 
+            else { tvControls.style.display = 'none'; saveProgress(imdbId, 'movie'); }
+            document.getElementById('player-modal').classList.add('active');
             document.body.classList.add('modal-open');
-            
             changeServer(imdbId, 'vidsrc.to');
         }
 
@@ -836,9 +761,7 @@
             const seasonSelect = document.getElementById('season-select');
             seasonSelect.innerHTML = '';
             for (let i = 1; i <= show.seasons; i++) {
-                const opt = document.createElement('option');
-                opt.value = i;
-                opt.innerText = 'الموسم ' + i;
+                const opt = document.createElement('option'); opt.value = i; opt.innerText = 'الموسم ' + i;
                 if (savedSeason && i == savedSeason) opt.selected = true;
                 seasonSelect.appendChild(opt);
             }
@@ -849,11 +772,7 @@
             const show = tvShows.find(s => s.id === currentImdbId);
             const season = document.getElementById('season-select').value;
             const episode = document.getElementById('episode-select').value;
-            
-            if (event && event.target.id === 'season-select') {
-                updateEpisodeList(show, season);
-            }
-            
+            if (event && event.target.id === 'season-select') { updateEpisodeList(show, season); }
             saveProgress(currentImdbId, 'tv', season, episode);
             changeServer(currentImdbId, currentServer);
         }
@@ -863,21 +782,17 @@
             episodeSelect.innerHTML = '';
             const epCount = show.episodesPerSeason[season - 1];
             for (let i = 1; i <= epCount; i++) {
-                const opt = document.createElement('option');
-                opt.value = i;
-                opt.innerText = 'الحلقة ' + i;
+                const opt = document.createElement('option'); opt.value = i; opt.innerText = 'الحلقة ' + i;
                 if (savedEpisode && i == savedEpisode) opt.selected = true;
                 episodeSelect.appendChild(opt);
             }
-            const episode = episodeSelect.value;
-            saveProgress(show.id, 'tv', season, episode);
+            saveProgress(show.id, 'tv', season, episodeSelect.value);
         }
 
         function changeServer(imdbId, server) {
             currentServer = server;
             const wrapper = document.getElementById('video-wrapper');
             const serverList = document.getElementById('server-list');
-            
             let playerUrl = '';
             if (currentType === 'movie') {
                 if (server === 'vidsrc.me') playerUrl = 'https://vidsrc.me/embed/movie?imdb=' + imdbId;
@@ -890,23 +805,13 @@
                 else if (server === 'vidsrc.cc') playerUrl = 'https://vidsrc.cc/v2/embed/tv/' + imdbId + '/' + season + '/' + episode;
                 else playerUrl = 'https://vidsrc.to/embed/tv/' + imdbId + '/' + season + '/' + episode;
             }
-
-            wrapper.innerHTML = '<iframe src=\"' + playerUrl + '\" allowfullscreen></iframe>';
-
-            const servers = [
-                { id: 'vidsrc.to', label: 'سيرفر 1 (رئيسي)' },
-                { id: 'vidsrc.me', label: 'سيرفر 2 (احتياطي)' },
-                { id: 'vidsrc.cc', label: 'سيرفر 3 (سريع)' }
-            ];
-
-            serverList.innerHTML = servers.map(s => `
-                <button onclick=\"changeServer('${imdbId}', '${s.id}')\" class=\"server-btn ${server === s.id ? 'active' : ''}\">${s.label}</button>
-            `).join('');
+            wrapper.innerHTML = '<iframe src="' + playerUrl + '" allowfullscreen></iframe>';
+            const servers = [ { id: 'vidsrc.to', label: 'سيرفر 1 (رئيسي)' }, { id: 'vidsrc.me', label: 'سيرفر 2 (احتياطي)' }, { id: 'vidsrc.cc', label: 'سيرفر 3 (سريع)' } ];
+            serverList.innerHTML = servers.map(s => `<button onclick="changeServer('${imdbId}', '${s.id}')" class="server-btn ${server === s.id ? 'active' : ''}">${s.label} <span>⚡</span></button>`).join('');
         }
 
         function closePlayer() {
-            const modal = document.getElementById('player-modal');
-            modal.classList.remove('active');
+            document.getElementById('player-modal').classList.remove('active');
             document.body.classList.remove('modal-open');
             document.getElementById('video-wrapper').innerHTML = '';
         }
