@@ -70,6 +70,7 @@
         }
 
         .logo {
+            direction: ltr;
             font-family: 'Inter', sans-serif;
             font-size: 1.8rem;
             font-weight: 900;
@@ -629,6 +630,12 @@
     </div>
 
     <script>
+        const getPoster = (path) => {
+            if (!path) return 'https://via.placeholder.com/500x750?text=No+Poster';
+            if (path.startsWith('http')) return path;
+            return `https://image.tmdb.org/t/p/w500${path}`;
+        };
+
         const movies = [
             { id: 'tt0172495', title: 'Gladiator', year: '2000', genre: 'Action/Drama', duration: '2h 35m', match: '98%', desc: 'جنرال روماني يسعى للانتقام من الإمبراطور الفاسد الذي قتل عائلته وأرسله إلى العبودية.', poster: 'https://image.tmdb.org/t/p/w500/ty8TGRvS21o90QvpbqZpS04XN6a.jpg', cat: 'drama', type: 'movie' },
             { id: 'tt0126029', title: 'Shrek', year: '2001', genre: 'Animation', duration: '1h 30m', match: '95%', desc: 'غول أخضر يجد حياته الهادئة مهددة عندما يتم نفي جميع الشخصيات الخيالية إلى مستنقعه.', poster: 'https://image.tmdb.org/t/p/w500/iB64vpL3dIObOtMZgX3RqdVdQDc.jpg', cat: 'comedy', type: 'movie' },
@@ -688,7 +695,7 @@
             const item = type === 'movie' ? movies.find(m => m.id === id) : tvShows.find(s => s.id === id);
             if (!item) return;
             list = list.filter(i => i.id !== id);
-            const newItem = { id: id, title: item.title, poster: item.backdrop || item.poster, type: type, season: season, episode: episode, progress: Math.floor(Math.random() * 60) + 20, timestamp: Date.now() };
+            const newItem = { id: id, title: item.title, poster: item.backdrop || item.backdrop_path || item.poster || item.poster_path, type: type, season: season, episode: episode, progress: Math.floor(Math.random() * 60) + 20, timestamp: Date.now() };
             list.unshift(newItem);
             if (list.length > 10) list.pop();
             localStorage.setItem('continue_watching', JSON.stringify(list));
@@ -703,7 +710,7 @@
             section.classList.add('has-items');
             grid.innerHTML = list.map(item => `
                 <div class="continue-card" onclick="openPlayer('${item.id}', '${item.type}', ${item.season}, ${item.episode})">
-                    <img src="${item.poster}" alt="${item.title}">
+                    <img src="${getPoster(item.poster || item.poster_path)}" alt="${item.title}">
                     <div class="continue-info">
                         <p class="continue-title">${item.title} ${item.type === 'tv' ? `- S${item.season} E${item.episode}` : ''}</p>
                         <div class="continue-progress"><div class="progress-bar" style="width: ${item.progress}%"></div></div>
@@ -720,7 +727,7 @@
             const homeTvGrid = document.getElementById('home-tv-grid');
             const template = (m) => `
                 <div class="movie-card" onclick="openPlayer('${m.id}', '${m.type}')">
-                    <img src="${m.poster}" alt="${m.title}" class="movie-poster" loading="lazy">
+                    <img src="${getPoster(m.poster || m.poster_path)}" alt="${m.title}" class="movie-poster" loading="lazy">
                     <div class="card-overlay"><p class="card-title">${m.title}</p></div>
                 </div>
             `;
