@@ -604,16 +604,20 @@
             if (currentType === 'movie') {
                 if (server === 'vidsrc.me') playerUrl = 'https://vidsrc.me/embed/movie?imdb=' + imdbId;
                 else if (server === 'vidsrc.cc') playerUrl = 'https://vidsrc.cc/v2/embed/movie/' + imdbId;
+                else if (server === 'vidbinge.dev') playerUrl = 'https://vidbinge.dev/embed/movie/' + imdbId;
+                else if (server === 'smashy.stream') playerUrl = 'https://embed.smashy.stream/play/movie/' + imdbId;
                 else playerUrl = 'https://vidsrc.to/embed/movie/' + imdbId;
             } else {
                 const season = document.getElementById('season-select').value || 1;
                 const episode = document.getElementById('episode-select').value || 1;
                 if (server === 'vidsrc.me') playerUrl = 'https://vidsrc.me/embed/tv?imdb=' + imdbId + '&sea=' + season + '&epi=' + episode;
                 else if (server === 'vidsrc.cc') playerUrl = 'https://vidsrc.cc/v2/embed/tv/' + imdbId + '/' + season + '/' + episode;
+                else if (server === 'vidbinge.dev') playerUrl = 'https://vidbinge.dev/embed/tv/' + imdbId + '/' + season + '/' + episode;
+                else if (server === 'smashy.stream') playerUrl = 'https://embed.smashy.stream/play/tv/' + imdbId + '/' + season + '/' + episode;
                 else playerUrl = 'https://vidsrc.to/embed/tv/' + imdbId + '/' + season + '/' + episode;
             }
             wrapper.innerHTML = '<iframe src="' + playerUrl + '" allowfullscreen></iframe>';
-            const servers = [ { id: 'vidsrc.to', label: 'سيرفر 1 (رئيسي)' }, { id: 'vidsrc.me', label: 'سيرفر 2 (احتياطي)' }, { id: 'vidsrc.cc', label: 'سيرفر 3 (سريع)' } ];
+            const servers = [ { id: 'vidsrc.to', label: 'سيرفر 1 (رئيسي)' }, { id: 'vidbinge.dev', label: 'سيرفر 2 (عالي الجودة)' }, { id: 'smashy.stream', label: 'سيرفر 3 (سريع)' }, { id: 'vidsrc.me', label: 'سيرفر 4 (احتياطي)' } ];
             serverList.innerHTML = servers.map(s => `<button onclick="changeServer('${imdbId}', '${s.id}')" class="server-btn ${server === s.id ? 'active' : ''}">${s.label} <span>⚡</span></button>`).join('');
         }
 
