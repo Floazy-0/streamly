@@ -602,8 +602,20 @@
             currentServer = server;
             const wrapper = document.getElementById('video-wrapper');
             const serverList = document.getElementById('server-list');
+            const item = currentType === 'movie' ? movies.find(m => m.id === imdbId) : tvShows.find(s => s.id === imdbId);
+            const tmdbId = item && item.tmdbId;
             let playerUrl = '';
-            if (currentType === 'movie') {
+            if (server === 'vidlink') {
+                if (!tmdbId) {
+                    wrapper.innerHTML = '<div style="height:100%;display:flex;align-items:center;justify-content:center;padding:24px;color:#fff;text-align:center;direction:rtl">VidLink يحتاج إلى TMDB ID رقمي لهذا العنوان. أضف tmdbId إلى بياناته ثم أعد المحاولة.</div>';
+                } else if (currentType === 'movie') {
+                    playerUrl = 'https://vidlink.pro/movie/' + encodeURIComponent(tmdbId);
+                } else {
+                    const season = document.getElementById('season-select').value || 1;
+                    const episode = document.getElementById('episode-select').value || 1;
+                    playerUrl = 'https://vidlink.pro/tv/' + encodeURIComponent(tmdbId) + '/' + season + '/' + episode;
+                }
+            } else if (currentType === 'movie') {
                 if (server === 'vidsrc.me') playerUrl = 'https://vidsrc.me/embed/movie?imdb=' + imdbId;
                 else if (server === 'vidsrc.cc') playerUrl = 'https://vidsrc.cc/v2/embed/movie/' + imdbId;
                 else if (server === 'vidbinge.dev') playerUrl = 'https://vidbinge.dev/embed/movie/' + imdbId;
@@ -618,9 +630,9 @@
                 else if (server === 'smashy.stream') playerUrl = 'https://embed.smashy.stream/play/tv/' + imdbId + '/' + season + '/' + episode;
                 else playerUrl = 'https://vidsrc.to/embed/tv/' + imdbId + '/' + season + '/' + episode;
             }
-            wrapper.innerHTML = '<iframe src="' + playerUrl + '" allowfullscreen></iframe>';
-            const servers = [ { id: 'vidsrc.to', label: 'سيرفر 1 (رئيسي)' }, { id: 'vidbinge.dev', label: 'سيرفر 2 (عالي الجودة)' }, { id: 'smashy.stream', label: 'سيرفر 3 (سريع)' }, { id: 'vidsrc.me', label: 'سيرفر 4 (احتياطي)' } ];
-            serverList.innerHTML = servers.map(s => `<button onclick="changeServer('${imdbId}', '${s.id}')" class="server-btn ${server === s.id ? 'active' : ''}">${s.label} <span>⚡</span></button>`).join('');
+            if (playerUrl) wrapper.innerHTML = '<iframe src="' + playerUrl + '" allowfullscreen></iframe>';
+            const servers = [ { id: 'vidsrc.to', label: 'سيرفر 1 (رئيسي)' }, { id: 'vidbinge.dev', label: 'سيرفر 2 (عالي الجودة)' }, { id: 'smashy.stream', label: 'سيرفر 3 (سريع)' }, { id: 'vidsrc.me', label: 'سيرفر 4 (احتياطي)' }, { id: 'vidlink', label: 'VidLink (ترجمات متعددة)' } ];
+            serverList.innerHTML = servers.map(s => '<button onclick="changeServer(\'' + imdbId + '\', \' + s.id + '\')" class="server-btn ' + (server === s.id ? 'active' : '') + '">' + s.label + ' <span>⚡</span></button>').join('');
         }
 
         function closePlayer() {
