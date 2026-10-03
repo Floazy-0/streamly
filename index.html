@@ -632,7 +632,7 @@
             }
             if (playerUrl) wrapper.innerHTML = '<iframe src="' + playerUrl + '" allowfullscreen></iframe>';
             const servers = [ { id: 'vidsrc.to', label: 'سيرفر 1 (رئيسي)' }, { id: 'vidbinge.dev', label: 'سيرفر 2 (عالي الجودة)' }, { id: 'smashy.stream', label: 'سيرفر 3 (سريع)' }, { id: 'vidsrc.me', label: 'سيرفر 4 (احتياطي)' }, { id: 'vidlink', label: 'VidLink (ترجمات متعددة)' } ];
-            serverList.innerHTML = servers.map(s => '<button onclick="changeServer(\'' + imdbId + '\', \' + s.id + '\')" class="server-btn ' + (server === s.id ? 'active' : '') + '">' + s.label + ' <span>⚡</span></button>').join('');
+            serverList.innerHTML = servers.map(s => `<button onclick="changeServer('4{imdbId}', '4{s.id}')" class="server-btn 4{server === s.id ? 'active' : ''}">4{s.label} <span>⚡</span></button>`).join('');
         }
 
         function closePlayer() {
